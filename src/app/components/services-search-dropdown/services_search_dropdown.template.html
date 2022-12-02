@@ -1,0 +1,136 @@
+<form layout="row" layout-md="column" style="margin-top: 10px; margin-block-end: -10px;">
+    <div
+        layout-gt-sm="col"
+        layout-gt-lg="row"
+        ng-cloak
+        flex="100"
+        class="md-padding"
+        style="padding: 0px 0px 10px 10px;"
+    >
+        <md-select
+            placeholder="{{'Index.Home.SearchCategory'|translate}}"
+            style=" border-radius: 10px !important; background-color: white; height: 48px !important; padding: 13px 8px !important; margin:11px 8px 25px !important; "
+            ng-model="$ctrl.categorySearch"
+            class="category-dropdown"
+            id="select-categoriesA"
+        >
+            <md-optgroup label="{{'Index.Home.SearchCategory2'|translate}}">
+                <md-option ng-repeat="item in $ctrl.categoryList" ng-value="item.value">
+                    <h3 style="font-size: 20px; font-family: Poppins, sans-serif;">
+                        {{item.label}}
+                    </h3>
+                </md-option>
+            </md-optgroup>
+        </md-select>
+
+        <md-autocomplete
+            class="input-field ng-cloak location-dropdown"
+            style="padding: 8px 0px !important; height: 50px !important; line-height: 0px !important; border-radius: 10px !important; "
+            md-no-cache="true"
+            md-selected-item="$ctrl.selectedLocationItem.locations"
+            md-search-text="locationSearch"
+            md-min-length="0"
+            md-items="item in $ctrl.querySearchLocations(locationSearch)"
+            md-item-text="item.label"
+            placeholder="{{'List.SearchBar.EnterLocation'|translate}}"
+            input-aria-labelledby="Available Locations"
+        >
+            <md-item-template class="item-title">
+                <!-- <md-icon
+                    md-svg-src="/template/img/location_on-24px.svg"
+                    style="width: 25px; height: 52px;"
+                ></md-icon> -->
+                <span
+                    ng-if="item.flag=='mexico'"
+                    class="flag-icon flag-icon-mx"
+                    style="width: 25px; height: 25px;"
+                ></span>
+                <span
+                    ng-if="item.flag=='united states'"
+                    class="flag-icon flag-icon-us"
+                    style="width: 25px; height: 25px;"
+                ></span>
+                <span
+                    ng-if="item.flag=='spain'"
+                    class="flag-icon flag-icon-es"
+                    style="width: 25px; height: 25px;"
+                ></span>
+                <span
+                    ng-if="item.flag=='canada'"
+                    class="flag-icon flag-icon-ca"
+                    style="width: 25px; height: 25px;"
+                ></span>
+                <span md-highlight-text="locationSearch" md-highlight-flags="^i"
+                    >{{item.label}}</span
+                >
+            </md-item-template>
+            <md-not-found>
+                {{'List.SearchBar.NLF'|translate}}
+            </md-not-found>
+        </md-autocomplete>
+        &nbsp;&nbsp;
+        <md-autocomplete
+            ng-if="$ctrl.searchObj.procedureId && $ctrl.searchObj.procedureId !=='0' "
+            class="input-field ng-cloak procedure-dropdown"
+            style="padding: 8px 0px !important; height: 50px !important; line-height: 0px !important; border-radius: 10px !important;"
+            md-no-cache="true"
+            md-selected-item="$ctrl.selectedProcedureItem.procedures"
+            md-search-text="procedureSearch"
+            md-items="item in $ctrl.querySearchProcedures(procedureSearch)"
+            md-min-length="0"
+            md-item-text="item.label"
+            placeholder="{{'List.SearchBar.SearchProcedure'|translate}}"
+            input-aria-labelledby="Available Services"
+        >
+            <md-item-template>
+                <md-icon
+                    md-svg-src="/template/img/iconfinder_Dental_-_Tooth_-_Dentist_-_Dentistry_34_2185052.svg"
+                    style="width: 25px; height: 25px;"
+                ></md-icon>
+                <span md-highlight-text="procedureSearch" md-highlight-flags="^i"
+                    >{{item.label}}</span
+                >
+            </md-item-template>
+            <md-not-found>
+                No services matching "{{procedureSearch}}" were found.
+            </md-not-found>
+        </md-autocomplete>
+
+        <md-input-container style="margin: 0px !important" layout-sm="col">
+            <div flex>
+                <md-button
+                    id="services-search-dropdown"
+                    type="submit"
+                    class="tourz-sear-btn"
+                    style="height:50px; line-height: 0px; width: 126px !important; border-radius: 10px !important; border:1px solid black;"
+                    ng-click="$ctrl.processSearch()"
+                >
+                    {{'List.SearchBar.SearchButton'|translate}}
+                </md-button>
+            </div>
+        </md-input-container>
+    </div>
+</form>
+
+<style>
+    .md-virtual-repeat-container.md-autocomplete-suggestions-container {
+        width: 650px !important;
+    }
+
+    .md-select-menu-container {
+        z-index: 99999 !important;
+    }
+
+    @media (min-width: 959px) {
+        .category-dropdown {
+            width: 25%;
+        }
+        .location-dropdown {
+            width: 40%;
+            max-width: 100%;
+        }
+        .procedure-dropdown {
+            width: 35%;
+        }
+    }
+</style>

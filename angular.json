@@ -28,7 +28,11 @@
               "src/app"
             ],
             "styles": [
-              "src/styles.css"
+              "src/template/css/style.css",
+              "src/template/css/sb-admin-2.css",
+              "src/template/css/responsive.css",
+              "src/template/css/bootstrap.css",
+              "./node_modules/flag-icon-css/css/flag-icon.min.css"
             ],
             "scripts": []
           },
@@ -96,9 +100,16 @@
               "src/app"
             ],
             "styles": [
-              "src/styles.css"
+              "src/template/css/style.css",
+              "src/template/css/sb-admin-2.css",
+              "src/template/css/responsive.css",
+              "src/template/css/bootstrap.css",
+              "./node_modules/flag-icon-css/css/flag-icon.min.css"
             ],
             "scripts": [  
+              "src/template/js/custom.js",
+              "src/template/js/bootstrap.js",
+              "src/template/js/sb-admin-2.js",
               "./node_modules/angular-animate/angular-animate.min.js",
               "./node_modules/angular-aria/angular-aria.min.js",
               "./node_modules/angular-messages/angular-messages.min.js",

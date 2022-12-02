@@ -22,6 +22,8 @@ import './index/index.component';
 import './core/components/components.module';
 import './components/main-dropdown/main_dropdown.module'
 import  './components/main-dropdown/main_dropdown.component'
+import './components/services-search-dropdown/services_search_dropdown.module'
+import  './components/services-search-dropdown/services_search_dropdown.component'
 
 export default angular.module('mainApp', [
         'ngRoute',
@@ -34,7 +36,8 @@ export default angular.module('mainApp', [
         'angular-loading-bar',
         'ngMessages',
         'indexModule',
-        'mainDropdownModule'
+        'mainDropdownModule',
+        'servicesSearchDropdownModule'
     ])
     .constant('_', window._)
     // .config([

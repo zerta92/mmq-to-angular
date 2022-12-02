@@ -1,1 +1,1 @@
-angular.module('core.components', ['mainDropdownModule']);
+angular.module('core.components', ['mainDropdownModule','servicesSearchDropdownModule']);

@@ -62,7 +62,7 @@ body {
     font-style: normal;
     font-weight: 400;
     src: local('Material Icons'), local('MaterialIcons-Regular'),
-        url('../fonts/micon.woff2') format('woff2');
+        /* url('../fonts/micon.woff2') format('woff2'); */
 }
 .material-icons {
     font-family: 'Material Icons';
@@ -172,7 +172,7 @@ a:hover {
     user-select: none;
     /* z-index: 99; */
 
-    background: url('../images/banner4.jpg') no-repeat;
+    background: url('/images/banner4.jpg') no-repeat;
     background-size: cover;
 }
 #background1 {
@@ -186,7 +186,7 @@ a:hover {
     user-select: none;
     /* z-index: 99; */
 
-    background: url('../images/banner2.jpg') no-repeat;
+    background: url('/images/banner2.jpg') no-repeat;
     background-size: cover;
 }
 .dir-ho-tl {
@@ -390,7 +390,7 @@ a:hover {
     border: 0px;
 }
 .top-search form ul li input[type='submit'] {
-    background: url(../images/search_bg1.png) no-repeat center center #263a78;
+    background: url(/images/search_bg1.png) no-repeat center center #263a78;
     color: #eac610;
     font-weight: 600;
     padding: 7px;
@@ -448,7 +448,7 @@ a:hover {
     /* border-right: 1px solid #dedede; */
 
     list-style-type: none;
-    background: url(../images/arrow.png) no-repeat center left;
+    background: url(/images/arrow.png) no-repeat center left;
     background-size: 10px;
 }
 .cat-menu ul li:nth-child(5) {
@@ -789,7 +789,7 @@ a:hover {
 
     color: #ccc1c1fa;
     transition: all 0.5s ease;
-    /* background: url('../images/res-menu-air.png') no-repeat left center; */
+    /* background: url('/images/res-menu-air.png') no-repeat left center; */
     /* background-size: 10px; */
     /* padding-left: 20px; */
 
@@ -957,7 +957,7 @@ a:hover {
 .dir-ho-t2l form ul li:nth-child(2) input {
     padding: 15px 35px;
     line-height: 28px;
-    background: url(../images/hsicon.png) no-repeat center left #fff;
+    background: url(/images/hsicon.png) no-repeat center left #fff;
     background-size: 16px;
     border-right: 1px solid #eaeaea;
     background-position: 8% 52%;
@@ -1185,7 +1185,7 @@ a:hover {
 /*-------------------------------------------------*/
 
 .web-app {
-    background: url(../images/city.png) bottom center;
+    background: url(/images/city.png) bottom center;
     /* background-position: 0px 0px; */
 
     background-size: 100%;
@@ -1341,7 +1341,7 @@ footer ul {
 }
 footer ul li {
     list-style-type: none;
-    background: url('../images/arr.png') no-repeat center left;
+    background: url('/images/arr.png') no-repeat center left;
     padding-left: 24px;
     background-size: 9px;
 }
@@ -1443,7 +1443,7 @@ footer ul li a:hover {
 }
 .dir-foot ul li {
     list-style-type: none;
-    background: url(../images/f_p.png) no-repeat left center;
+    background: url(/images/f_p.png) no-repeat left center;
     padding-left: 15px;
     background-size: 6px;
 }
@@ -1525,7 +1525,7 @@ footer ul li a:hover {
     height: 200px;
     position: absolute;
     margin: -100px 0 0 -100px;
-    background: url('../images/loading.gif') center center no-repeat;
+    background: url('/images/loading.gif') center center no-repeat;
 }
 /*-------------------------------------------------*/
 /* =  SPECIAL TITLE STYLES
@@ -1679,7 +1679,7 @@ footer ul li a:hover {
     background: #fff;
 }
 .dir-alp {
-    /*background: url(../images/list-p-bg.jpeg) no-repeat center top;*/
+    /*background: url(/images/list-p-bg.jpeg) no-repeat center top;*/
     background: #ffffff;
     background-size: cover;
     background-attachment: fixed;
@@ -1921,7 +1921,7 @@ footer ul li a:hover {
 }
 .dir-alp-ri-p2 ul li:nth-child(1) {
     color: #343c42;
-    background: url(../images/list-i1.png) no-repeat center left;
+    background: url(/images/list-i1.png) no-repeat center left;
     background-size: 18px;
     font-size: 15px;
     font-weight: 600;
@@ -1929,13 +1929,13 @@ footer ul li a:hover {
 .dir-alp-ri-p2 ul li:nth-child(2) {
     color: #979797;
     width: 50%;
-    background: url(../images/list-i2.png) no-repeat center left;
+    background: url(/images/list-i2.png) no-repeat center left;
     background-size: 18px;
 }
 .dir-alp-ri-p2 ul li:nth-child(3) {
     color: #979797;
     width: 50%;
-    background: url(../images/list-i3.png) no-repeat center left;
+    background: url(/images/list-i3.png) no-repeat center left;
     background-size: 18px;
 }
 .dir-alp-ri-p2 p {
@@ -2168,7 +2168,7 @@ footer ul li a:hover {
 /*-------------------------------------------------*/
 
 .dir-pr-p1 {
-    background: url(../images/list-p-bg.jpg) no-repeat center center;
+    background: url(/images/list-p-bg.jpg) no-repeat center center;
     position: relative;
     overflow: hidden;
     padding-top: 100px;
@@ -2193,7 +2193,7 @@ footer ul li a:hover {
     width: 50%;
     color: #fff;
     font-size: 16px;
-    background: url(../images/list-pre-i1.png) no-repeat left center;
+    background: url(/images/list-pre-i1.png) no-repeat left center;
     background-size: 25px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -2232,13 +2232,13 @@ footer ul li a:hover {
 .dir-pr-p2 ul li:nth-child(1) {
     color: #fff;
     font-size: 16px;
-    background: url(../images/list-pre-i1.png) no-repeat left center;
+    background: url(/images/list-pre-i1.png) no-repeat left center;
     background-size: 25px;
 }
 .dir-pr-p2 ul li:nth-child(2) {
     color: #fff;
     font-size: 16px;
-    background: url(../images/list-pre-i2.png) no-repeat left center;
+    background: url(/images/list-pre-i2.png) no-repeat left center;
     background-size: 25px;
 }
 .dir-pr-p2-soc {
@@ -2448,7 +2448,7 @@ li {
     margin-bottom: 0px;
 }
 .dir-pr-p3-rp3 ul li {
-    background: url(../images/pre-ser-i.png) no-repeat center left;
+    background: url(/images/pre-ser-i.png) no-repeat center left;
     background-size: 16px;
     padding-left: 40px;
     float: left;
@@ -2579,7 +2579,7 @@ li {
 /*-------------------------------------------------*/
 
 .stars {
-    background: url('../images/stars.png') repeat-x 0 0;
+    background: url('/images/stars.png') repeat-x 0 0;
     width: 150px;
     position: relative;
     overflow: hidden;
@@ -2642,7 +2642,7 @@ li {
     top: 0;
     left: 0;
     height: 30px;
-    background: url('../images/stars.png') repeat-x 0 -60px;
+    background: url('/images/stars.png') repeat-x 0 -60px;
     -webkit-transition: -webkit-width 0.5s;
     -moz-transition: -moz-width 0.5s;
     -ms-transition: -ms-width 0.5s;
@@ -2804,7 +2804,7 @@ li {
 .dir-pr-p8-rp8 ul {
 }
 .dir-pr-p8-rp8 ul li {
-    background: url(../images/pre-pro-i.png) no-repeat center left;
+    background: url(/images/pre-pro-i.png) no-repeat center left;
     background-position: 5px;
     background-size: 16px;
 }
@@ -2986,7 +2986,7 @@ textarea {
     width: 70% !important;
 }
 .dir-pop-head {
-    /*background: url('../images/pop_bg.jpg') no-repeat center center;*/
+    /*background: url('/images/pop_bg.jpg') no-repeat center center;*/
     background-color: #15629e;
     background-size: cover;
     padding: 25px 25px 50px 25px !important;
@@ -3298,7 +3298,7 @@ select {
 .home-dis:before {
     content: '';
     position: absolute;
-    background: url(../images/services/s2.jpeg) no-repeat;
+    background: url(/images/services/s2.jpeg) no-repeat;
     top: 0px;
     bottom: 0px;
     left: 0px;
@@ -3635,7 +3635,7 @@ select {
 }
 .list-page-enq {
     margin-top: 60px;
-    background: url('../images/banner2.jpg') no-repeat;
+    background: url('/images/banner2.jpg') no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -3739,7 +3739,7 @@ textarea {
 
 .pg-list-1 {
     margin-top: 60px;
-    background: url(../images/list-deta/bg.jpg) no-repeat;
+    background: url(/images/list-deta/bg.jpg) no-repeat;
     background-size: cover;
     position: relative;
     padding: 250px 0px 70px 0px;
@@ -3747,17 +3747,17 @@ textarea {
     box-sizing: content-box;
 }
 .pg-list-prop {
-    background: url(../images/list-deta/prop-bg.jpg) no-repeat;
+    background: url(/images/list-deta/prop-bg.jpg) no-repeat;
     background-size: cover;
     box-sizing: content-box;
 }
 .pg-list-shop {
-    background: url(../images/list-deta/shop-bg.jpg) no-repeat;
+    background: url(/images/list-deta/shop-bg.jpg) no-repeat;
     background-size: cover;
     box-sizing: content-box;
 }
 .pg-list-auto {
-    background: url(../images/list-deta/auto-bg.jpg) no-repeat;
+    background: url(/images/list-deta/auto-bg.jpg) no-repeat;
     background-size: cover;
     box-sizing: content-box;
 }
@@ -4328,7 +4328,7 @@ textarea {
     font-size: 15px;
 }
 .pg-list-user-pro {
-    background: url('../images/profile-bg.jpg') no-repeat;
+    background: url('/images/profile-bg.jpg') no-repeat;
     height: 100px;
     background-size: cover;
 }
@@ -4561,14 +4561,14 @@ textarea {
 }
 .inn-page-bg {
     margin-top: 60px;
-    background: url(../images/inn-bg.jpg) no-repeat;
+    background: url(/images/inn-bg.jpg) no-repeat;
     background-size: cover;
     position: relative;
 }
 
 .inn-price-bg {
     margin-top: 60px;
-    background: url(../images/priceA_.jpg) no-repeat;
+    background: url(/images/priceA_.jpg) no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -4653,7 +4653,7 @@ textarea {
 /*-------------------------------------------------------*/
 
 .con-page {
-    /* background: url(../images/con-bg.jpg) no-repeat left center; */
+    /* background: url(/images/con-bg.jpg) no-repeat left center; */
     /* background-attachment: fixed; */
     /* background-size: 40%; */
     position: relative;
@@ -4906,7 +4906,7 @@ textarea {
     top: 50%;
     /* centers the loading animation vertically one the screen */
 
-    background-image: url(../images/preloader.gif);
+    /* background-image: url(/images/preloader.gif); */
     /* path to your loading animation */
 
     background-repeat: no-repeat;
@@ -5218,7 +5218,7 @@ textarea {
     border-bottom: 1px solid #eaedef;
     padding: 12px 0px;
     list-style-type: none;
-    background: url('../images/icon/tz-arrow.png') no-repeat center left;
+    background: url('/images/icon/tz-arrow.png') no-repeat center left;
     background-size: 10px;
     text-overflow: ellipsis;
     white-space: inherit;
@@ -5642,7 +5642,7 @@ textarea {
 /*-------------------------------------------------------*/
 
 .tz-register {
-    background: url(../images/face.jpg) #e6e6e6;
+    background: url(/images/face.jpg) #e6e6e6;
     position: relative;
     overflow: hidden;
     padding-top: 50px;
@@ -5658,7 +5658,7 @@ textarea {
     border-radius: 5px;
 }
 .tz-login {
-    background: url(../images/banner5.jpg) #3f51b5;
+    background: url(/images/banner5.jpg) #3f51b5;
     position: relative;
     overflow: hidden;
     padding-top: 50px;
@@ -6814,7 +6814,7 @@ textarea {
 /* =  PRICE LISTR V4
 /*-------------------------------------------------*/
 .v4-pri-bg {
-    background: url(../images/banner5.jpg) no-repeat;
+    background: url(/images/banner5.jpg) no-repeat;
     background-size: cover;
     padding-bottom: 100px;
 }
@@ -6916,7 +6916,7 @@ textarea {
 .tourz-search-form {
 }
 #select-city {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     border: 0px;
     height: 55px;
     border-radius: 2px;
@@ -6927,7 +6927,7 @@ textarea {
     background-position-x: 10px;
 }
 #select-search {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     border: 0px;
     height: 55px;
     border-radius: 2px;
@@ -6938,7 +6938,7 @@ textarea {
     background-position-x: 10px;
 }
 #select-categories {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     /* background: #fff; */
     border: 0px;
     height: 55px;
@@ -6950,7 +6950,7 @@ textarea {
     background-position-x: 4px;
 }
 #select-speciality {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     /* background: #fff; */
     border: 0px;
     height: 55px;
@@ -6962,7 +6962,7 @@ textarea {
     background-position-x: 4px;
 }
 #select-searchBox {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     border: 0px;
     height: 55px;
     border-radius: 2px;
@@ -6974,7 +6974,7 @@ textarea {
 }
 
 #top-select-city {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     border: 0px;
     height: 28px;
     border-radius: 2px;
@@ -6985,7 +6985,7 @@ textarea {
     background-position-x: 10px;
 }
 #top-select-search {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     border: 0px;
     height: 38px;
     border-radius: 2px;
@@ -6996,7 +6996,7 @@ textarea {
     background-position-x: 10px;
 }
 #top-select-categories {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     border: 0px;
     height: 38px;
     border-radius: 2px;
@@ -7007,7 +7007,7 @@ textarea {
     background-position-x: 10px;
 }
 #top-select-speciality {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     border: 0px;
     height: 38px;
     border-radius: 2px;
@@ -7018,7 +7018,7 @@ textarea {
     background-position-x: 10px;
 }
 #top-select-searchBox {
-    background: url(../images/icon/search.png) no-repeat left center #fff;
+    background: url(/images/icon/search.png) no-repeat left center #fff;
     border: 0px;
     height: 38px;
     border-radius: 2px;
@@ -7034,7 +7034,7 @@ textarea {
     line-height: 0px;
     outline: none;
     display: block !important;
-    background: url(../images/search_bg1.png) no-repeat center center #263a78;
+    background: url(/images/search_bg1.png) no-repeat center center #263a78;
     color: #ffffff;
     font-weight: 600;
     padding: 15px;
@@ -7265,7 +7265,7 @@ textarea {
 }
 .email-tem-head {
     width: 100%;
-    background: #006df0 url('../images/mail/bg.png') repeat;
+    background: #006df0 url('/images/mail/bg.png') repeat;
     padding: 50px;
     box-sizing: border-box;
     border-radius: 5px 5px 0px 0px;
@@ -7378,14 +7378,14 @@ textarea {
 .log-in-pop-left {
     /*float: left;
     width: 40%;*/
-    background: url('../images/login.jpg') no-repeat center center;
+    background: url('/images/login.jpg') no-repeat center center;
     /*padding: 11% 6%;*/
     padding: 5% 6%;
     color: #fff;
     /* height: 100%; */
     bottom: 0px;
     /* min-height: 115%; */
-    background: #ffffcc url() repeat;
+    /* background: #ffffcc url() repeat; */
 }
 .log-in-pop-left::before {
 }
