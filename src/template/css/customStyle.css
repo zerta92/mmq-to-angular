@@ -1,0 +1,168 @@
+md-toast.md-success-toast-theme .md-toast-content {
+    position: fixed;
+    top: 80px;
+    background-color: green;
+    color: #ffffff;
+    margin-right: auto;
+    right: 0;
+    width: 70%;
+    max-width: 100%;
+}
+
+md-toast.md-error-toast-theme .md-toast-content {
+    position: fixed;
+    top: 80px;
+    background-color: red;
+    color: #ffffff;
+    margin-right: auto;
+    right: 0;
+    width: 70%;
+    max-width: 100%;
+}
+
+md-toast.md-info-toast-theme .md-toast-content {
+    position: fixed;
+    top: 80px;
+    background-color: #03a9f4;
+    color: #ffffff;
+    margin-right: auto;
+    right: 0;
+    width: 70%;
+    max-width: 100%;
+}
+
+ul.ui-autocomplete {
+    list-style: none;
+    list-style-type: none;
+    padding: 0px;
+    margin: 10px;
+    background-color: white;
+    width: 46px;
+    font-size: 14px;
+    border-bottom: 1px solid #e0e0e0;
+    float: left;
+    left: 0px;
+    top: 15px;
+}
+
+full-btn-cancell {
+    background: #263a78;
+    background: linear-gradient(to bottom, #d32f2f, #d32f2f);
+    color: #fff;
+}
+
+#loading-bar .bar {
+    position: relative;
+}
+
+#plz_wait md-progress-circular.md-default-theme .md-inner .md-left .md-half-circle,
+md-progress-circular .md-inner .md-left .md-half-circle,
+md-progress-circular.md-default-theme .md-inner .md-right .md-half-circle,
+md-progress-circular .md-inner .md-right .md-half-circle {
+    border-top-color: white;
+}
+#plz_wait md-progress-circular.md-default-theme .md-inner .md-gap,
+md-progress-circular .md-inner .md-gap {
+    border-top-color: white;
+    border-bottom-color: white;
+}
+#plz_wait md-progress-circular.md-default-theme .md-inner .md-left .md-half-circle,
+md-progress-circular .md-inner .md-left .md-half-circle {
+    border-left-color: white;
+}
+#plz_wait md-progress-circular.md-default-theme .md-inner .md-left .md-half-circle,
+md-progress-circular .md-inner .md-left .md-half-circle {
+    border-left-color: white;
+}
+#plz_wait md-progress-circular.md-default-theme .md-inner .md-right .md-half-circle,
+md-progress-circular .md-inner .md-right .md-half-circle {
+    border-right-color: white;
+}
+.related {
+    overflow: scroll;
+    height: 500px;
+}
+
+.customInputStyle {
+    display: flow-root;
+    position: sticky;
+    padding: 5px;
+    margin: 5px 0px;
+    vertical-align: text-top;
+}
+
+.demo-md-panel {
+    min-height: 500px;
+}
+
+.demo-dialog-example {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14),
+        0 5px 24px 4px rgba(0, 0, 0, 0.12);
+    width: 500px;
+}
+
+.demo-dialog-content {
+    padding: 0 15px;
+    width: 100%;
+}
+
+.demo-dialog-content img {
+    height: 300px;
+    margin: auto;
+}
+
+.demo-dialog-button {
+    width: 100%;
+}
+
+.demo-menu-example {
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14),
+        0 5px 24px 4px rgba(0, 0, 0, 0.12);
+    width: 256px;
+}
+
+.demo-menu-item {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    height: 48px;
+    padding: 0 16px;
+    position: relative;
+    transition: background 0.15s linear;
+    width: auto;
+}
+
+.demo-menu-item:hover,
+.demo-menu-item:focus {
+    background-color: rgb(238, 238, 238);
+}
+
+.demo-menu-item.selected {
+    color: rgb(16, 108, 200);
+}
+
+.md-input-focused:not(.md-input-has-value) label.md-placeholder {
+    opacity: 0;
+}
+
+md-checkbox.md-checked.green .md-icon {
+    background-color: rgba(0, 255, 0, 0.87);
+}
+
+.profile-link {
+    padding: 0.1em 0.5em 0.1em 0.5em;
+    background-color: white;
+    font-size: 18px;
+    font-style: italic;
+    font-weight: bold;
+    text-align: center;
+    border-color: black;
+    border-style: solid;
+    border-radius: 15px;
+    line-height: 2;
+}
+

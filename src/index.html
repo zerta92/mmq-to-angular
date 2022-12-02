@@ -1,13 +1,45 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>MmqToAngular</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <head>
+
+    <meta
+        name="google-site-verification"
+        content="f1c6H34ctzmA_wRM87Ihfw5EIK-T2iex_0mu8x1Ii5w"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="shortcut icon" href="/template/images/MedQuestLogo.svg" type="image/x-icon" />
+    <base href="/" />
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Poppins%7CQuicksand:500,700"
+        rel="stylesheet"
+    />
+
+    <link
+        rel="stylesheet"
+        href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.6/angular-material.min.css"
+    />
+
+
 </head>
 <body>
+
+    <!-- End Google Tag Manager (noscript) -->
+    <div >
+        <main-dropdown></main-dropdown>
+       
+        <div id="loading-bar-container"></div>
+        <div id="wrapper">
+            <ng-view id="routedContent" autoscroll="true"></ng-view>
+        </div>
+
+        <!-- <div ng-include="./template/pages/footer.html"></div> -->
+    </div>
+
+
+</body>
   <app-root></app-root>
 </body>
 </html>

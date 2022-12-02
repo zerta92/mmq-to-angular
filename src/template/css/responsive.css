@@ -1,0 +1,1317 @@
+/*-----------------------------------------
+ [MASTER RESPONSIVE STYLE SHEET]
+ * Project: Directory Pro - Local Listing & Directory Template
+ * Version: v1.1.1
+ * Copyright 2017-2020 rn53themes
+ * Last Changes: 05/06/2017
+ * Author: RN53 Themes
+ * Email:      rn53themes@gmail.com
+ * Website:    http://www.rn53themes.net 
+ -----------------------------------------------*/
+/*-------------------------------------------------------*/
+/* When the browser is between 0px and 1220px wide,below css will be applied.
+/*-------------------------------------------------------*/
+
+@media screen and (max-width: 1220px) {
+    .proj {
+        margin-top: -50px;
+        position: relative;
+        z-index: 99;
+    }
+
+    .tourz-search-form div {
+        margin: 0px 5px;
+        /* margin: 10px 0px; */
+    }
+
+    .tourz-top-search-form div:nth-child(3) {
+        width: 9%;
+        -webkit-transform: translateY(-15%);
+    }
+
+    .tz-l {
+        width: 20%;
+    }
+    .tz-2 {
+        width: 60%;
+        margin-right: 0px;
+    }
+    .tz-3 {
+        width: 100%;
+        margin-top: 20px;
+    }
+    .tz-2-admin {
+        width: 100%;
+    }
+    .tz-invo-full {
+        padding: 0px;
+    }
+    .tz-invo-full1 {
+        width: 100%;
+        margin: 0px;
+    }
+}
+/*-------------------------------------------------------*/
+/* When the browser is between 0px and 1200px wide,below css will be applied.
+/*-------------------------------------------------------*/
+
+@media screen and (max-width: 1200px) {
+    .ts-menu-2 {
+        display: none;
+    }
+    .ts-menu-4 {
+        display: none;
+    }
+    .ts-menu-1 {
+        width: 10%;
+    }
+    .ts-menu-3 {
+        width: 78%;
+        padding: 10px 0px 4px 4px;
+    }
+    .ts-menu-5 {
+        width: 0%;
+        /*float: left;*/
+    }
+    .ts-menu-5 span {
+    }
+    .ts-menu-5 span i {
+        color: #ffffff;
+        padding: 11px;
+        background: #a7a7a7;
+        margin: 10px 9px 9px 30px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.45);
+        border-radius: 35px;
+    }
+    .ts-menu-1 a img {
+        margin-left: 18px;
+        width: 43px;
+        padding: 0px;
+        margin: 6px 28px;
+    }
+    .v3-mob-top-menu {
+        display: block;
+    }
+    .v3-top-menu {
+        display: none;
+    }
+    .email-tem-inn {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .ts-menu-5 {
+        display: none;
+        width: 10%;
+    }
+}
+
+/*-------------------------------------------------------*/
+/* When the browser is between 992px and 1200px wide,below css will be applied.
+/*-------------------------------------------------------*/
+@media screen and (max-width: 1200px) and (min-width: 992px) {
+    .dir-ho-t2r {
+        padding: 25px 0px;
+    }
+}
+
+/*-------------------------------------------------------*/
+/* When the browser is between 0px and 992px wide,below css will be applied.
+/*-------------------------------------------------------*/
+@media screen and (max-width: 992px) {
+    .sb2 {
+        background: #ffffff;
+        margin-top: 1px;
+    }
+
+    .dropdown-content {
+        overflow: visible;
+    }
+
+    .top-menu-ani {
+        transition: all 0.5s ease;
+    }
+
+    .top-menu-sty {
+        width: 250px !important;
+    }
+
+    .com-padd {
+        padding-top: 70px;
+        padding-bottom: 70px;
+    }
+    .mar-bot-red-0 {
+        margin-bottom: 0px;
+    }
+    .mar-bot-red-m30 {
+        margin-bottom: -30px;
+    }
+    .pad-bot-red-40 {
+        padding-bottom: 40px;
+    }
+    .hom-pro {
+        margin-bottom: 30px;
+    }
+    .dir-ho-com-head {
+        padding: 50px 0px 50px 0px;
+    }
+    .com-padd-redu-top {
+        padding-top: 0px;
+    }
+    .com-padd-redu-bot {
+        padding-bottom: 0px;
+    }
+    .dir-ho-best-list-p1 img {
+        height: auto;
+    }
+    .dir-ho-dis {
+        font-size: 48px;
+        display: block;
+        margin-top: 6px;
+        padding: 12px;
+    }
+    .dir-rib-bod a {
+        display: initial;
+    }
+    .sa-home-spec {
+        background: linear-gradient(to bottom, #e8e8e8 50%, #1b2629 50%);
+    }
+    .dir-ho-t-tit h1 {
+        padding-top: 0%;
+    }
+    .dir-ho-best-list {
+        margin-bottom: 50px;
+    }
+    .dir-ho-best-list-sp-redu {
+        margin-bottom: 0px;
+    }
+    .dir-ho-t2l form ul {
+        border-radius: 0px;
+        margin-bottom: 50px;
+    }
+    .cbb3-mob-app {
+        margin: 0 auto;
+        width: 90%;
+    }
+    .dir-alp-con-left {
+        padding-right: 0px !important;
+        -webkit-transform: translateY(2%);
+    }
+
+    .dir-alp-con-right {
+        padding-right: 0px !important;
+        -webkit-transform: translateY(3%);
+    }
+
+    .dir-alp-r-list {
+        padding-bottom: 15px;
+    }
+    .dir-pr-p2-soc {
+        float: left;
+        padding-bottom: 20px;
+    }
+    .dir-ri-pr-pro-dec-left {
+        width: 100%;
+    }
+    .dir-ri-pr-pro-dec-right {
+        width: 100%;
+    }
+    .dir-ri-pr-pro-dec-right h3 {
+        padding-top: 25px;
+    }
+    .dir-hr1 {
+        width: 100%;
+    }
+    .home-list-pop-desc {
+        padding-top: 15px;
+    }
+    .lpe-com {
+        width: 100%;
+        float: left;
+    }
+    .lpe-left {
+        padding: 0px 0px 50px 0px;
+    }
+    .pg-list-1 {
+        padding: 100px 0px 50px 0px;
+    }
+    .pg-list-1-left {
+        width: 100%;
+        padding: 0px 20px;
+    }
+    .pg-list-1-right {
+        width: 100%;
+        padding: 0px 20px;
+    }
+    .pg-list-1-right-p1 {
+        padding-top: 50px;
+    }
+    .list-pg-lt {
+        width: 100%;
+        float: left;
+    }
+    .list-pg-rt {
+        width: 100%;
+        float: left;
+        padding: 0px 0px 0px 00px;
+    }
+    .list-rom-pric {
+        top: 10px;
+    }
+    .how-com-mob-bot-space {
+        margin-bottom: 35px;
+    }
+    .con-page {
+        /* background: url(../images/con-bg.jpg) no-repeat left center; */
+        background-attachment: fixed;
+        background-size: 64%;
+    }
+    .con-page-ri {
+        padding: 70px;
+        padding-top: 130px;
+    }
+    .page-blog h3 {
+        padding-top: 20px;
+    }
+    .list-spac-1 {
+        margin: 0px;
+    }
+    .pg-list-user-pro img {
+        margin-left: 45%;
+    }
+    .tz {
+        padding: 50px;
+        padding-top: 100px;
+    }
+    .tz-2-main-1 {
+        width: 100%;
+    }
+    .tz-2-main-2 {
+        border-right: 0px solid #eaedef;
+        padding: 20px;
+        text-align: left;
+    }
+    .tz-2-main-com span {
+        text-align: left;
+        display: block;
+    }
+    .tz-2-main-com img {
+        margin: inherit;
+    }
+    .tab-menu {
+        display: inline-block;
+        color: #fff;
+        background: #0e76a8;
+        padding: 5px 8px;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 2px;
+    }
+    .logo img {
+        width: 78%;
+    }
+    .sb1 {
+        position: inherit;
+        width: 100%;
+        top: 0px;
+    }
+    .tab-hide {
+        display: none;
+    }
+    .sb2-1 {
+        width: 240px;
+        height: 100%;
+        position: fixed;
+        top: 0px;
+        box-shadow: 10px 50px 100px rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        left: -350px;
+        overflow: scroll;
+    }
+    .sb2-2 {
+        width: 100%;
+        padding: 40px;
+        margin-left: 0px;
+    }
+    .sb1-1 {
+        padding: 05px 15px;
+    }
+    .tz-invo-full {
+        padding: 0px;
+    }
+    .tz-invo-full1 {
+        width: 100%;
+        margin: 0px;
+    }
+    .cat-v2-hom-list ul li {
+        width: 33.33%;
+    }
+    .v3-list-ql {
+        display: none;
+    }
+    .v4-pril-inn {
+        margin-bottom: 35px;
+    }
+    .v4-pril-inn-bot-0 {
+        margin-bottom: 0px;
+    }
+    .tourz-top-search-form div:nth-child(1) {
+        width: 15%;
+    }
+    .tourz-top-search-form div:nth-child(2) {
+        width: 60%;
+    }
+    .tourz-top-search-form div:nth-child(3) {
+        width: 15%;
+    }
+    .tourz-top-search-form div:nth-child(4) {
+        width: 10%;
+    }
+    .log-in-pop {
+        width: 80%;
+    }
+    .divIndexMobile {
+        width: auto;
+    }
+}
+
+/*-------------------------------------------------------*/
+/* When the browser is between 768px and 992px wide,below css will be applied.
+/*-------------------------------------------------------*/
+@media screen and (min-width: 767px) and (max-width: 991px) {
+    .proj {
+        margin-top: -30px;
+        position: relative;
+        z-index: none;
+    }
+
+    .dir-ho-t-tit h1 {
+        padding-top: 3%;
+    }
+
+    #top-select-city {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 28px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+    #top-select-search {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 38px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+    #top-select-categories {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 38px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+    #top-select-speciality {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 38px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+    #top-select-searchBox {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 38px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+
+    .tourz-top-sear-btn {
+        height: 38px;
+        line-height: 0px;
+        outline: none;
+        display: block !important;
+        background: url(../images/search_bg1.png) no-repeat center center #263a78;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 15px;
+        background-size: 24px;
+    }
+    .tourz-top-search-form {
+        margin-top: 11px;
+    }
+
+    .tourz-topHeader-search-form {
+        margin-top: 11px;
+    }
+
+    .search-hotel-type {
+        padding-left: 18px;
+    }
+    .tourz-search-form input[type='submit'] {
+        background: none !important;
+    }
+    .tourz-search-1 {
+        padding: 150px 0px 100px 0px;
+        width: 70%;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+    }
+    .tourz-search-1 h1 {
+        color: #fff;
+        font-size: 50px;
+    }
+    .tourz-search-1 p {
+        font-size: 18px;
+        color: #fff;
+        padding-bottom: 30px;
+        margin-bottom: 0px;
+    }
+    .tourz-search-1 form {
+    }
+    .tourz-search-form label {
+        text-overflow: ellipsis;
+        white-space: pre;
+        overflow: hidden;
+        right: 15px;
+        left: 18px;
+        top: 20px;
+    }
+    .tourz-search-form div:nth-child(1) {
+        /*width: 10%;*/
+        float: left;
+    }
+    .tourz-search-form div:nth-child(2) {
+        width: 50%;
+        float: left;
+    }
+    .tourz-search-form div:nth-child(3) {
+        width: 15%;
+        float: left;
+    }
+    .tourz-search-form div:nth-child(4) {
+        width: 30%;
+        float: left;
+    }
+    .tourz-search-form div:nth-child(5) {
+        width: 70%;
+        float: left;
+    }
+    .tourz-search-form div:nth-child(6) {
+        width: 20%;
+        float: right;
+    }
+    .tourz-search:before {
+        content: '';
+        background: #141e30;
+        background: linear-gradient(to right, rgba(36, 59, 85, 0.55), rgba(20, 30, 48, 0.82));
+        background: linear-gradient(to right, rgba(36, 59, 85, 0.55), rgba(20, 30, 48, 0.82));
+        position: absolute;
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+    }
+    .tourz-search-form div {
+        /* margin: 0px 5px;*/
+        /*margin: 10px 0px;*/
+    }
+    .tourz-sear-btn {
+        height: 55px;
+        line-height: 57px;
+        outline: none;
+        display: block !important;
+        color: #fff;
+        font-weight: 600;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 16px;
+        background: #263a78;
+        /*background: linear-gradient(to bottom, #455ca2, #263a78);*/
+        background: linear-gradient(to bottom, #15629e, #15629e);
+        text-transform: uppercase;
+    }
+    .tourz-hom-ser {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        padding-top: 38px;
+        padding-bottom: 5px;
+    }
+    .tourz-hom-ser ul {
+        margin-bottom: 0px;
+        margin: 0 auto;
+        display: table;
+        padding: 0px;
+    }
+    .tourz-hom-ser ul li {
+        float: left;
+        display: inline;
+        text-align: center;
+        width: 25%;
+        padding: 0px 5px;
+    }
+    .tourz-hom-ser ul li a {
+        background: #234868;
+        width: 90px;
+        height: 90px;
+        display: block;
+        padding: 18px 2px 10px 2px;
+        text-align: center;
+        color: #fff;
+        border-radius: 5px;
+        font-family: 'Arimo', sans-serif;
+        /* position: relative; */
+        /* overflow: hidden; */
+
+        line-height: 24px;
+    }
+    .tourz-hom-ser ul li a:hover {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+        background: #1aa5d8;
+    }
+    .tourz-hom-ser ul li a img {
+        display: table;
+        text-align: center;
+        margin: 0 auto;
+        padding-bottom: 5px;
+        width: 36px;
+    }
+    .tourz-pop-ser-btn {
+    }
+    .tourz-pop-ser-btn img {
+    }
+    .tourz-top-phone {
+        border: 1px solid #9a729a;
+        border-radius: 50px;
+    }
+    .autocomplete-content ul li a {
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .profile-btn {
+        border: none;
+        height: 30px;
+        line-height: 26px;
+        color: #fff;
+        padding: 2px 10px;
+        border-radius: 2px;
+        background: #1aa5d8;
+        background: linear-gradient(to bottom, #1aa5d8, #1386b1);
+        font-family: 'Quicksand', sans-serif;
+    }
+    .profile-btn:hover {
+        color: #fff;
+    }
+    .autocomplete-content li img {
+        float: left;
+        width: 26px !important;
+        height: 26px !important;
+        left: 0px;
+        top: 15px;
+    }
+    .autocomplete-content li {
+    }
+    .tourz-top-search-form label {
+        top: 10px;
+    }
+    .tourz-top-search-form div:nth-child(1) {
+        width: 26%;
+    }
+    .tourz-top-search-form div:nth-child(2) {
+        width: 58%;
+    }
+    .tourz-top-search-form div:nth-child(3) {
+        width: 11%;
+    }
+
+    .tourz-topHeader-search-form label {
+        top: 10px;
+    }
+    .tourz-topHeader-search-form div:nth-child(1) {
+        /*width: 20%;*/
+    }
+    .tourz-topHeader-search-form div:nth-child(2) {
+        width: 70%;
+    }
+    .tourz-topHeader-search-form div:nth-child(3) {
+        width: 15%;
+    }
+}
+
+/*-------------------------------------------------------*/
+/* When the browser is between 768px and 992px wide,below css will be applied.
+/*-------------------------------------------------------*/
+@media screen and (min-width: 991px) and (max-width: 1024px) {
+    .proj {
+        margin-top: -25px;
+        position: relative;
+        z-index: 99;
+    }
+
+    .dir-ho-t-tit h1 {
+        padding-top: 0%;
+    }
+
+    #top-select-city {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 28px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+    #top-select-search {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 38px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+    #top-select-categories {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 38px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+    #top-select-speciality {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 38px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+    #top-select-searchBox {
+        background: url(../images/icon/search.png) no-repeat left center #fff;
+        border: 0px;
+        height: 38px;
+        border-radius: 2px;
+        padding: 0px 10px 0px 35px;
+        box-sizing: border-box;
+        font-size: 14px;
+        /*background-size: 17px;*/
+        background-position-x: 10px;
+    }
+
+    .tourz-top-sear-btn {
+        height: 38px;
+        line-height: 0px;
+        outline: none;
+        display: block !important;
+        background: url(../images/search_bg1.png) no-repeat center center #263a78;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 15px;
+        background-size: 24px;
+    }
+    .tourz-top-search-form {
+        margin-top: 25px;
+    }
+
+    .tourz-topHeader-search-form {
+        margin-top: 11px;
+    }
+
+    .search-hotel-type {
+        padding-left: 18px;
+    }
+    .tourz-search-form input[type='submit'] {
+        background: none !important;
+    }
+    .tourz-search-1 {
+        padding: 150px 0px 100px 0px;
+        width: 70%;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+    }
+    .tourz-search-1 h1 {
+        color: #fff;
+        font-size: 50px;
+    }
+    .tourz-search-1 p {
+        font-size: 18px;
+        color: #fff;
+        padding-bottom: 30px;
+        margin-bottom: 0px;
+    }
+    .tourz-search-1 form {
+    }
+    .tourz-search-form label {
+        text-overflow: ellipsis;
+        white-space: pre;
+        overflow: hidden;
+        right: 15px;
+        left: 18px;
+        top: 20px;
+    }
+    .tourz-search-form div:nth-child(1) {
+        /*width: 10%;*/
+        float: left;
+    }
+    .tourz-search-form div:nth-child(2) {
+        width: 50%;
+        float: left;
+    }
+    .tourz-search-form div:nth-child(3) {
+        width: 10%;
+        float: left;
+    }
+    .tourz-search-form div:nth-child(4) {
+        width: 30%;
+        float: left;
+    }
+    .tourz-search-form div:nth-child(5) {
+        width: 70%;
+        float: left;
+    }
+    .tourz-search-form div:nth-child(6) {
+        width: 20%;
+        float: right;
+    }
+    .tourz-search:before {
+        content: '';
+        background: #141e30;
+        background: linear-gradient(to right, rgba(36, 59, 85, 0.55), rgba(20, 30, 48, 0.82));
+        background: linear-gradient(to right, rgba(36, 59, 85, 0.55), rgba(20, 30, 48, 0.82));
+        position: absolute;
+        bottom: 0px;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+    }
+    .tourz-search-form div {
+        /* margin: 0px 5px;*/
+        /*margin: 10px 0px;*/
+    }
+    .tourz-sear-btn {
+        height: 55px;
+        line-height: 57px;
+        outline: none;
+        display: block !important;
+        color: #fff;
+        font-weight: 600;
+        font-family: 'Quicksand', sans-serif;
+        font-size: 16px;
+        background: #263a78;
+        /*background: linear-gradient(to bottom, #455ca2, #263a78);*/
+        background: linear-gradient(to bottom, #15629e, #15629e);
+        text-transform: uppercase;
+    }
+    .tourz-hom-ser {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        padding-top: 38px;
+        padding-bottom: 5px;
+    }
+    .tourz-hom-ser ul {
+        margin-bottom: 0px;
+        margin: 0 auto;
+        display: table;
+        padding: 0px;
+    }
+    .tourz-hom-ser ul li {
+        float: left;
+        display: inline;
+        text-align: center;
+        width: 25%;
+        padding: 0px 5px;
+    }
+    .tourz-hom-ser ul li a {
+        background: #234868;
+        width: 90px;
+        height: 90px;
+        display: block;
+        padding: 18px 2px 10px 2px;
+        text-align: center;
+        color: #fff;
+        border-radius: 5px;
+        font-family: 'Arimo', sans-serif;
+        /* position: relative; */
+        /* overflow: hidden; */
+
+        line-height: 24px;
+    }
+    .tourz-hom-ser ul li a:hover {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+        background: #1aa5d8;
+    }
+    .tourz-hom-ser ul li a img {
+        display: table;
+        text-align: center;
+        margin: 0 auto;
+        padding-bottom: 5px;
+        width: 36px;
+    }
+    .tourz-pop-ser-btn {
+    }
+    .tourz-pop-ser-btn img {
+    }
+    .tourz-top-phone {
+        border: 1px solid #9a729a;
+        border-radius: 50px;
+    }
+    .autocomplete-content ul li a {
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .profile-btn {
+        border: none;
+        height: 30px;
+        line-height: 26px;
+        color: #fff;
+        padding: 2px 10px;
+        border-radius: 2px;
+        background: #1aa5d8;
+        background: linear-gradient(to bottom, #1aa5d8, #1386b1);
+        font-family: 'Quicksand', sans-serif;
+    }
+    .profile-btn:hover {
+        color: #fff;
+    }
+    .autocomplete-content li img {
+        float: left;
+        width: 26px !important;
+        height: 26px !important;
+        left: 0px;
+        top: 15px;
+    }
+    .autocomplete-content li {
+    }
+    .tourz-top-search-form label {
+        top: 10px;
+    }
+    .tourz-top-search-form div:nth-child(1) {
+        width: 27%;
+    }
+    .tourz-top-search-form div:nth-child(2) {
+        width: 58%;
+    }
+    .tourz-top-search-form div:nth-child(3) {
+        width: 11%;
+    }
+
+    .tourz-topHeader-search-form label {
+        top: 10px;
+    }
+    .tourz-topHeader-search-form div:nth-child(1) {
+        /*width: 20%;*/
+    }
+    .tourz-topHeader-search-form div:nth-child(2) {
+        width: 70%;
+    }
+    .tourz-topHeader-search-form div:nth-child(3) {
+        width: 15%;
+    }
+}
+
+/*-------------------------------------------------------*/
+/* When the browser is between 0px and 767px wide,below css will be applied.
+/*-------------------------------------------------------*/
+
+@media screen and (max-width: 767px) {
+    #background {
+        background-size: cover;
+        width: 100%;
+        height: auto;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        /* z-index: 99; */
+        background: url(../images/banner4.jpg) no-repeat;
+        background-size: cover;
+    }
+
+    .proj {
+        /*margin-top: -50px;*/
+        /*margin-top: 0px;*/
+        margin-top: 50px;
+        position: relative;
+        z-index: 99;
+    }
+
+    .cbb3-mob-app {
+        margin: 0 auto;
+        width: 80%;
+    }
+    .dir-mob-app-size {
+        width: 80% !important;
+    }
+    .dir-get-app ul {
+        width: 100%;
+        padding-left: 0px;
+    }
+    .dir-get-app ul li:nth-child(2) {
+        width: 80%;
+    }
+    .dir-get-app ul li:nth-child(3) {
+        width: 100%;
+    }
+    .dir-get-app ul li:nth-child(1) {
+        width: 20%;
+    }
+    .dir-ho-t-tit h1 {
+        padding-bottom: 1px;
+        font-size: 28px;
+    }
+    .dir-ho-tr ul li a {
+        font-size: 14px;
+    }
+    .dir-ho-t2l form ul li:nth-child(2) {
+        display: none;
+    }
+    .dir-ho-t2l form ul li:nth-child(1) {
+        width: 75%;
+    }
+    .dir-ho-t2l form ul li:nth-child(3) {
+        width: 25%;
+    }
+    .dir-v2-ho-t2l form ul li:nth-child(1) {
+        width: 80%;
+    }
+    .dir-v2-ho-t2l form ul li:nth-child(2) {
+        width: 20%;
+        display: block;
+    }
+    .dir-ho-t-sp {
+        /*padding: 15px 0px 100px 0px;*/
+        margin-top: 40px;
+    }
+    .dir-hr1 {
+        width: 100%;
+        /*text-align: center;
+        width: 90%;*/
+    }
+    .dir-pr-p1-rev {
+        float: left;
+        margin-top: 25px;
+    }
+    .dir-pr-p1 ul li {
+        width: 100% !important;
+    }
+    .dir-pr-p1 ul {
+        padding-bottom: 20px;
+    }
+    .dir-pr-p2 ul li {
+        padding: 10px 10px 10px 35px;
+    }
+    .dir-pr-ri-pro {
+        margin-bottom: 25px;
+    }
+    .dir-ho-tr {
+        display: none;
+    }
+    .dir-ho-tl ul {
+        display: table;
+        margin: 0 auto;
+    }
+    .dir-ho-tl {
+        /*padding-top: 35px;*/
+    }
+    .hom-pro {
+        margin-bottom: 30px;
+    }
+    .sea-drop-1 {
+        width: 96%;
+    }
+    .ts-menu-5 span i {
+        margin: 11px;
+    }
+    .top-search form ul li:nth-child(1) {
+        width: 80%;
+    }
+    .top-search form ul li:nth-child(2) {
+        width: 20%;
+    }
+    .ts-menu-1 a img {
+        width: 40px;
+        margin: 10px;
+        /* margin-left: 20px; */
+
+        display: table;
+        /* margin: 0 auto; */
+
+        margin-left: auto;
+    }
+    .lpe-com-main {
+        width: 90%;
+        padding: 50px 0px;
+    }
+    .list-enqu-btn ul li {
+        width: 50%;
+    }
+    .list-number ul li {
+        width: 100%;
+    }
+    .carousel {
+        height: auto;
+    }
+    .lp-ur-all-left {
+        width: 100%;
+        border-right: 0px solid #6b7f8a;
+        padding-right: 0px;
+    }
+    .lp-ur-all-right {
+        float: left;
+        width: 100%;
+        padding: 25px 20px 2px 0px;
+    }
+    .lp-ur-all-right p span {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+    .page-about-count {
+        border-bottom: 1px solid #3e5263;
+        border-right: 0px solid #3e5263;
+        padding-bottom: 20px;
+        padding-top: 12px;
+    }
+    .page-about-count-no-bor {
+        border-bottom: 0px solid #3e5263;
+        padding-bottom: 10px;
+    }
+    .con-page-ri {
+        width: 100%;
+        padding: 50px;
+        padding-top: 100px;
+    }
+    .pricing {
+        margin-top: 30px;
+    }
+    footer h4 {
+        margin-top: 24px;
+    }
+    .foot-sec2 {
+        padding-top: 0px;
+    }
+    .dir-pop-body form {
+        padding: 30px 30px 25px 30px;
+    }
+    .dir-pop-body {
+        padding: 35px 30px 20px 30px !important;
+        border-bottom: 10px solid #263b57;
+    }
+    .tz {
+        padding: 25px;
+        padding-top: 100px;
+    }
+    .tz-l {
+        width: 100%;
+    }
+    .tz-2 {
+        width: 100%;
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-top: 20px;
+    }
+    .tz-3 {
+        width: 100%;
+        margin-top: 20px;
+    }
+    .mob-hide {
+        display: none;
+    }
+    .sb1-1 {
+        padding: 10px 2px;
+    }
+    .hom-cre-acc-right form {
+        padding: 12px 25px;
+    }
+    .tz-regi-form {
+        width: 85%;
+        padding: 40px;
+        margin-bottom: 50px;
+        margin-top: 50px;
+    }
+    .tz-invo-full {
+        padding: 0px;
+    }
+    .tz-invo-full1 {
+        width: 100%;
+        margin: 0px;
+    }
+    .cat-v2-hom-list ul li {
+        width: 50%;
+    }
+    .v3-mob-m-2 ul li:nth-child(1) {
+        display: none;
+    }
+    .v3-mob-m-2 ul li:nth-child(2) {
+        display: none;
+    }
+    .tourz-search-form div:nth-child(1) {
+        width: 100%;
+        /*display: none;*/
+    }
+    .tourz-search-form div:nth-child(2) {
+        width: 100%;
+        margin-block-end: -35px;
+    }
+    .tourz-search-form div:nth-child(3) {
+        width: auto;
+        padding: 0px 0px 17px 0px;
+        /* padding: 42px 0px 0px 0px;*/
+        text-align: center;
+    }
+    .tourz-search-form div:nth-child(4) {
+        display: none;
+    }
+    .tourz-search-form div:nth-child(5) {
+        display: none;
+    }
+    .tourz-search-form div:nth-child(6) {
+        display: none;
+    }
+    .tourz-search-form div {
+        width: 100%;
+    }
+    .tourz-top-search-form div:nth-child(1) {
+        width: 80%;
+    }
+    .tourz-top-search-form div:nth-child(2) {
+        width: 95%;
+    }
+    .tourz-top-search-form div:nth-child(3) {
+        width: 90%;
+    }
+    .tourz-top-search-form div:nth-child(4) {
+        display: none;
+    }
+    .tourz-top-search-form div:nth-child(5) {
+        display: none;
+    }
+    .tourz-top-search-form div:nth-child(6) {
+        /*width: 80%;
+		float: inherit;*/
+        text-align: center;
+        white-space: pre;
+        padding: 19px 70px 0px 10px;
+    }
+    .log-in-pop-left {
+        float: none;
+        width: 100%;
+        background: none;
+        padding: 11% 6%;
+        color: #fff;
+        height: 100%;
+        bottom: 0px;
+        /* min-height: 115%; */
+        background: none;
+    }
+    .log-in-pop-right {
+        width: 100%;
+    }
+    .divIndexMobile {
+        padding: 0px 0px 0px 60px;
+    }
+}
+/*-------------------------------------------------------*/
+/* When the browser is between 0px and 480px wide,below css will be applied.
+/*-------------------------------------------------------*/
+
+@media screen and (max-width: 480px) {
+    .l_show_rate_l img {
+        width: 100%;
+    }
+    .divIndexMobile {
+        padding: 0px 0px 0px 60px;
+        width: auto;
+    }
+    .l_scroll {
+        height: 230px;
+        overflow: auto;
+        width: 100%;
+        position: relative !important;
+    }
+    .affix {
+        top: 0px !important;
+        position: relative !important;
+    }
+    .f_sub_mail {
+        width: 100%;
+    }
+    .f_sub_sub {
+        margin-top: 10px;
+        width: 100%;
+    }
+    .dir-ho-tr ul li a {
+        font-size: 12px !important;
+        padding: 7px 5px;
+    }
+    .dir-ho-t2l form ul li:nth-child(1) {
+        width: 100% !important;
+    }
+    .dir-ho-t2l form ul li:nth-child(3) {
+        width: 100% !important;
+    }
+    .dir-v2-ho-t2l form ul li:nth-child(2) {
+        width: 100%;
+    }
+    .dir-hpb ul li {
+        width: 100%;
+    }
+    .list-enqu-btn ul li {
+        width: 100%;
+    }
+    .lr-user-wr-con {
+        width: 85%;
+    }
+    .soc-login ul li {
+        width: 100%;
+    }
+    .cat-v2-hom-list ul li {
+        width: 100%;
+    }
+}
+/*-------------------------------------------------------*/
+/* When the browser is between 767px and above wide,below css will be applied.
+/*-------------------------------------------------------*/
+
+@media screen and (min-width: 767px) {
+    .hasimg {
+    }
+    .hasimg img {
+        width: 100%;
+    }
+}
