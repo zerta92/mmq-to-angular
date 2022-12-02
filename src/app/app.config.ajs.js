@@ -2,12 +2,14 @@ export default function(appModule){
     appModule.config([
         '$locationProvider',
         '$routeProvider',
-        '$translateProvider',
-        function config($locationProvider, $routeProvider,$translateProvider) {
+        function config($locationProvider, $routeProvider) {
             $routeProvider
                 .when('/', {
                     template: '<index-module></index-module>',
                     reloadOnSearch: false,
+                })
+                .when('/register', {
+                    template: '<signup-module></signup-module>',
                 }).otherwise('/');
                 // .when('/index', {
                 //     template:'<index></index>',

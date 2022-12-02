@@ -18,10 +18,18 @@ import './core/index/index.service';
 import './index/index.module.ajs';
 import './index/index.component';
 
+/* SignupComponent */
+import './core/signup/signup.module';
+import './core/signup/signup.service';
+import './signup/signup.module';
+import './signup/signup.component';
+
 /* Global Components */
 import './core/components/components.module';
+/* Main Dropdown */
 import './components/main-dropdown/main_dropdown.module'
 import  './components/main-dropdown/main_dropdown.component'
+/* Services Search Dropdown */
 import './components/services-search-dropdown/services_search_dropdown.module'
 import  './components/services-search-dropdown/services_search_dropdown.component'
 
@@ -36,6 +44,7 @@ export default angular.module('mainApp', [
         'angular-loading-bar',
         'ngMessages',
         'indexModule',
+        'signupModule',
         'mainDropdownModule',
         'servicesSearchDropdownModule'
     ])

@@ -4,7 +4,6 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
     templateUrl:  './app/components/services-search-dropdown/services_search_dropdown.template.html',
     bindings: {},
     controller: function ServiceSearchDropdownController($window, GlobalServices) {
-        console.log('at services search')
         var ctrl = this
 
         this.$onInit = function() {}

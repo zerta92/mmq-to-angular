@@ -1,7 +1,5 @@
 'use strict';
 
-const BASE_API_URL = `http://localhost:8080`
-
 angular
     .module(`core.index`, [])
     .factory(`IndexServices`, [
