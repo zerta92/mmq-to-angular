@@ -5,12 +5,15 @@ import { AppModule } from './app/app.module';
 //@ts-ignore
 import ajsApp from './app/app.module.ajs';
 //@ts-ignore
-import index from './app/index.module.ajs';
+import mainApp from './app/index/index.module.ajs';
+//@ts-ignore
+// import index from './app/index.module.ajs';
+
 //@ts-ignore
 import states from './app/app.config.ajs';
 //@ts-ignore
 import indexServices from './app/mainServices';
-states(ajsApp, index, indexServices);
+states(ajsApp);
 import { setAngularJSGlobal } from '@angular/upgrade/static';
 setAngularJSGlobal(angular);
 
