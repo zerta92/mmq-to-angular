@@ -2,7 +2,8 @@ export default function(appModule){
     appModule.config([
         '$locationProvider',
         '$routeProvider',
-        function config($locationProvider, $routeProvider) {
+        '$translateProvider',
+        function config($locationProvider, $routeProvider,$translateProvider) {
             console.log('at router')
             $routeProvider
                 .when('/', {
@@ -17,6 +18,7 @@ export default function(appModule){
 
 
             $locationProvider.html5Mode({ enabled: true })
+            
 
         },
     ])

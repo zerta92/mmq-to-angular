@@ -12,7 +12,7 @@ import mainApp from './app/index/index.module.ajs';
 //@ts-ignore
 import states from './app/app.config.ajs';
 //@ts-ignore
-import indexServices from './app/mainServices';
+// import indexServices from './app/mainServices';
 states(ajsApp);
 import { setAngularJSGlobal } from '@angular/upgrade/static';
 setAngularJSGlobal(angular);
