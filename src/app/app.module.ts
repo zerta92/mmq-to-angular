@@ -15,10 +15,6 @@ import { UpgradeModule } from '@angular/upgrade/static';
 export class AppModule {
   constructor(private upgrade: UpgradeModule) {}
   ngDoBootstrap() {
-    this.upgrade.bootstrap(document.documentElement, [
-      'mainApp'
-      // 'indexController',
-      // 'indexService'
-    ]);
+    this.upgrade.bootstrap(document.documentElement, ['mainApp']);
   }
 }

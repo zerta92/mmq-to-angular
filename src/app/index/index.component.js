@@ -1,5 +1,4 @@
 'use strict';
-console.log('at index component')
 
 angular.
   module('indexModule').
@@ -8,8 +7,6 @@ angular.
     templateUrl: './app/index/index.template.html',
     controller: ['IndexServices',
       function IndexController(IndexServices) {
-        console.log(IndexServices)
-        console.log(' at indexMainController')
         this.selectedProcedureId = null
         this.categoryList = []
         this.contactInfoObj = {}
@@ -40,6 +37,8 @@ angular.
         this.infoBannerMenu_user = []
 
         this.featured_clinics = []
+
+        const indexController = this
 
         IndexServices
             .getListCategories()
@@ -107,7 +106,7 @@ angular.
                 '&location=undefined&category=0&speciality=0&country=undefined'
         }
 
-        validateParamTo_()
+        // validateParamTo_()
 
         // function getUser() {
         //     loginManager
@@ -144,10 +143,10 @@ angular.
         }
 
  
-
+   
         ;(async function getFeaturedClinics() {
             const featured_clinics = await IndexServices.getFeaturedClinics()
-            this.featured_clinics = featured_clinics.data
+            indexController.featured_clinics = featured_clinics.data
         })()
 
         this.getProceduresMatches = function() {
@@ -369,31 +368,31 @@ angular.
             }
         }
 
-        function validateParamTo_() {
-            IndexServices
-                .getBannerInfoByMenu('index')
-                .then(function(autInfo) {
-                    this.infoBannerMenu_provider = []
-                    this.infoBannerMenu_user = []
-                    if (autInfo.data != '') {
-                        autInfo.data.provider.forEach(function(url_) {
-                            if (url_ != '') {
-                                this.infoBannerMenu_provider.push(url_)
-                            }
-                        })
-                        autInfo.data.user.forEach(function(url_) {
-                            if (url_ != '') {
-                                this.infoBannerMenu_user.push(url_)
-                            }
-                        })
-                    }
-                })
-                .catch(function(err) {
-                    console.log('Unexpected Err4r : ' + '  ' + err + '  ')
-                    this.infoBannerMenu_provider = []
-                    this.infoBannerMenu_user = []
-                })
-        }
+        // function validateParamTo_() {
+        //     IndexServices
+        //         .getBannerInfoByMenu('index')
+        //         .then(function(autInfo) {
+        //             this.infoBannerMenu_provider = []
+        //             this.infoBannerMenu_user = []
+        //             if (autInfo.data != '') {
+        //                 autInfo.data.provider.forEach(function(url_) {
+        //                     if (url_ != '') {
+        //                         this.infoBannerMenu_provider.push(url_)
+        //                     }
+        //                 })
+        //                 autInfo.data.user.forEach(function(url_) {
+        //                     if (url_ != '') {
+        //                         this.infoBannerMenu_user.push(url_)
+        //                     }
+        //                 })
+        //             }
+        //         })
+        //         .catch(function(err) {
+        //             console.log('Unexpected Err4r : ' + '  ' + JSON.stringify(err) + '  ')
+        //             this.infoBannerMenu_provider = []
+        //             this.infoBannerMenu_user = []
+        //         })
+        // }
 
         this.isOpenRight = function() {
             console.log('1> ' + $mdSidenav('right').isOpen())

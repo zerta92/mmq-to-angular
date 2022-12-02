@@ -11,12 +11,17 @@ import 'angular-animate';
 import 'angular-route';
 
 import './core/core.module';
+import './core/core.services';
 /* Index Component */
 import './core/index/index.module';
 import './core/index/index.service';
 import './index/index.module.ajs';
 import './index/index.component';
 
+/* Global Components */
+import './core/components/components.module';
+import './components/main-dropdown/main_dropdown.module'
+import  './components/main-dropdown/main_dropdown.component'
 
 export default angular.module('mainApp', [
         'ngRoute',
@@ -28,8 +33,8 @@ export default angular.module('mainApp', [
         'ngCookies',
         'angular-loading-bar',
         'ngMessages',
-        'indexModule'
-
+        'indexModule',
+        'mainDropdownModule'
     ])
     .constant('_', window._)
     // .config([
@@ -42,7 +47,6 @@ export default angular.module('mainApp', [
     .config([
         '$translateProvider',
         function config($translateProvider) {
-            console.log({translate: $translateProvider})
             $translateProvider.preferredLanguage(
                 navigator.language == 'es' || navigator.language == 'sp' ? 'sp' : 'en'
             )

@@ -4,11 +4,10 @@ export default function(appModule){
         '$routeProvider',
         '$translateProvider',
         function config($locationProvider, $routeProvider,$translateProvider) {
-            console.log('at router')
             $routeProvider
                 .when('/', {
                     template: '<index-module></index-module>',
-                    // reloadOnSearch: false,
+                    reloadOnSearch: false,
                 }).otherwise('/');
                 // .when('/index', {
                 //     template:'<index></index>',
