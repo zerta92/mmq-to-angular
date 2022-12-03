@@ -2,10 +2,6 @@
 
 angular.
   module('signupModule')
-  .config(function(ngIntlTelInputProvider) {
-    ngIntlTelInputProvider.set({ onlyCountries: ['us', 'mx', 'es', 'ca'] })
-    ngIntlTelInputProvider.set({ initialCountry: 'us' })
-})
   .directive('myPassword', function() {
     return {
         require: 'ngModel',
@@ -66,7 +62,6 @@ angular.
     }
 }).
   component('signupModule', {
-    moduleId: module.id,
     templateUrl: './app/signup/signup.component.html',
     controllerAs:'vm',
     controller: [
@@ -87,8 +82,8 @@ angular.
             city: '',
             state: '',
             postalcode: '',
-            country: selected_country_data ? selected_country_data.name : null,
-            countryCode: selected_country_data ? selected_country_data.iso2 : null,
+            country:  null,
+            countryCode:  null,
             email: '',
             username: '',
             password: '',

@@ -21,6 +21,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/_redirects",
               "src/favicon.ico",
               "src/assets",
               "src/images",
@@ -43,7 +44,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -67,14 +68,16 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy-prod.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "mmq-to-angular:build:production"
+              "browserTarget": "mmq-to-angular:build:production",
+              "proxyConfig": "src/proxy-prod.conf.json"
             },
             "development": {
-              "browserTarget": "mmq-to-angular:build:development"
+              "browserTarget": "mmq-to-angular:build:development",
+              "proxyConfig": "src/proxy-prod.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -94,6 +97,7 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
+              "src/_redirects",
               "src/favicon.ico",
               "src/assets",
               "src/images",
@@ -109,6 +113,7 @@
               "./node_modules/flag-icon-css/css/flag-icon.min.css"
             ],
             "scripts": [  
+              "src/template/js/jquery.min.js",
               "src/template/js/custom.js",
               "src/template/js/bootstrap.js",
               "src/template/js/sb-admin-2.js",

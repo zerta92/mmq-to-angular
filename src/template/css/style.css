@@ -54,7 +54,7 @@ body {
     padding: 0px;
     padding-right: 0px !important;
     overflow-x: hidden;
-    height: max-content;
+    height: 100%;
 }
 
 @font-face {

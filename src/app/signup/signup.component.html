@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="signupModule">
+<html>
 
 <head>
    <title>MyMedQuest Signup</title>
 </head>
 
-<body ng-controller="signupMainController">
+<body >
 	<section class="tz-register">
 		<div class="log-in-pop">
 			<form name="regForm" class="s12" role="form">				
@@ -149,7 +149,7 @@
 					<md-input-container class="md-icon-float md-block"  flex-gt-sm>
 						<label>{{"Signup.CustomerDetails.Phone"|translate}}:</label>
 	                    <md-icon md-svg-src="/template/img/ic_phone_black_24px.svg" class="name"></md-icon>
-						<input required ng-model="vm.user.phone" name="phone" type="text" ng-intl-tel-input style="padding: 40px 0px 15px 70px;">
+						<input required ng-model="vm.user.phone" name="phone" type="text" style="padding: 40px 0px 15px 70px;">
 						<div ng-messages="regForm.phone.$error">
 							<div ng-message="required">{{"Signup.InputErrors.Phone"|translate}}</div>
 						  </div>
@@ -247,6 +247,7 @@
 						<br/>
 					<md-input-container class="md-icon-float md-block">		
 						<label style="font-size: 20px;">{{"Signup.CustomerDetails.Country"|translate}}: </label>
+						<md-icon md-svg-src="/template/img/baseline-map-24px.svg" class="name"></md-icon>
 	                 	<!-- <input type="text" id="country" name = "country" ng-model="vm.user.country" ng-required="vm.user.profile == 0" style="color: black;"/> -->
 						 <md-select id="country" name="country" ng-model="vm.user.country" ng-required="vm.user.profile == 0" >
 							<md-option ng-value="country"  ng-repeat="country in vm.supportedCountryNames"  >
@@ -272,11 +273,6 @@
 						<label id="la211" style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.State"|translate}} </label>
 							<md-icon md-svg-src="/template/img/baseline-map-24px.svg" class="name"></md-icon>
 							<md-select ng-model="vm.user.state" ng-change="GetSelectedState()" name="state" ng-required="vm.user.profile == 0">
-							   <md-select-header class="demo-select-header">
-								  <input  type="search"
-                   						  class="demo-header-searchbox md-text" 
-                   						  placeholder="Select your state"/>
-							   </md-select-header>
 		    				   <md-option ng-value="state" ng-repeat="state in vm.countries[vm.user.country.countryCode] || vm.countries['us']" >
 		    				       <p style="font-size: x-large;">{{ state }}</p>
 		    				   </md-option>
@@ -410,4 +406,5 @@
     background-position: 5px 7px;
     padding: 0px 35px;
 }
+
 </style>

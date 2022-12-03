@@ -1,0 +1,6 @@
+{
+    "/api": {
+    "target": "https://mymedquest.com",
+    "secure": false
+    }
+}
