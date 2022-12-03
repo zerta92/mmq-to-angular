@@ -1,10 +1,7 @@
 'use strict';
 
 angular.
-  module('signupModule').config(function(ngIntlTelInputProvider) {
-    ngIntlTelInputProvider.set({ onlyCountries: ['us', 'mx', 'es', 'ca'] })
-    ngIntlTelInputProvider.set({ initialCountry: 'us' })
-}).
+  module('signupModule').
   component('signupModule', {
     moduleId: module.id,
     templateUrl: './app/signup/signup.template.html',

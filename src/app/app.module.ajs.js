@@ -21,8 +21,8 @@ import './index/index.module.ajs';
 import './index/index.component';
 
 /* SignupComponent */
-import './core/signup/signup.module';
-import './core/signup/signup.service';
+// import './core/signup/signup.module'; //Remove once upgraded
+// import './core/signup/signup.service';
 import './signup/signup.module';
 import './signup/signup.component';
 

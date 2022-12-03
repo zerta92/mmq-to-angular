@@ -1,5 +1,4 @@
-'use strict';
-
+//@ts-nocheck
 angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
     '$http',
     '$cookies',
