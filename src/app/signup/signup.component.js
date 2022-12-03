@@ -1,10 +1,74 @@
 'use strict';
 
 angular.
-  module('signupModule').
+  module('signupModule')
+  .config(function(ngIntlTelInputProvider) {
+    ngIntlTelInputProvider.set({ onlyCountries: ['us', 'mx', 'es', 'ca'] })
+    ngIntlTelInputProvider.set({ initialCountry: 'us' })
+})
+  .directive('myPassword', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attr, mCtrl) {
+            mCtrl.$parsers.push(function(value) {
+                var aryValue = value.split('')
+                var isChar = false,
+                    isDigit = false
+
+                aryValue.forEach(function(element, index, array) {
+                    if (Number.isInteger(parseInt(element))) {
+                        isDigit = true
+                    } else {
+                        isChar = true
+                    }
+                })
+
+                mCtrl.$setValidity('pass', isDigit && isChar)
+
+                return value
+            })
+        },
+    }
+})
+.directive('compareTo', function() {
+    return {
+        require: 'ngModel',
+        scope: {
+            otherModelValue: '=compareTo',
+        },
+        link: function(scope, element, attributes, ngModel) {
+            ngModel.$validators.compareTo = function(modelValue) {
+                return modelValue == scope.otherModelValue
+            }
+            scope.$watch('otherModelValue', function() {
+                ngModel.$validate()
+            })
+        },
+    }
+})
+.directive('validateAlphaNumeric', function() {
+    return {
+        require: 'ngModel',
+        restrict: 'A',
+        link: function(scope, elem, attr, ngModel) {
+            var validator = function(value) {
+                if (/^[a-zA-Z0-9]*$/.test(value)) {
+                    ngModel.$setValidity('alphanumeric', true)
+                    return value
+                } else {
+                    ngModel.$setValidity('alphanumeric', false)
+                    return undefined
+                }
+            }
+            ngModel.$parsers.unshift(validator)
+            ngModel.$formatters.unshift(validator)
+        },
+    }
+}).
   component('signupModule', {
     moduleId: module.id,
-    templateUrl: './app/signup/signup.template.html',
+    templateUrl: './app/signup/signup.component.html',
+    controllerAs:'vm',
     controller: [
     'SignupServices',
     'GlobalServices',
@@ -156,13 +220,14 @@ angular.
         }
 
         ctrl.countries = GlobalServices.getSupportedCountryCodesAndStates()
+        ctrl.supportedCountryNames = [{name:'United States', countryCode:'us'},{name:'Mexico', countryCode:'mx'},{name:'Spain', countryCode:'es'},{name:'Canada', countryCode:'ca'}]
 
         SignupServices.getListCategories().then(function(categoryList) {
             ctrl.categoryList = categoryList.data
         })
 
         ctrl.cbExpiration = function() {
-            showToastMsg('MyMedQ_MSG.CaptchaCodeError1', 'ERROR')
+            showToastMsg('MyMedQ_MSG.CaptchacountryCodeError1', 'ERROR')
             ctrl.captchaResponse = undefined
         }
         ctrl.cbFPExpiration = function() {

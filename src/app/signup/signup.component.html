@@ -10,12 +10,12 @@
 		<div class="log-in-pop">
 			<form name="regForm" class="s12" role="form">				
 				<div class="log-in-pop-right">
-					<a class="pop-close" data-dismiss="modal" ng-click="$ctrl.closePopUp()" >
+					<a class="pop-close" data-dismiss="modal" ng-click="vm.closePopUp()" >
 						<img src="template/images/cancel.png" alt="" />
 					</a>
 					<div layout="row" layout-xs="column">
 					  <div flex="75" style="margin-top: -12px;">
-					     <h1>{{"Signup.CustomerDetails.Hello"|translate}} </h1><span ng-show="$ctrl.user.profile == 1"><h2>{{ $ctrl.user.firstname }}</h2></span> <span ng-show="$ctrl.user.profile == 0"><h2>{{$ctrl.user.hospitalName}}</h2></span>
+					     <h1>{{"Signup.CustomerDetails.Hello"|translate}} </h1><span ng-show="vm.user.profile == 1"><h2>{{ vm.user.firstname }}</h2></span> <span ng-show="vm.user.profile == 0"><h2>{{vm.user.hospitalName}}</h2></span>
 					  </div>
 					  <div style="text-align: center; border-radius: 25px; border: 2px solid #2e71e2; padding: 10px;">
 					  	<div layout="column" layout-xs="row" style="min-width: max-content;">
@@ -23,7 +23,7 @@
 						     <p style="text-align: right;">{{"Index.Home.HowItWorks_SubTitle"|translate}}</p>
 						  </div>
 						  <div flex="">
-						  	 <md-icon md-svg-src="/template/img/ondemand_video-24px.svg" ng-click="$ctrl.showAlert()" class="name" ></md-icon>
+						  	 <md-icon md-svg-src="/template/img/ondemand_video-24px.svg" ng-click="vm.showAlert()" class="name" ></md-icon>
 						  </div>
 						</div>
 					  </div>
@@ -43,7 +43,7 @@
 						<div style="font-size: large; color:red" >{{"Signup.InputErrors.SelectprofileType"|translate}}</div>
 					</div>
                 	<md-input-container class="md-icon-float md-block">
-	                    <md-radio-group md-autofocus name ="profile" ng-model="$ctrl.user.profile" required>
+	                    <md-radio-group md-autofocus name ="profile" ng-model="vm.user.profile" required>
 					      <md-radio-button value="1" class="md-primary" style="font-size: x-large; font-weight: bold;">{{"Signup.CustomerDetails.Patient"|translate}}</md-radio-button>
 					      <md-radio-button value="0" style="font-size: x-large; font-weight: bold;"> {{"Signup.CustomerDetails.Hospital" | translate}} </md-radio-button>
 					    </md-radio-group>
@@ -54,10 +54,10 @@
 
 						<md-divider></md-divider>
                		 
-					<md-input-container class="md-icon-float" ng-if = "$ctrl.user.profile == 0">
+					<md-input-container class="md-icon-float" ng-if = "vm.user.profile == 0">
 	                    <label >{{"Signup.CustomerDetails.HospitalName"|translate}}: </label> 
 	                    <md-icon md-svg-src="/template/img/ic_person_black_24px.svg" class="name"></md-icon>
-	                    <input required type="text" name="hospitalName" ng-model="$ctrl.user.hospitalName" ng-trim="true" minlength="1" maxlength="30" />
+	                    <input required type="text" name="hospitalName" ng-model="vm.user.hospitalName" ng-trim="true" minlength="1" maxlength="30" />
 	                    <div ng-messages="regForm.hospitalName.$error">
 	                      <div ng-message-exp="['required', 'minlength', 'maxlength']">
 	                        {{"Signup.InputErrors.CharacterRange1-30"|translate}}
@@ -67,10 +67,10 @@
 						 <div ng-if="!regForm.hospitalName.$valid" ng-init="vm.firstname = 0"> </div>              
 	                </md-input-container>
 				
-					<md-input-container class="md-icon-float" ng-if = "$ctrl.user.profile == 1">
+					<md-input-container class="md-icon-float" ng-if = "vm.user.profile == 1">
 						<md-icon md-svg-src="/template/img/ic_person_black_24px.svg" class="name"></md-icon>
 		                    <label style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.FirstName"|translate}}: </label> 
-		                    <input required type="text" name="firstname" ng-model="$ctrl.user.firstname" ng-trim="true" minlength="1" maxlength="30" />
+		                    <input required type="text" name="firstname" ng-model="vm.user.firstname" ng-trim="true" minlength="1" maxlength="30" />
 		                    <div ng-messages="regForm.firstname.$error">
 		                      <div ng-message-exp="['required', 'minlength', 'maxlength']">
 								{{"Signup.InputErrors.CharacterRange1-30"|translate}}
@@ -80,10 +80,10 @@
 		                     <div ng-if="!regForm.firstname.$valid" ng-init="vm.firstname = 0"> </div>              
 	                </md-input-container>
                 
-	                <md-input-container class="md-icon-float" ng-if = "$ctrl.user.profile == 1">
+	                <md-input-container class="md-icon-float" ng-if = "vm.user.profile == 1">
 		                <md-icon md-svg-src="/template/img/ic_person_black_24px.svg" class="name"></md-icon>
 		                    <label style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.LastName"|translate}}: </label>
-		                    <input required type="text" name="lastname" ng-model="$ctrl.user.lastname" ng-trim="true" minlength="1" maxlength="30"/>
+		                    <input required type="text" name="lastname" ng-model="vm.user.lastname" ng-trim="true" minlength="1" maxlength="30"/>
 		                    <div ng-messages="regForm.lastname.$error">
 		                      <div ng-message-exp="['required', 'minlength', 'maxlength']">
 		                        {{"Signup.InputErrors.CharacterRange1-30"|translate}}
@@ -96,7 +96,7 @@
 	                <md-input-container class="md-icon-float md-block">
 	                	<md-icon md-svg-src="/template/img/ic_person_pin_black_24px.svg" class="name"></md-icon>
 	                    <label style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.Username"|translate}}: </label> 
-	                    <input required md-maxlength="25" type="text" ng-init="regForm.username.$valid = true" name="username" [errorStateMatcher]="matcher" ng-model="$ctrl.user.username" validate-alpha-numeric/>
+	                    <input required md-maxlength="25" type="text" ng-init="regForm.username.$valid = true" name="username" [errorStateMatcher]="matcher" ng-model="vm.user.username" validate-alpha-numeric/>
 	                    <div ng-messages="regForm.username.$error">
 						  <div ng-message="alphanumeric">{{"Signup.InputErrors.AlphanumericalOnly"|translate}}</div>
 						  <div ng-message="required">{{"Signup.InputErrors.Required"|translate}}</div>
@@ -109,7 +109,7 @@
 	                <md-input-container class="md-block">
 	                    <label style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.Email"|translate}}</label>
 	                    <md-icon md-svg-src="/template/img/ic_email_black_24px.svg" class="name"></md-icon>
-	                    <input required type="email" name="email" ng-model="$ctrl.user.email" style="font-size: 25px !important; font-family: inherit;"
+	                    <input required type="email" name="email" ng-model="vm.user.email" style="font-size: 25px !important; font-family: inherit;"
 	                           minlength="8" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
 	                    <div ng-messages="regForm.email.$error" role="alert">
 	                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
@@ -124,7 +124,7 @@
 	                <md-input-container class="md-icon-float md-block">
 	                    <label style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.Password"|translate}}: </label>
 	                    <md-icon md-svg-src="/template/img/ic_recent_actors_black_24px.svg" class="name"></md-icon>
-	                    <input required minlength="8" my-password type="password" name="password" ng-model="$ctrl.user.password" style="font-size: 25px !important; font-family: inherit;">
+	                    <input required minlength="8" my-password type="password" name="password" ng-model="vm.user.password" style="font-size: 25px !important; font-family: inherit;">
 	                    <div ng-messages="regForm.password.$error">
 	                      <div ng-message="required">{{"Signup.InputErrors.Required"|translate}}</div>
 	                      <div ng-message="minlength">{{"Signup.InputErrors.CharacterRange8Min"|translate}}</div>
@@ -137,8 +137,8 @@
 	                <md-input-container class="md-icon-float md-block">
 	                    <md-icon md-svg-src="/template/img/ic_recent_actors_black_24px.svg" class="name"></md-icon>
 	                    <label style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.VerifyPassword"|translate}}: </label>
-	                    <input required type="password" type='text' name="verifyPassword" ng-model="$ctrl.user.verifyPassword"
-	                            compare-to="$ctrl.user.password" style="font-size: 25px !important; font-family: inherit;" />
+	                    <input required type="password" type='text' name="verifyPassword" ng-model="vm.user.verifyPassword"
+	                            compare-to="vm.user.password" style="font-size: 25px !important; font-family: inherit;" />
 	                    <div ng-messages="regForm.verifyPassword.$error">
 	                      <div ng-message="required">{{"Signup.InputErrors.Required"|translate}}</div>
 	                      <div ng-message="compareTo">{{"Signup.InputErrors.MustMatch"|translate}}</div>
@@ -149,7 +149,7 @@
 					<md-input-container class="md-icon-float md-block"  flex-gt-sm>
 						<label>{{"Signup.CustomerDetails.Phone"|translate}}:</label>
 	                    <md-icon md-svg-src="/template/img/ic_phone_black_24px.svg" class="name"></md-icon>
-						<input required ng-model="$ctrl.user.phone" name="phone" type="text" ng-intl-tel-input style="padding: 40px 0px 15px 70px;">
+						<input required ng-model="vm.user.phone" name="phone" type="text" ng-intl-tel-input style="padding: 40px 0px 15px 70px;">
 						<div ng-messages="regForm.phone.$error">
 							<div ng-message="required">{{"Signup.InputErrors.Phone"|translate}}</div>
 						  </div>
@@ -157,19 +157,19 @@
 						  <div ng-if="!regForm.phone.$valid" ng-init="vm.phone = 0"> </div>
 					  </md-input-container>
 	        
-	                <md-input-container ng-if = "$ctrl.user.profile == 0" class="md-icon-float md-block">
+	                <md-input-container ng-if = "vm.user.profile == 0" class="md-icon-float md-block">
 						<md-tooltip md-direction="Top" style="font-size: 15px;"
 						>{{"MyMedQ_MSG.Provider.PleaseEnterDescriptionTooltip"|translate}}</md-tooltip
 					>
 	                    <label style="float: right; font-size: 18px;">{{"Signup.CustomerDetails.Description"|translate}}: </label>
-	                    <input  type="text" name="description" ng-model="$ctrl.user.description" md-maxlength="100" ng-trim="true">
+	                    <input  type="text" name="description" ng-model="vm.user.description" md-maxlength="100" ng-trim="true">
 	                    <div ng-messages="regForm.description.$error">
 	                      <div ng-message="md-maxlength">{{"Signup.InputErrors.CharacterRange100Limit"|translate}}</div>
 	                    </div>
 	                </md-input-container>
 				</div>
 		
-				<div ng-show="$ctrl.user.profile == 0" class="log-in-pop-left">		
+				<div ng-show="vm.user.profile == 0" class="log-in-pop-left">		
 					<p>
 						<label style="font-size: x-large;">{{"Signup.CustomerDetails.AddressInfo"|translate}}</label>
 					</p>
@@ -189,7 +189,7 @@
 	                <md-input-container class="md-icon-float md-block">
 	                    <label style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.City"|translate}}: </label>
 	                    <md-icon md-svg-src="/template/img/ic_navigation_black_24px.svg" class="name"></md-icon>
-	                    <input list="cities-list" type="text" name="city" ng-model="$ctrl.user.city" md-maxlength="30" ng-required="$ctrl.user.profile == 0">
+	                    <input list="cities-list" type="text" name="city" ng-model="vm.user.city" md-maxlength="30" ng-required="vm.user.profile == 0">
 	                    <div ng-messages="regForm.city.$error">
 	                      <div ng-message="md-maxlength">{{"Signup.InputErrors.CharacterRange1-30"|translate}}</div>
 	                      <div ng-message="required">{{"Signup.InputErrors.Required"|translate}}</div>
@@ -208,7 +208,7 @@
 							md-input-name="city"
 							class="name"
 							md-no-cache="true"
-							md-selected-item="$ctrl.user.city"
+							md-selected-item="vm.user.city"
 							md-search-text="locationSearch"
 							md-input-maxlength="30" 
 							md-items="item in querySearchLocations(locationSearch)"
@@ -236,7 +236,7 @@
 	                <md-input-container class="md-icon-float md-block">
 	                    <label style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.Zipcode"|translate}}: </label>
 	                    <md-icon md-svg-src="/template/img/ic_keyboard_black_24px.svg" class="name"></md-icon>
-	                    <input  type="number" name="postalcode" ng-model="$ctrl.user.postalcode"  md-maxlength="30" ng-required="$ctrl.user.profile == 0">
+	                    <input  type="number" name="postalcode" ng-model="vm.user.postalcode"  md-maxlength="30" ng-required="vm.user.profile == 0">
 	                    <div ng-messages="regForm.postalcode.$error">
 	                      <div ng-message="md-maxlength">{{"Signup.InputErrors.CharacterRange1-30"|translate}}</div>
 	                      <div ng-message="required">{{"Signup.InputErrors.Required"|translate}}</div>
@@ -244,29 +244,40 @@
 	                     <div ng-if="regForm.postalcode.$valid" ng-init="vm.postalCode = 8.3"> </div> 
 	                    <div ng-if="!regForm.postalcode.$valid" ng-init="vm.postalCode = 0"> </div>
 					</md-input-container>
-						<br/>					
-					<input type="text" id="country_code" ng-model="$ctrl.user.countryCode" ng-show ="false" />			
+						<br/>
+					<md-input-container class="md-icon-float md-block">		
 						<label style="font-size: 20px;">{{"Signup.CustomerDetails.Country"|translate}}: </label>
-	                 	<input type="text" id="country" name = "country" ng-model="$ctrl.user.country" ng-required="$ctrl.user.profile == 0" style="color: black;"/>
-	                	<div ng-messages="regForm.country.$error">
-	                      <div style="font-size: large; color:red" ng-message="required">
-							{{"Signup.InputErrors.Required"|translate}}
-						</div>
+	                 	<!-- <input type="text" id="country" name = "country" ng-model="vm.user.country" ng-required="vm.user.profile == 0" style="color: black;"/> -->
+						 <md-select id="country" name="country" ng-model="vm.user.country" ng-required="vm.user.profile == 0" >
+							<md-option ng-value="country"  ng-repeat="country in vm.supportedCountryNames"  >
+								<p style="font-size: x-large;">	
+									<span class="flag-icon flag-icon-us" ng-if="country.countryCode=='us'" style="width: 25px; height: 25px;"></span>
+									<span class="flag-icon flag-icon-mx"  ng-if="country.countryCode=='mx'"  style="width: 25px; height: 25px;"></span>
+									<span class="flag-icon flag-icon-es"  ng-if="country.countryCode=='es'"  style="width: 25px; height: 25px;"></span>
+									<span class="flag-icon flag-icon-ca"  ng-if="country.countryCode=='ca'"  style="width: 25px; height: 25px;"></span>
+									{{ country.name }}</p>
+							</md-option>
+						</md-select>	
+						<div ng-messages="regForm.country.$error">
+	                      	<div style="font-size: large; color:red" ng-message="required">
+								{{"Signup.InputErrors.Required"|translate}}
+							</div>
 	                    </div>
 	                     <div ng-if="regForm.country.$valid" ng-init="vm.country = 8.3"> </div> 
 	                    <div ng-if="!regForm.country.$valid" ng-init="vm.country = 0"> </div>	
+					</md-input-container>
 					<hr/>
 					<br/>
-					<md-input-container class="md-icon-float md-block" ng-show="$ctrl.user.country!=null">
+					<md-input-container class="md-icon-float md-block" ng-show="vm.user.country!=null">
 						<label id="la211" style="float: right; font-size: 20px;">{{"Signup.CustomerDetails.State"|translate}} </label>
 							<md-icon md-svg-src="/template/img/baseline-map-24px.svg" class="name"></md-icon>
-							<md-select ng-model="$ctrl.user.state" ng-change="GetSelectedState()" name="state" ng-required="$ctrl.user.profile == 0">
+							<md-select ng-model="vm.user.state" ng-change="GetSelectedState()" name="state" ng-required="vm.user.profile == 0">
 							   <md-select-header class="demo-select-header">
 								  <input  type="search"
                    						  class="demo-header-searchbox md-text" 
                    						  placeholder="Select your state"/>
 							   </md-select-header>
-		    				   <md-option ng-value="state" ng-repeat="state in $ctrl.countries[$ctrl.user.countryCode] || $ctrl.countries['us']" >
+		    				   <md-option ng-value="state" ng-repeat="state in vm.countries[vm.user.country.countryCode] || vm.countries['us']" >
 		    				       <p style="font-size: x-large;">{{ state }}</p>
 		    				   </md-option>
 		  					</md-select>
@@ -292,9 +303,9 @@
 						 type="image" 
 						 theme="light" 
 						 lang="languageSelected" 
-						 ng-model="$ctrl.captchaResponse" 
+						 ng-model="vm.captchaResponse" 
 						 size="normal"
-						 on-expire="$ctrl.cbExpiration()" >
+						 on-expire="vm.cbExpiration()" >
 					</div>
 					<div ng-show="regForm.$invalid">
 						<div style="color: red; font-size: large;">{{"Signup.CustomerDetails.missingFields"|translate}}</div>
@@ -303,7 +314,7 @@
 					<md-divider></md-divider>
 				
 
-	            <md-button type="submit" ng-disabled="regForm.$invalid || processButtonClicked" class="md-raised md-primary" ng-click="$ctrl.processSignupForm(regForm.$invalid)" style="width: 30%; font-size: 20px;" >
+	            <md-button type="submit" ng-disabled="regForm.$invalid || processButtonClicked" class="md-raised md-primary" ng-click="vm.processSignupForm(regForm.$invalid)" style="width: 30%; font-size: 20px;" >
 					{{"Signup.CustomerDetails.SignUp"|translate}}
 					<md-icon md-svg-src="/template/img/ic_done_black_36px.svg"></md-icon>	
 					<md-tooltip md-direction="top" style="font-size: 20px;">{{"Signup.CustomerDetails.clickToSin"|translate}}</md-tooltip>
