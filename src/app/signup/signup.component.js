@@ -1,11 +1,15 @@
 'use strict';
 
 angular.
-  module('signupModule').
+  module('signupModule').config(function(ngIntlTelInputProvider) {
+    ngIntlTelInputProvider.set({ onlyCountries: ['us', 'mx', 'es', 'ca'] })
+    ngIntlTelInputProvider.set({ initialCountry: 'us' })
+}).
   component('signupModule', {
     moduleId: module.id,
     templateUrl: './app/signup/signup.template.html',
-    controller: ['SignupServices',
+    controller: [
+    'SignupServices',
     'GlobalServices',
     '$mdDialog',
     '$translate',
@@ -14,25 +18,25 @@ angular.
       function SignupController(SignupServices, GlobalServices, $mdDialog, $translate, $cookies, $location) {
         const showToastMsg = GlobalServices.showToastMsg
         const redirect_url = $location.search().redirect_to
-
-        this.user = {
+        const ctrl = this
+        ctrl.user = {
             name: '',
             description: '',
             street: '',
             city: '',
             state: '',
             postalcode: '',
-            country: this.selected_country_data ? this.selected_country_data.name : null,
-            countryCode: this.selected_country_data ? this.selected_country_data.iso2 : null,
+            country: selected_country_data ? selected_country_data.name : null,
+            countryCode: selected_country_data ? selected_country_data.iso2 : null,
             email: '',
             username: '',
             password: '',
-            profile: undefined,
+            profile: 0,//reset back to undefined
             hospitalName: '',
             phone: null,
         }
-        this.categoryList = []
-        this.vm = {
+        ctrl.categoryList = []
+        ctrl.vm = {
             signupPercentage: 0,
             password: 0,
             username: 0,
@@ -47,25 +51,25 @@ angular.
             country: 0,
             state: 0,
         }
-        this.curentyear = new Date().getFullYear()
-        this.curentDate = new Date()
-        this.mymedQuestInfo = {}
-        this.forgotPasswd = {}
+        ctrl.curentyear = new Date().getFullYear()
+        ctrl.curentDate = new Date()
+        ctrl.mymedQuestInfo = {}
+        ctrl.forgotPasswd = {}
         const search = location.search
         if (search.includes('confirmation=')) {
-            this.user.confirmation = true
+            ctrl.user.confirmation = true
         }
         if (search.includes('username=')) {
             let username = location.search.slice(search.indexOf('username'), search.length)
-            this.forgotPasswd.userName = username.replace('username=', '') || ''
+            ctrl.forgotPasswd.userName = username.replace('username=', '') || ''
         } else {
-            this.forgotPasswd.userName = ''
+            ctrl.forgotPasswd.userName = ''
         }
-        this.captchaResponse = undefined
-        this.captchaFPResponse = undefined
-        this.processButtonClicked = false
+        ctrl.captchaResponse = undefined
+        ctrl.captchaFPResponse = undefined
+        ctrl.processButtonClicked = false
 
-        this.showAlert = function() {
+        ctrl.showAlert = function() {
             $mdDialog.show({
                 clickOutsideToClose: true,
                 template:
@@ -80,7 +84,7 @@ angular.
                 controller: DialogController,
             })
             function DialogController($scope, $mdDialog) {
-                this.closeDialog = function() {
+                ctrl.closeDialog = function() {
                     $mdDialog.hide()
                 }
             }
@@ -89,27 +93,27 @@ angular.
         /**
          * @author Jorge Medina
          */
-        this.validateUserN = function() {
+        ctrl.validateUserN = function() {
             SignupServices
-                .validateUserName(this.forgotPasswd)
+                .validateUserName(ctrl.forgotPasswd)
                 .then(function(validateResponse) {
                     if (validateResponse.data.status == 1) {
                         // Usuario
-                        this.forgotPasswd.type = 1
+                        ctrl.forgotPasswd.type = 1
                     } else if (validateResponse.data.status == 0) {
                         // Provider
-                        this.forgotPasswd.type = 0
+                        ctrl.forgotPasswd.type = 0
                     } else if (validateResponse.data.status == -1) {
                         // Error validando el userName
                         showToastMsg('MyMedQ_MSG.LogIn.ErrorValidatingUserNE1', 'ERROR')
-                        this.forgotPasswd.password = ''
-                        this.forgotPasswd.userName = ''
+                        ctrl.forgotPasswd.password = ''
+                        ctrl.forgotPasswd.userName = ''
                         return
                     }
                 })
         }
 
-        this.resetPassWd = function() {
+        ctrl.resetPassWd = function() {
             const search = location.search
 
             let key = search.slice(
@@ -119,23 +123,23 @@ angular.
             key = key.replace('authentication_key=', '')
             let type = search.slice(search.indexOf('type'), search.indexOf('type') + 6)
             type = type.replace('type=', '')
-            this.forgotPasswd.type = type
+            ctrl.forgotPasswd.type = type
             SignupServices
                 .authenticateAccountPasswordReset({
                     key: key,
                     type: type,
-                    username: this.forgotPasswd.userName,
+                    username: ctrl.forgotPasswd.userName,
                 })
                 .then(function(validationStatus) {
                     if (validationStatus.data.status < 0) {
                         showToastMsg('MyMedQ_MSG.SignUp.ErrorChangingPE1', 'ERROR')
                     } else {
                         SignupServices
-                            .resetPasswordByUserName(this.forgotPasswd)
+                            .resetPasswordByUserName(ctrl.forgotPasswd)
                             .then(function(changeStatus) {
                                 if (changeStatus.data.status == -1) {
                                     showToastMsg('MyMedQ_MSG.SignUp.ErrorChangingPE1', 'ERROR')
-                                    this.forgotPasswd.password = ''
+                                    ctrl.forgotPasswd.password = ''
                                 } else {
                                     showToastMsg(
                                         'MyMedQ_MSG.SignUp.PasswdSuccessMsg1',
@@ -149,29 +153,27 @@ angular.
                     }
                 })
         }
-        /**
-         * @author Jorge Medina
-         */
-        this.closePopUp = function() {
+  
+        ctrl.closePopUp = function() {
             window.location.href = '/index.html'
         }
 
-        this.countries = GlobalServices.getSupportedCountryCodesAndStates()
+        ctrl.countries = GlobalServices.getSupportedCountryCodesAndStates()
 
         SignupServices.getListCategories().then(function(categoryList) {
-            this.categoryList = categoryList.data
+            ctrl.categoryList = categoryList.data
         })
 
-        this.cbExpiration = function() {
+        ctrl.cbExpiration = function() {
             showToastMsg('MyMedQ_MSG.CaptchaCodeError1', 'ERROR')
-            this.captchaResponse = undefined
+            ctrl.captchaResponse = undefined
         }
-        this.cbFPExpiration = function() {
+        ctrl.cbFPExpiration = function() {
             showToastMsg('MyMedQ_MSG.CaptchaCodeError1', 'ERROR')
-            this.captchaFPResponse = undefined
+            ctrl.captchaFPResponse = undefined
         }
 
-        this.loadTermsAndConditions = async function(ev) {
+        ctrl.loadTermsAndConditions = async function(ev) {
             return new Promise(async function(resolve, reject) {
                 const lang = $translate.use() || 'en'
                 $mdDialog
@@ -193,20 +195,20 @@ angular.
         }
         function AgreeTermsController($scope, $mdDialog) {
 
-            this.hide = function() {
+            ctrl.hide = function() {
                 $mdDialog.hide()
             }
 
-            this.cancel = function() {
+            ctrl.cancel = function() {
                 $mdDialog.cancel()
             }
 
-            this.answer = function(answer) {
+            ctrl.answer = function(answer) {
                 $mdDialog.hide(answer)
             }
         }
 
-        this.confirmAccount = async function() {
+        ctrl.confirmAccount = async function() {
             // ON PROVIDERSERVICE.JS SET DEFAULT STATUS TO 0 LINE 412
             const search = location.search
             let key = location.search.slice(
@@ -217,7 +219,7 @@ angular.
             let type = location.search.slice(search.indexOf('type'), search.indexOf('type') + 6)
             type = type.replace('type=', '')
             const confirmationObj = {
-                username: this.forgotPasswd.userName,
+                username: ctrl.forgotPasswd.userName,
                 authentication_key: key,
                 type,
             }
@@ -232,7 +234,7 @@ angular.
                 GlobalServices.getCustomer(token)
             }
         }
-        ;(this.getLocationsAll = function() {
+        ;(ctrl.getLocationsAll = function() {
             return new Promise(function(resolve, reject) {
                 let resultList = []
                 GlobalServices.getLocations('ALL').then(function(allLocations) {
@@ -255,14 +257,14 @@ angular.
                     )
                 })
             }).then(function(resultList1) {
-                this.locationsList = _.sortBy(resultList1, 'label')
+                ctrl.locationsList = _.sortBy(resultList1, 'label')
             })
         })()
 
-        this.querySearchLocations = function(query) {
+        ctrl.querySearchLocations = function(query) {
             var results = query
-                ? this.locationsList.filter(createFilterForLocations(query))
-                : this.locationsList
+                ? ctrl.locationsList.filter(createFilterForLocations(query))
+                : ctrl.locationsList
             return results
         }
 
@@ -275,41 +277,41 @@ angular.
         }
 
         function cleanCountryName(country) {
-            if (this.user.country.includes('Mexico')) {
+            if (ctrl.user.country.includes('Mexico')) {
                 return 'Mexico'
-            } else if (this.user.country.includes('spa')) {
+            } else if (ctrl.user.country.includes('spa')) {
                 return 'Spain'
             }
 
             return country
         }
 
-        this.processSignupForm = async function(is_invalid) {
+        ctrl.processSignupForm = async function(is_invalid) {
             const ip = await GlobalServices.customerIPHandler()
-            const clean_country_name = cleanCountryName(this.user.country)
+            const clean_country_name = cleanCountryName(ctrl.user.country)
        
-            this.user.country = clean_country_name
+            ctrl.user.country = clean_country_name
 
-            this.user.ip = ip
-
-            const response = await this.loadTermsAndConditions()
+            ctrl.user.ip = ip
+            console.log(ctrl.user)
+            const response = await ctrl.loadTermsAndConditions()
 
             if (response != 'AGREE') {
                 return
             }
-
+            return
             var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone //new Date().getTimezoneOffset() / 60
-            this.user.timezone = timezone
+            ctrl.user.timezone = timezone
 
-            // if (this.captchaResponse !== undefined) {
-            if (this.user.profile != undefined) {
-                this.processButtonClicked = true
-                if (this.user.profile == 1) {
-                    this.user.name = this.user.firstname + ' ' + this.user.lastname
+            // if (ctrl.captchaResponse !== undefined) {
+            if (ctrl.user.profile != undefined) {
+                ctrl.processButtonClicked = true
+                if (ctrl.user.profile == 1) {
+                    ctrl.user.name = ctrl.user.firstname + ' ' + ctrl.user.lastname
                     SignupServices
-                        .userSignup(this.user)
+                        .userSignup(ctrl.user)
                         .then(function(signupResult) {
-                            this.processButtonClicked = false
+                            ctrl.processButtonClicked = false
                             if (signupResult.data.status < 0) {
                                 if (signupResult.data.status == -2) {
                                     showToastMsg(
@@ -321,8 +323,8 @@ angular.
                             } else {
                                 showToastMsg('MyMedQ_MSG.SignUp.SuccessMsg', 'SUCCESS')
                                 $cookies.putObject('MyMedQuestC00Ki3', {
-                                    userName: this.user.username,
-                                    email: this.user.email,
+                                    userName: ctrl.user.username,
+                                    email: ctrl.user.email,
                                     profileType: 'User',
                                     token: signupResult.data.token,
                                 })
@@ -332,14 +334,14 @@ angular.
                             }
                         })
                         .catch(err => {
-                            this.processButtonClicked = false
+                            ctrl.processButtonClicked = false
                         })
                 }
                 //provider
-                if (this.user.profile == 0) {
-                    this.user.name = this.user.hospitalName
-                    SignupServices.providerSignup(this.user).then(function(signupResult) {
-                        this.processButtonClicked = false
+                if (ctrl.user.profile == 0) {
+                    ctrl.user.name = ctrl.user.hospitalName
+                    SignupServices.providerSignup(ctrl.user).then(function(signupResult) {
+                        ctrl.processButtonClicked = false
                         if (signupResult.data.status < 0) {
                             if (signupResult.data.status == -2) {
                                 showToastMsg(
@@ -351,8 +353,8 @@ angular.
                         } else {
                             showToastMsg('MyMedQ_MSG.SignUp.ProviderRegSuccessMsg', 'SUCCESS')
                             $cookies.putObject('MyMedQuestC00Ki3', {
-                                userName: this.user.username,
-                                email: this.user.email,
+                                userName: ctrl.user.username,
+                                email: ctrl.user.email,
                                 profileType: 'Provider',
                                 token: signupResult.data.token,
                             })

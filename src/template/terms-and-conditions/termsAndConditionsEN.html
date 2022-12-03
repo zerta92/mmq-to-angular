@@ -4,7 +4,7 @@
             <h2>{{ 'Staff_.Staff.agreeTerms' | translate }}</h2>
 
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel('DISAGREE')">
+            <md-button class="md-icon-button" ng-click="$ctrl.cancel('DISAGREE')">
                 <md-icon
                     md-svg-src="/template/img/baseline-close-24px.svg"
                     aria-label="Close dialog"
@@ -174,10 +174,10 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-        <md-button ng-click="answer('AGREE')">
+        <md-button ng-click="$ctrl.answer('AGREE')">
             {{ 'Staff_.Staff.Iagree' | translate }}
         </md-button>
-        <md-button ng-click="cancel('DISAGREE')">
+        <md-button ng-click="$ctrl.cancel('DISAGREE')">
             {{ 'Staff_.Staff.notAgree' | translate }}
         </md-button>
     </md-dialog-actions>

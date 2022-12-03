@@ -1,42 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="" />
+        <meta name="author" content="mymedquest" />
 
-    <meta
-        name="google-site-verification"
-        content="f1c6H34ctzmA_wRM87Ihfw5EIK-T2iex_0mu8x1Ii5w"
-    />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <link rel="shortcut icon" href="template/images/MedQuestLogo.svg" type="image/x-icon" />
-    <base href="/" />
-
-    <link
-        href="https://fonts.googleapis.com/css?family=Poppins%7CQuicksand:500,700"
-        rel="stylesheet"
-    />
-
-    <link
-        rel="stylesheet"
-        href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.6/angular-material.min.css"
-    />
-
-
-</head>
-<body>
-    <div >
-        <!-- <div id="loading-bar-container"></div> -->
-        <main-dropdown></main-dropdown>
-        <div id="wrapper">
-            <ng-view id="routedContent" autoscroll="true"></ng-view>
+        <meta
+            name="google-site-verification"
+            content="f1c6H34ctzmA_wRM87Ihfw5EIK-T2iex_0mu8x1Ii5w"
+        />
+        <link rel="shortcut icon" href="template/images/MedQuestLogo.svg" type="image/x-icon" />
+        <base href="/" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Poppins%7CQuicksand:500,700"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.6/angular-material.min.css"
+        />
+    </head>
+    <body>
+        <div>
+            <!-- <div id="loading-bar-container"></div> -->
+            <main-dropdown></main-dropdown>
+            <div id="wrapper">
+                <ng-view id="routedContent" autoscroll="true"></ng-view>
+            </div>
+            <!-- <div ng-include="./app/components/footer/footer.template.html"></div> -->
         </div>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-        <!-- <div ng-include="./app/components/footer/footer.template.html"></div> -->
-    </div>
+        <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
 
+        <script
+            src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"
+        ></script>
 
-</body>
-  <app-root></app-root>
-</body>
+        <app-root></app-root>
+    </body>
 </html>

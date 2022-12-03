@@ -9,6 +9,8 @@ import 'angular-translate'
 import 'angular-translate-loader-static-files'
 import 'angular-animate';
 import 'angular-route';
+import 'ng-intl-tel-input'
+import 'angular-recaptcha'
 
 import './core/core.module';
 import './core/core.services';
@@ -38,6 +40,8 @@ export default angular.module('mainApp', [
         'ngAnimate',
         'ngMaterial',
         'ngMeta',
+        'ngIntlTelInput',
+        'vcRecaptcha',
         'pascalprecht.translate',
         'core',
         'ngCookies',

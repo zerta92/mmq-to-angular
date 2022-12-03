@@ -5,7 +5,7 @@
             <h2>{{ 'Staff_.Staff.agreeTerms' | translate }}</h2>
 
             <span flex></span>
-            <md-button class="md-icon-button" ng-click="cancel('DISAGREE')">
+            <md-button class="md-icon-button" ng-click="$ctrl.cancel('DISAGREE')">
                 <md-icon
                     md-svg-src="/template/img/baseline-close-24px.svg"
                     aria-label="Close dialog"
@@ -43,7 +43,7 @@
                     tambi&#233;n organismos de certificaci&#243;n y otras entidades. MyMedQuest no verifica la
                     informaci&#243;n dada por los Proveedores y no puede garantizar que dicha informaci&#243;n
                     es correcta y est&#225; actualizada; por lo tanto, MyMedQuest no se hace responsable de ning&#250;n
-                    errores, informaci&#243;n inexacta, engañosa o falsa dada o no dada por el
+                    errores, informaci&#243;n inexacta, engaï¿½osa o falsa dada o no dada por el
                     Proveedores. El sitio web no representa y no ser&#225; considerado un
                     recomendaci&#243;n o respaldo del est&#225;ndar, nivel de servicio o calificaci&#243;n de
                     cualquier proveedor. MyMedQuest no garantiza la calidad de los servicios.
@@ -106,8 +106,8 @@
                     las calificaciones respectivas y bloquear la cuenta del Usuario de manera temporal o permanente.
                     El usuario acepta el almacenamiento a largo plazo y la publicaci&#243;n de sus calificaciones realizadas en el sitio web de MyMedQuest.
                     plataforma; incluso si el Usuario finaliza su registro en MyMedQuest.
-                    Los servicios de MyMedQuest est&#225;n disponibles para personas mayores de 18 años. El usuario
-                    puede usar los servicios de MyMedQuest en nombre de una tercera persona menor de 18 años.
+                    Los servicios de MyMedQuest est&#225;n disponibles para personas mayores de 18 aï¿½os. El usuario
+                    puede usar los servicios de MyMedQuest en nombre de una tercera persona menor de 18 aï¿½os.
                     Aparte de lo expresado en estos T&#233;rminos o t&#233;rminos adicionales, MyMedQuest no hace ning&#250;n
                     promete sobre la calidad de los Servicios anunciados en su sitio web. MyMedQuest es y
                     plataforma de publicidad, no un intermediario o corredor de servicios de ning&#250;n Proveedor.
@@ -174,10 +174,10 @@
     </md-dialog-content>
 
     <md-dialog-actions layout="row">
-        <md-button ng-click="answer('AGREE')">
+        <md-button ng-click="$ctrl.answer('AGREE')">
             {{ 'Staff_.Staff.Iagree' | translate }}
         </md-button>
-        <md-button ng-click="cancel('DISAGREE')">
+        <md-button ng-click="$ctrl.cancel('DISAGREE')">
             {{ 'Staff_.Staff.notAgree' | translate }}
         </md-button>
     </md-dialog-actions>
