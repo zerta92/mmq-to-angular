@@ -15,11 +15,7 @@ export default function(appModule){
                 //     template:'<index></index>',
                 //     reloadOnSearch: false,
                 // })
-
-
-
             $locationProvider.html5Mode({ enabled: true })
-            
 
         },
     ])

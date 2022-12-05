@@ -52,11 +52,14 @@ angular.module('mainDropdownModule').component('mainDropdown', {
       ctrl.changeLanguage = function(lang) {
         $translate.use(lang);
         if (lang != undefined) {
-          if (lang.length != 0) {
+
+           if (!lang) {
+              lang = 'en'
+            }
             GlobalServices.setCustomerPreferredLanguage(lang).then(function(lang) {
               window.location.reload();
             });
-          }
+
         }
         if (lang == 'en') {
           ctrl.setLanguage = 'EN';

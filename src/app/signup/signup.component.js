@@ -87,7 +87,7 @@ angular.
             email: '',
             username: '',
             password: '',
-            profile: 0,//reset back to undefined
+            profile: undefined,
             hospitalName: '',
             phone: null,
         }

@@ -86,5 +86,28 @@ export default angular.module('mainApp', [
                 return $sce.trustAsResourceUrl(val)
             }
         },
-    ])
-   
+    ]).controller('indexMainController', [
+        '$scope',
+        'GlobalServices',
+        '$translate',
+        function($scope, GlobalServices, $translate) {
+           GlobalServices.getCustomerPreferredLanguage()
+            .then(function(lang) {
+                if (lang.data != undefined) {
+                    $scope.changeLanguage(lang.data)
+                }
+            })
+
+            $scope.changeLanguage = function(lang) {
+                if (lang != undefined) {
+                    if (lang.length != 0) {
+                        $translate.use(lang)
+                        GlobalServices
+                            .setCustomerPreferredLanguage(lang)
+                            .then(function(lang) {})
+                            .catch(angular.noop)
+                    }
+                }
+            }
+
+        }])
