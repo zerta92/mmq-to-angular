@@ -60,8 +60,7 @@ angular.
             ngModel.$formatters.unshift(validator)
         },
     }
-}).
-  component('signupModule', {
+}).component('signupModule', {
     templateUrl: './app/signup/signup.component.html',
     controllerAs:'vm',
     controller: [

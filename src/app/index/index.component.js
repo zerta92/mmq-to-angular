@@ -4,8 +4,8 @@ angular.
   module('indexModule').
   component('indexModule', {
     templateUrl: './app/index/index.template.html',
-    controller: ['IndexServices',
-      function IndexController(IndexServices) {
+    controller: ['IndexServices','GlobalServices',
+      function IndexController(IndexServices,GlobalServices) {
         this.selectedProcedureId = null
         this.categoryList = []
         this.contactInfoObj = {}
@@ -37,7 +37,11 @@ angular.
 
         this.featured_clinics = []
 
+        this.register_and_schedule_consultation_users_url = ''
+        this.adding_procedures_provider_url = ''
+
         const indexController = this
+        const showToastMsg = GlobalServices.showToastMsg
 
         IndexServices
             .getListCategories()
@@ -50,7 +54,7 @@ angular.
             .getCustomerPreferredLanguage()
             .then(function(lang) {
                 if (lang.data != undefined) {
-                    this.changeLanguage(lang.data)
+                    indexController.changeLanguage(lang.data)
                 }
             })
             .catch(angular.noop)
@@ -69,41 +73,7 @@ angular.
 
         this.toggleLeft = buildToggler('right')
 
-        this.processSearch = function() {
-            this.location = this.location || 'undefined'
-            this.procedure =
-                this.procedure == undefined
-                    ? 0
-                    : this.procedure == -1
-                    ? 0
-                    : this.procedure
-            this.category = this.category == undefined ? 0 : this.category
-            this.selectSpeciality =
-                this.selectSpeciality == undefined ? 0 : this.selectSpeciality
-            this.freeDescription = this.freeDescription || 'undefined'
-            location.href =
-                '/list_procedures?procedure=' +
-                this.procedure +
-                '&location=' +
-                this.location +
-                '&category=' +
-                this.category +
-                '&speciality=' +
-                this.selectSpeciality +
-                '&country=' +
-                this.freeDescription
-        }
-
-        this.processInfoSearch = function(procedure_id) {
-            location.href = '/procedure-description?procedure-id=' + procedure_id.value
-        }
-
-        this.dropDownSearch = function(item) {
-            location.href =
-                '/list_procedures?procedure=' +
-                item.value +
-                '&location=undefined&category=0&speciality=0&country=undefined'
-        }
+    
 
         // validateParamTo_()
 
@@ -131,6 +101,21 @@ angular.
 
         // getUser()
         getMInfo()
+        loadYoutubeVideos()
+        async function loadYoutubeVideos() {
+            const [
+                register_and_schedule_consultation_users_url,
+                adding_procedures_provider_url,
+            ] = await Promise.all([
+                GlobalServices.getTranslation(
+                    'YoutubeVideos.RegisterAndScheduleConsultationUsers'
+                ),
+                GlobalServices.getTranslation('YoutubeVideos.AddingProceduresProvider'),
+            ])
+            indexController.register_and_schedule_consultation_users_url = register_and_schedule_consultation_users_url
+            indexController.adding_procedures_provider_url = adding_procedures_provider_url
+        }
+
 
         function getMInfo() {
             IndexServices
@@ -148,184 +133,9 @@ angular.
             indexController.featured_clinics = featured_clinics.data
         })()
 
-        this.getProceduresMatches = function() {
-            return new Promise(function(resolve, reject) {
-                var resultList = []
-                IndexServices
-                    .getProcedures('MMEDQ1_ALLC*#_.')
-                    .then(function(autocompleteResult) {
-                        this.resultListProcedure = []
-                        this.resultListProcedure.push({ label: 'All', value: -1 })
 
-                        if (autocompleteResult.data.length != 0) {
-                            autocompleteResult.data.forEach(function(queryResult) {
-                                this.resultListProcedure.push({
-                                    label: queryResult.procedure_Name,
-                                    value: queryResult.procedure_ID,
-                                })
-                            })
-                        }
-                        resolve(this.resultListProcedure)
-                    })
-                    .catch(angular.noop)
-            })
-                .then(function(resultList1) {
-                    return resultList1
-                })
-                .catch(function(err) {
-                    console.log('Unexpected Errr : ' + '  ' + err)
-                })
-        }
 
-        this.fillCategoryBySpeciality = function(specialtyId) {
-            this.resultListCategories = []
-            if (specialtyId == -1) {
-                this.isSpecialitySearch = false
-                this.isCategorySearch = false
-                this.getMainCategoryMatchesAll()
-                this.getProceduresMatches()
-            } else {
-                new Promise(function(resolve, reject) {
-                    IndexServices
-                        .getSubCategorisByMaincategory(specialtyId)
-                        .then(function(autocompleteResult) {
-                            this.resultListCategories.push({ label: 'All', value: -1 })
-                            if (autocompleteResult.data.length != 0) {
-                                autocompleteResult.data.forEach(function(queryResult) {
-                                    this.resultListCategories.push({
-                                        label: queryResult.category_Name,
-                                        value: queryResult.category_ID,
-                                    })
-                                })
-                            }
-                            resolve(this.resultListCategories)
-                        })
-                        .catch(angular.noop)
-                })
-                    .then(function(resultListCategories) {
-                        this.isSpecialitySearch = true
-                        return resultListCategories
-                    })
-                    .catch(function(err) {
-                        console.log('Unexpected Errr : ' + '  ' + err)
-                    })
-            }
-        }
-
-        this.fillProcedureByCategory = function(categoryId) {
-            this.resultListProcedure = []
-            if (categoryId == -1) {
-                this.isCategorySearch = false
-                this.getProceduresMatches()
-            } else {
-                new Promise(function(resolve, reject) {
-                    IndexServices
-                        .getProceduresByCategoryIdV2(categoryId)
-                        .then(function(autocompleteResult) {
-                            this.resultListProcedure.push({ label: 'All', value: -1 })
-                            if (autocompleteResult.data.length != 0) {
-                                autocompleteResult.data.forEach(function(queryResult) {
-                                    this.resultListProcedure.push({
-                                        label: queryResult.procedure_Name,
-                                        value: queryResult.procedure_ID,
-                                    })
-                                })
-                            }
-                            resolve(this.resultListCategories)
-                        })
-                        .catch(angular.noop)
-                })
-                    .then(function(resultListProcedure) {
-                        this.isCategorySearch = true
-                        return resultListProcedure
-                    })
-                    .catch(function(err) {
-                        console.log('Unexpected Errr : ' + '  ' + err)
-                    })
-            }
-        }
-
-        this.getCategoryMatches = function(categorySearch) {
-            return new Promise(function(resolve, reject) {
-                var resultList = []
-                IndexServices
-                    .getCategories(categorySearch)
-                    .then(function(autocompleteResult) {
-                        if (autocompleteResult.data.length != 0) {
-                            autocompleteResult.data.forEach(function(queryResult) {
-                                resultList.push({
-                                    label: queryResult.category_Name,
-                                    value: queryResult.category_ID,
-                                })
-                            })
-                        }
-                        resolve(resultList)
-                    })
-                    .catch(angular.noop)
-            })
-                .then(function(resultList1) {
-                    return resultList1
-                })
-                .catch(function(err) {
-                    console.log('Unexpected Errr : ' + '  ' + err)
-                })
-        }
-
-        this.getMainCategoryMatchesAll = function() {
-            if (this.isSpecialitySearch == false) {
-                this.resultListCategories = []
-                new Promise(function(resolve, reject) {
-                    IndexServices
-                        .getCategories('MMEDQ1_ALLC*#_.')
-                        .then(function(autocompleteResult) {
-                            this.resultListCategories.push({ label: 'All', value: -1 })
-                            if (autocompleteResult.data.length != 0) {
-                                autocompleteResult.data.forEach(function(queryResult) {
-                                    this.resultListCategories.push({
-                                        label: queryResult.category_Name,
-                                        value: queryResult.category_ID,
-                                    })
-                                })
-                            }
-                            resolve(this.resultListCategories)
-                        })
-                        .catch(angular.noop)
-                })
-                    .then(function(resultListCategories) {
-                        return resultListCategories
-                    })
-                    .catch(function(err) {
-                        console.log('Unexpected Errr : ' + '  ' + err)
-                    })
-            }
-        }
-
-        this.getMainCategoryMatches = function() {
-            this.resultListMainCategories = []
-            new Promise(function(resolve, reject) {
-                IndexServices
-                    .getMainCategories()
-                    .then(function(autocompleteResult) {
-                        this.resultListMainCategories.push({ label: 'All', value: -1 })
-                        if (autocompleteResult.data.length != 0) {
-                            autocompleteResult.data.forEach(function(queryResult) {
-                                this.resultListMainCategories.push({
-                                    label: queryResult.category_Name,
-                                    value: queryResult.category_ID,
-                                })
-                            })
-                        }
-                        resolve(this.resultListMainCategories)
-                    })
-                    .catch(angular.noop)
-            })
-                .then(function(resultListMainCategories) {
-                    return resultListMainCategories
-                })
-                .catch(function(err) {
-                    console.log('Unexpected Errr : ' + '  ' + err)
-                })
-        }
+    
 
         this.sendContactUsInfo = function() {
             if (this.captchaResponse !== undefined) {
@@ -344,54 +154,7 @@ angular.
             }
         }
 
-        this.cbExpiration = function() {
-            console.log('Captcha Error.')
-            showToastMsg('MyMedQ_MSG.CaptchaCodeError1', 'ERROR')
-            this.captchaResponse = undefined
-        }
-
-        function showToastMsg(msg, type) {
-            if (msg != undefined) {
-                //Materialize.toast(msg,15000, type == 'ERROR'?'deep-orange':(type == 'SUCCESS'?'green':'blue') );
-                $translate(msg).then(function(translatedValue) {
-                    Materialize.toast(
-                        translatedValue,
-                        15000,
-                        type == 'ERROR'
-                            ? 'errorMessageMedQuest_'
-                            : type == 'SUCCESS'
-                            ? 'successMessageMedQuest_'
-                            : 'infoMessageMedQuest_'
-                    )
-                })
-            }
-        }
-
-        // function validateParamTo_() {
-        //     IndexServices
-        //         .getBannerInfoByMenu('index')
-        //         .then(function(autInfo) {
-        //             this.infoBannerMenu_provider = []
-        //             this.infoBannerMenu_user = []
-        //             if (autInfo.data != '') {
-        //                 autInfo.data.provider.forEach(function(url_) {
-        //                     if (url_ != '') {
-        //                         this.infoBannerMenu_provider.push(url_)
-        //                     }
-        //                 })
-        //                 autInfo.data.user.forEach(function(url_) {
-        //                     if (url_ != '') {
-        //                         this.infoBannerMenu_user.push(url_)
-        //                     }
-        //                 })
-        //             }
-        //         })
-        //         .catch(function(err) {
-        //             console.log('Unexpected Err4r : ' + '  ' + JSON.stringify(err) + '  ')
-        //             this.infoBannerMenu_provider = []
-        //             this.infoBannerMenu_user = []
-        //         })
-        // }
+   
 
         this.isOpenRight = function() {
             console.log('1> ' + $mdSidenav('right').isOpen())
@@ -412,99 +175,5 @@ angular.
     }]
      
   })
-// .directive('autoCompleteProcedure', function(IndexServices) {
-//     return {
-//         restrict: 'A',
-//         link: function(scope, elem, attr, ctrl) {
-//             elem.autocomplete({
-//                 source: function(searchTerm, response) {
-//                     IndexServices
-//                         .getProcedures(searchTerm.term)
-//                         .then(function(autocompleteResult) {
-//                             response(
-//                                 $.map(autocompleteResult.data, function(autocompleteResult) {
-//                                     return {
-//                                         label: autocompleteResult['procedure_Name'],
-//                                         value: autocompleteResult['procedure_ID'],
-//                                     }
-//                                 })
-//                             )
-//                         })
-//                         .catch(angular.noop)
-//                 },
-//                 minLength: 3,
-//                 select: function(event, selectedItem) {
-//                     // Do something with the selected item, e.g.
-//                     scope.procedure = selectedItem.item.label
-//                     scope.selectedProcedureId = selectedItem.item.value
-//                     scope.$apply()
-//                     event.preventDefault()
-//                 },
-//             })
-//         },
-//     }
-// })
-// .directive('autoCompleteLocation', function(IndexServices) {
-//     return {
-//         restrict: 'A',
-//         link: function(scope, elem, attr, ctrl) {
-//             elem.autocomplete({
-//                 source: function(searchTerm, response) {
-//                     mainManager
-//                         .getLocations(searchTerm.term)
-//                         .then(function(autocompleteResult) {
-//                             if (autocompleteResult.data[0].length != 0) {
-//                                 response(
-//                                     $.map(autocompleteResult.data[0], function(
-//                                         autocompleteResult
-//                                     ) {
-//                                         return {
-//                                             label:
-//                                                 autocompleteResult['provider_City'] ||
-//                                                 autocompleteResult['provider_Country'],
-//                                             value:
-//                                                 autocompleteResult['provider_City'] ||
-//                                                 autocompleteResult['provider_Country'],
-//                                         }
-//                                     })
-//                                 )
-//                             } else if (autocompleteResult.data[1].length != 0) {
-//                                 response(
-//                                     $.map(autocompleteResult.data[1], function(
-//                                         autocompleteResult
-//                                     ) {
-//                                         return {
-//                                             label:
-//                                                 autocompleteResult['provider_Country'] ||
-//                                                 autocompleteResult['provider_City'],
-//                                             value:
-//                                                 autocompleteResult['provider_Country'] ||
-//                                                 autocompleteResult['provider_City'],
-//                                         }
-//                                     })
-//                                 )
-//                             }
-//                         })
-//                         .catch(angular.noop)
-//                 },
-//                 minLength: 3,
-//                 select: function(event, selectedItem) {
-//                     // Do something with the selected item, e.g.
-//                     scope.location = selectedItem.item.label
-//                     scope.selectedLocation = selectedItem.item.value
-//                     scope.$apply()
-//                     event.preventDefault()
-//                 },
-//             })
-//         },
-//     }
-// })
-// .filter('trustAsResourceUrl', [
-//     '$sce',
-//     function($sce) {
-//         return function(val) {
-//             return $sce.trustAsResourceUrl(val)
-//         }
-//     },
-// ])
+
 

@@ -8,13 +8,17 @@ export default function(appModule){
                     template: '<index-module></index-module>',
                     reloadOnSearch: false,
                 })
+                .when('/index', {
+                    template: '<index-module></index-module>',
+                    reloadOnSearch: false,
+                })
                 .when('/register', {
                     template: '<signup-module></signup-module>',
+                })
+                .when('/login', {
+                    template: '<login-module></login-module>',
                 }).otherwise('/');
-                // .when('/index', {
-                //     template:'<index></index>',
-                //     reloadOnSearch: false,
-                // })
+               
             $locationProvider.html5Mode({ enabled: true })
 
         },

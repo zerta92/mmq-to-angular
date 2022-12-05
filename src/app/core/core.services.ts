@@ -5,21 +5,28 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
     // 'servicesManagerManager',
     '$translate',
     '$q',
-    function($http, $cookies, /*servicesManagerManager,*/ $translate, $q) {
+    '$mdToast',
+    function($http, $cookies, /*servicesManagerManager,*/ $translate, $q, $mdToast) {
         return {
             showToastMsg: async function(msg, type) {
                 if (msg != undefined) {
                     const translatedValue = await $translate(msg).catch(err => msg)
+                    var toast = $mdToast
+                        .simple()
+                        .textContent(translatedValue)
+                        .position('top right')
+                        .hideDelay(3000)
 
-                    Materialize.toast(
-                        translatedValue,
-                        5000,
-                        type == 'ERROR'
-                            ? 'errorMessageMedQuest_'
-                            : type == 'SUCCESS'
-                            ? 'successMessageMedQuest_'
-                            : 'infoMessageMedQuest_'
-                    )
+                    $mdToast.show(toast)
+                    // Materialize.toast(
+                    //     translatedValue,
+                    //     5000,
+                    //     type == 'ERROR'
+                    //         ? 'errorMessageMedQuest_'
+                    //         : type == 'SUCCESS'
+                    //         ? 'successMessageMedQuest_'
+                    //         : 'infoMessageMedQuest_'
+                    // )
                 }
             },
             getTranslation: async function(key) {

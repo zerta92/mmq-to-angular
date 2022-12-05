@@ -77,7 +77,7 @@
             },
             "development": {
               "browserTarget": "mmq-to-angular:build:development",
-              "proxyConfig": "src/proxy-prod.conf.json"
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -113,7 +113,6 @@
               "./node_modules/flag-icon-css/css/flag-icon.min.css"
             ],
             "scripts": [  
-              "src/template/js/jquery.min.js",
               "src/template/js/custom.js",
               "src/template/js/bootstrap.js",
               "src/template/js/sb-admin-2.js",

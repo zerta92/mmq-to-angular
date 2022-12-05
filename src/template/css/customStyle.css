@@ -9,6 +9,8 @@ md-toast.md-success-toast-theme .md-toast-content {
     max-width: 100%;
 }
 
+
+
 md-toast.md-error-toast-theme .md-toast-content {
     position: fixed;
     top: 80px;
