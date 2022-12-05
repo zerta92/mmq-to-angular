@@ -24,14 +24,19 @@
     </head>
     <body ng-controller="indexMainController">
         <div>
-            <!-- <div id="loading-bar-container"></div> -->
+            <div id="loading-bar-container"></div>
             <main-dropdown></main-dropdown>
             <div id="wrapper">
                 <ng-view id="routedContent" autoscroll="true"></ng-view>
             </div>
-            <!-- <div ng-include="./app/components/footer/footer.template.html"></div> -->
+            <div ng-include="app/components/footer/footer.template.html"></div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.6.1.min.js"
+            integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+            crossorigin="anonymous"
+        ></script>
+
         <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
         <script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>

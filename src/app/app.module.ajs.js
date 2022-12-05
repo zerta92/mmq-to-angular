@@ -24,6 +24,11 @@ import './core/login/login.module'
 import './core/login/login.service'
 import './login/login.module'
 import './login/login.component'
+/* Procedure Content Component */
+import './core/procedure_content/procedure_content.module'
+import './core/procedure_content/procedure_content.service'
+import './procedure_content/procedure_content.module'
+import './procedure_content/procedure_content.component'
 
 /* SignupComponent */
 // import './core/signup/signup.module'; //Remove once upgraded
@@ -57,16 +62,17 @@ export default angular
         'signupModule',
         'loginModule',
         'mainDropdownModule',
+        'procedureContentModule',
         'servicesSearchDropdownModule',
     ])
     .constant('_', window._)
-    // .config([
-    //     'cfpLoadingBarProvider',
-    //     function(cfpLoadingBarProvider) {
-    //         cfpLoadingBarProvider.parentSelector = '#loading-bar-container'
-    //         cfpLoadingBarProvider.spinnerTemplate = ''
-    //     },
-    // ])
+    .config([
+        'cfpLoadingBarProvider',
+        function(cfpLoadingBarProvider) {
+            cfpLoadingBarProvider.parentSelector = '#loading-bar-container'
+            cfpLoadingBarProvider.spinnerTemplate = ''
+        },
+    ])
     .config([
         '$translateProvider',
         function config($translateProvider) {
@@ -84,6 +90,18 @@ export default angular
                 prefix: '../app/translation-resources/',
                 suffix: '.json',
             })
+        },
+    ])
+    .run([
+        'ngMeta',
+        '$location',
+        function(ngMeta, $location) {
+            // const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+            // if (timezone == 'America/Guayaquil' && $location.url() !== '/page_down') {
+            //     location.href = '/page_down'
+            //     return
+            // }
+            ngMeta.init()
         },
     ])
     .filter('trustAsResourceUrl', [

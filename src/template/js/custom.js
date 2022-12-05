@@ -1,6 +1,5 @@
 $(document).ready(function() {
     'use strict'
-    console.log('imported')
     //LEFT MOBILE MENU OPEN
     $('.ts-menu-5').on('click', function() {
         $('.mob-right-nav').css('right', '0px')

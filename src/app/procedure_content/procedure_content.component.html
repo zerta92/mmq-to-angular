@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="procedureContentModule">
+    <head>
+        <title ng-bind="ngMeta.title">Dental Procedure Information</title>
+    </head>
+
+    <body ng-controller="procedureContentMainController">
+        <section class="inn-page-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="inn-pag-ban">
+                        <h2>{{procedure.procedure_Name}}</h2>
+                        <h5>
+                            The Average price in the United States is ${{procedure.procedure_Price}}
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="p-about com-padd">
+            <div class="container">
+                <div class="row blog-single con-com-mar-bot-o">
+                    <!-- <div class="col-md-2">
+					<div class="blog-img"> <img ng-src="procedurePictures/{{procedure.procedure_Picture}}" alt="" /> </div>
+				</div> -->
+                    <div class="col-md-7">
+                        <div class="page-blog">
+                            <span
+                                >{{"ProcedureContent.Specialty"|translate}}:
+                                {{procedure.category_Name}}
+                            </span>
+                            <h3>{{"ListDetailProvider.WhatIsIt"|translate}}</h3>
+                            <p style="font-size: large; text-align: justify;">
+                                {{procedure.procedure_Description}}
+                            </p>
+                            <br />
+                            <p style="font-size: large; text-align: justify;">
+                                {{procedure.procedure_DescriptionFull}}
+                            </p>
+                            <br />
+
+                            <div class="pglist-p-com-ti">
+                            <a
+                                class="waves-effect waves-light full-btn "
+                                ng-href="/list_procedures?procedure={{procedure.procedure_ID}}&location=undefined&category=0&speciality=0&country=undefined"
+                            >
+                                {{"ProcedureContent.SearchDentists"|translate}}</a
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <!--RELATED STARTS-->
+                <div class="col-md-3 related">
+                    <div class="dir-alp-con-right-1">
+                        <h2>Related</h2>
+                        <!--LISTINGS-->
+                        <div ng-repeat="procedure in related" class="home-list-pop list-spac">
+                            <!--LISTINGS IMAGE-->
+                            <!-- <div class="col-md-3"> <img ng-src="procedurePictures/{{procedure.procedure_Picture}}" alt="" /> </div> -->
+                            <!--LISTINGS: CONTENT-->
+                            <div class="col-md-9 home-list-pop-desc inn-list-pop-desc">
+                                <a
+                                    ng-href="/procedure-description?procedure-id={{procedure.procedure_ID}}"
+                                    ><h5>{{procedure.procedure_Name | shortName}}</h5></a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <!--RELATED END-->
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

@@ -1,4 +1,4 @@
-export default function(appModule){
+export default function(appModule) {
     appModule.config([
         '$locationProvider',
         '$routeProvider',
@@ -17,12 +17,17 @@ export default function(appModule){
                 })
                 .when('/login', {
                     template: '<login-module></login-module>',
-                }).otherwise('/');
-               
-            $locationProvider.html5Mode({ enabled: true })
+                })
+                .when('/what-is-medical-tourism', {
+                    templateUrl: 'app/pages/what-is-medical-tourism.template.html',
+                    reloadOnSearch: false,
+                })
+                .when('/:language?/procedure-description', {
+                    template: '<procedure-content-module></procedure-content-module>',
+                })
+                .otherwise('/')
 
+            $locationProvider.html5Mode({ enabled: true })
         },
     ])
-
-
 }
