@@ -3,7 +3,7 @@ import _ from 'lodash'
 angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown', {
     templateUrl:  './app/components/services-search-dropdown/services_search_dropdown.template.html',
     bindings: {},
-    controller: function ServiceSearchDropdownController($window, GlobalServices) {
+    controller: ['$window','GlobalServices',function ServiceSearchDropdownController($window,GlobalServices) {
         var ctrl = this
 
         this.$onInit = function() {}
@@ -307,5 +307,5 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
         getMainCategoryMatchesAll().then(function(resultListCategories) {
             ctrl.categoryList = resultListCategories
         })
-    },
+    }]
 })

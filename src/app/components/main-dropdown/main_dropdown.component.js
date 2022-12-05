@@ -4,7 +4,10 @@ angular.module('mainDropdownModule').component('mainDropdown', {
     moduleId: module.id,
     templateUrl: './app/components/main-dropdown/main_dropdown.template.html',
     bindings: { parseUrl: '&' },
-    controller: function mainDropdownController(
+    controller: [
+      'GlobalServices',
+      '$translate',
+      '$cookies',function mainDropdownController(
       GlobalServices,
       $translate,
       $cookies
@@ -62,6 +65,6 @@ angular.module('mainDropdownModule').component('mainDropdown', {
           ctrl.setLanguage = 'SP';
         }
       };
-    }
+    }]
   });
   

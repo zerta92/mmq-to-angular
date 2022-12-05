@@ -3,7 +3,6 @@
 angular.
   module('indexModule').
   component('indexModule', {
-    moduleId: module.id,
     templateUrl: './app/index/index.template.html',
     controller: ['IndexServices',
       function IndexController(IndexServices) {
