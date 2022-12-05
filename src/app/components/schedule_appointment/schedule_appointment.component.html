@@ -1,0 +1,172 @@
+<section>
+    <div class="modal fade dir-pop-com" style="overflow: scroll;" id="list-quo" role="dialog" >
+        <div class="modal-dialog modal-mobile-top">
+            <div class="modal-content" style="margin-top: 40%;">
+                <div class="modal-header dir-pop-head" >
+                    <button type="button" class="close" ng-click="$ctrl.closeModal()" style="opacity: 1; font-size: xx-large;" >
+                        <md-icon style="height: 36px; width: 36px;"
+                                 md-svg-src="/template/img/cancel-white-48dp.svg"
+                                 aria-label="Close dialog">
+                        </md-icon>
+                    </button>
+                    <h4 class="modal-title" style="font-size: xx-large;"> {{'ListDetailProvider.ScheduleAConsultation'|translate}}</h4>
+                </div>
+                <div class="modal-body dir-pop-body">
+                    <form method="post" name="appointmentRequestForm" class="form-horizontal">
+                        <p>
+                            <h4>{{$ctrl.selectedService.procedure_Name}}</h4>
+                            <h4> {{'ListDetailProvider.with'|translate}} {{$ctrl.provider.provider_Name}}</h4>
+                        </p>
+
+                           <!--LISTING INFORMATION-->
+                        <label>{{'ListDetailProvider.ConsultationOnlineDetails'|translate}}</label>
+                        <md-content class="md-icon-float md-block">
+                              <md-radio-group name ="appointment_method" ng-model="$ctrl.user.method" ng-required="!$ctrl.user.method" >
+                                  <div flex layout='row' layout-padding layout-align="start center" >
+                                  <md-radio-button flex class="md-primary" value="Video" class="md-primary"><b style="font-size: large;">{{'ListDetailProvider.Video'|translate}}</b></md-radio-button>
+                                      
+                                  </div>
+                                  <label>{{'ListDetailProvider.ConsultationWhatsAppDetailsLabel'|translate}}</label>
+                                  <div flex layout='row' layout-padding layout-align="start center" >
+                                  <md-radio-button flex class="md-primary" value="Phone"><b style="font-size: large;">{{'ListDetailProvider.WhatsApp'|translate}}</b> </md-radio-button>
+                                  <div ng-if="$ctrl.user.method == 'Phone'" flex>
+                                     <md-input-container >
+                                       <label>{{'ListDetailProvider.WhatsAppNumber'|translate}}</label> 
+                                       <input ng-model="$ctrl.user.WhatsApp" name="whatsapp" ng-required='true'>
+                                        <div ng-messages="appointmentRequestForm.whatsapp.$error">
+                                            <div style="color: red" ng-message="required">
+                                                {{"Signup.InputErrors.Required"|translate}}
+                                            </div>
+                                        </div>
+                                     </md-input-container>
+                                    </div>
+                                      
+                                  </div>
+                                  <!-- <div flex layout='row' layout-padding layout-align="start center" >
+                                    <md-radio-button flex class="md-primary" value="In Person"><b style="font-size: large;">{{'ListDetailProvider.InPerson'|translate}}</b> </md-radio-button>
+                                    <div ng-if="user.method == 'In Person'" flex>
+                                        <label>{{'ListDetailProvider.InPersonDesc'|translate}}</label>
+                                    </div>
+                                  </div> -->
+                            </md-radio-group>
+                            </md-content>
+                        <!--LISTING INFORMATION-->
+
+                        <div class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label"><b>{{'ListDetailProvider.Service'|translate}}</b></label>
+                            
+                            <div class="col-md-8">
+                                <div ng-messages="appointmentRequestForm.selectService.$error">
+                                    <div style="color: red" ng-message="required">
+                                        {{"Signup.InputErrors.Required"|translate}}
+                                    </div>
+                                </div>
+                                <md-select ng-required="true" placeholder="{{'ListDetailProvider.Service'|translate}}" 
+                                ng-model="$ctrl.selectedService" 
+                                ng-if="$ctrl.selectedService.service_ID"
+                                flex
+                                name="selectService"
+                                ng-model-options="{trackBy: '$value.service_ID' }"
+                                id="select-service-dropdown">
+                                   <md-optgroup label="{{'ListDetailProvider.Service'|translate}}">
+                                   <md-option ng-repeat="item in $ctrl.servicesList" ng-value="item">
+
+                                       <h3 style="font-size: 20px; font-family: Poppins, sans-serif;">{{item.procedure_Name}}</h3></p>
+                                   </md-option>
+                                 </md-optgroup>
+                                </md-select>
+                              
+                                <!-- <input type="text" class="form-control" name="uname" placeholder="" style="font-size: medium !important; color: black;" value ={{$ctrl.service.procedure_Name}}  readonly> </div> -->
+                            </div>
+                        
+                        <div class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label"><b>{{'ListDetailProvider.ConsultationCost'|translate}}</b></label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="uname" placeholder="" style="font-size: medium !important; color: black;" value ="${{$ctrl.selectedService.service_consultationCost}} USD"  readonly> </div>
+                        </div>
+
+                        <!--LISTING INFORMATION-->
+                        <div ng-show="false" class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label"><b>{{'ListDetailProvider.Username'|translate}}</b></label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="uname" style="font-size: medium !important; color: black;" placeholder="" value ={{$ctrl.user.username}} readonly> </div>
+                        </div>
+
+                        <div ng-show="false" class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label"><b>{{'ListDetailProvider.Name'|translate}}</b></label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="name" style="font-size: medium !important; color: black;" placeholder="" value ={{$ctrl.user.name}} readonly> </div>
+                        </div>
+                    
+
+                        <md-toolbar ng-show="$ctrl.documents.length > 0" layout="row" class="md-hue-3">
+                            <div class="md-toolbar-tools">
+                                <span style="color:black">{{'ListDetailProvider.AppointmentRequirements'|translate}}</span>
+                                <md-button class="md-icon-button " aria-label="Refresh">
+                                    <md-icon md-svg-src="/template/img/info_black_24dp.svg" style="float: right"></md-icon>
+                                </md-button>
+                            </div>
+                          </md-toolbar>
+                        <ul ng-repeat="document in $ctrl.documents"
+                            data-toggle="collapse"
+                            data-parent="#accordion"
+                            data-target="#collapseOne-{{document.required_doc_ID}}"
+                        >
+                        <li flex>
+                            <div layout-gt-xs="row">
+                                <div class="clear: left;" >
+                                    <md-icon md-svg-src="/template/img/baseline-keyboard_arrow_right-24px.svg"></md-icon>
+                                </div>
+                                <div class="clear: left;" flex>{{ document.required_doc_Name }}</div>
+                            </div>
+                        </li>
+
+                            <div id="collapseOne-{{document.required_doc_ID}}" class="card-action collapse ">
+                                <span style="font-size: 11px !important;">{{document.required_doc_Description}} </span>  
+                            </div>
+                    </ul>
+                   
+                        
+                    <div layout-gt-xs="row" ng-show="false"  flex-gt-sm>
+                        <div class="md-icon-float md-icon-left md-block" flex-gt-sm>
+                            <md-icon md-svg-src="/template/img/ic_add_to_photos_black_24px.svg"></md-icon>
+                            <label style="font-size: large;">{{'ListDetailProvider.ServiceOptions'|translate}}</label> 
+                        </div>
+                    </div>
+        
+                <div class="card-panel">
+                    <span ng-if="!submit.confirmation">{{'ListDetailProvider.requestAppointmentShoppingCartMessage'|translate}}</span>
+                    <span class="blue-text text-purple darken-1">{{submit.confirmation}}</span>
+                </div>
+                <div ng-if="$ctrl.user.ID" class="form-group has-feedback ak-field">
+                    <div class="center">
+                        <input type="submit" value="SUBMIT" ng-click="$ctrl.makeAppointment(appointmentRequestForm.$invalid,$ctrl.service,$ctrl.user,$ctrl.optionItems,$event);" class="pop-btn"> 
+                    </div>
+                </div>
+                <div ng-if="!$ctrl.user.ID" class="form-group has-feedback ak-field">
+                    <div class="center">
+                        <input type="submit" value="LOG IN " ng-click='$ctrl.goTo("login")' class="pop-btn"> 
+                        <input type="submit" value="OR REGISTER" ng-click='$ctrl.goTo("register")' class="pop-btn"> 
+                    </div>
+                </div>
+
+
+                </form>
+            </div> 
+
+        </div>
+    </div>
+
+    
+</section>
+
+<style>
+
+.md-select-menu-container {z-index: 9999;}
+
+@media (max-width: 600px) {
+    .modal-mobile-top {
+        top: 30%;
+    }
+}
+</style>

@@ -25,6 +25,9 @@ export default function(appModule) {
                 .when('/:language?/procedure-description', {
                     template: '<procedure-content-module></procedure-content-module>',
                 })
+                .when('/list_procedures', {
+                    template: '<list-module></list-module>',
+                })
                 .otherwise('/')
 
             $locationProvider.html5Mode({ enabled: true })

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title ng-bind="pageTitle">Available Service Providers | Book A Consultation</title>
+	<meta name="description" content="Browse through our list of registered dentists. Pick one and schedule a consultation online or in-person" />
+
+</head>
+
+<body>
+
+	<main-dropdown parse-url="parseUrl()"></main-dropdown>
+	
+	<br/>
+	<section class="dir-alp dir-pa-sp-top" >
+		<br>
+		<br>
+		<div class="container" >
+			<div class="row">
+				<div class="dir-alp-tit">
+					<h1 style="color: #333;">{{pageTitle}}</h1>
+					<ol class="breadcrumb" id="bcp1">
+						<li><a href="/index.html" style="color: #333;">{{"Index.Home"|translate}}</a> </li>
+						<li><a href="/list_procedures" style="color: #333;">{{"Index.menu.Services"|translate}}</a> </li>
+						<li ng-repeat="crumb in breadcrumbsList track by $index" id="crum_">{{crumb}} {{$index}} </li>
+					</ol>
+				</div>
+			</div>
+			<div class="row">
+			
+				<div class="dir-alp-con">				
+					<services-search-dropdown></services-search-dropdown><br/>	
+
+					<div >
+						<div class="dir-hr1">
+							<div class="dir-ho-t-tit" style="padding-bottom: 10px;padding-top: 10px;">
+
+						</div>
+					</div>	 
+								
+					<md-sidenav class="md-sidenav-left col-md-3"
+								md-component-id="left"
+								md-whiteframe="4" 
+								md-disable-backdrop="" 
+								md-disable-close-events
+								md-is-locked-open="$mdMedia('gt-md')">
+								<br/>
+
+								<div class="dir-alp-con-left" >
+									<div class="dir-alp-l3 dir-alp-l-com" >
+										<h4>{{"List.Maps"|translate}}</h4>
+										<div class="dir-alp-l-com1" style="text-align: center; height: 110px;">
+											<md-icon ng-show="showGridMap==false" md-svg-src="/template/img/MapIcon.svg" style="width: 80px; height: 80px;" ng-click="showPacesListMaps(service)"></md-icon>
+											<md-icon ng-show="showGridMap==true" md-svg-src="/template/img/ListIcons.svg" style="width: 80px; height: 80px;" ng-click="showPacesListMaps(service)"></md-icon>
+										</div>
+									</div>
+									<br>
+									<div class="dir-alp-l3 dir-alp-l-com" layout-wrap>
+										<h4>{{"List.Optimize.Title"|translate}}</h4>
+										<div class="dir-alp-l-com1 dir-alp-p3">
+										
+											<md-button ng-click="close()" class="md-primary" hide-gt-md>
+											     {{ 'Services.Service.closeSidenavLeft' | translate }}
+											</md-button>
+											
+											<form><br/>
+												<div layout="column">
+												  <div flex="">
+												  	<h3 style="font-size: large;">{{'Index.Home.SearchCountry'|translate}}</h3>
+												  </div>
+												  <div flex="">
+												  	<md-select placeholder="{{'Index.Home.SearchCountry_'|translate}}" 
+														   ng-model="countrySearch" flex
+														   id="select-countryA">
+													      	<md-optgroup label="{{'Index.Home.SearchCountry_'|translate}}">
+													          <md-option ng-repeat="item in countryList" ng-value="item.value" ng-click="searchByCountry(item.value)">
+													          	<h3 style="font-size: 20px; font-family: Poppins, sans-serif;">{{item.label}}</h3></p>
+													          </md-option>
+													        </md-optgroup>
+													</md-select>
+												  </div>
+												</div>
+											
+												
+												<div ng-if="!disable_distance_filtering" layout="column">
+												  <div flex="">
+												  	<h3 style="font-size: large;">{{'Index.Home.SlideYourD'|translate}}</h3>
+												  </div>
+												  <div flex="">
+												  	<div class="dir-alp-l-com1 dir-alp-p3" style="text-align: -webkit-center;">
+													    <ui-knob value="scroller.defaultDistance" options="distance_scroll_options" ng-click="changeOptionsDistanceScroll()"></ui-knob>
+													</div>	
+												  </div>
+												</div>
+																					
+											</form> 
+										</div>
+									</div>
+									<br>
+									<div class="dir-alp-l3 dir-alp-l-com" layout-wrap>
+										<h4>{{"List.Optimize.ratings"|translate}}</h4>
+										<div class="dir-alp-l-com1 dir-alp-p3">
+											<form>
+												<ul>
+													<li>
+														<div layout="row" layout-align="start center" layout-xs="row" >
+														  <div style="padding: 10px 15px 0px 0px">
+														    <md-checkbox ng-model="star_filter.provider_review_score" class="filled-in" ng-true-value="5" ng-click="filterByStars(star_filter.provider_review_score,5)" id="lr1"> </md-checkbox>
+														  </div>
+														  <div flex="" style="text-align: left;">
+														    <label for="lr1"> 
+																<span class="list-rat-ch"> 
+																	<span style="background: #15629e;">5.0</span> 
+																		<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																		<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																		<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																		<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																		<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																	</span>
+															</label>
+														  </div>
+														</div>
+													</li>
+													<li>
+														<div layout="row" layout-align="start center" layout-xs="row" >
+														  <div style="padding: 10px 15px 0px 0px">
+															  <md-checkbox ng-model="star_filter.provider_review_score" class="filled-in" ng-true-value="4" ng-click="filterByStars(star_filter.provider_review_score,4)" id="lr2"> </md-checkbox>
+														  </div>
+														  <div flex="" style="text-align: left;">
+															  <label for="lr2"> 
+																	<span class="list-rat-ch"> 
+																		<span style="background: #15629e;">4.0</span> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																		</span>
+															  </label> 
+														  </div>
+														</div>
+													</li>
+													<li>
+														<div layout="row" layout-align="start center" layout-xs="row" >
+														  <div style="padding: 10px 15px 0px 0px">
+															  <md-checkbox ng-model="star_filter.provider_review_score" class="filled-in" ng-true-value="3" ng-click="filterByStars(star_filter.provider_review_score,3)" id="lr3"> </md-checkbox>
+														  </div>
+														  <div flex="" style="text-align: left;">
+															  <label for="lr3"> 
+																	<span class="list-rat-ch"> 
+																		<span style="background: #15629e;">3.0</span> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																		</span>
+															  </label>	  
+														  </div>
+														</div>
+													</li>
+													<li>
+														<div layout="row" layout-align="start center" layout-xs="row" >
+														  <div style="padding: 10px 15px 0px 0px">
+															  <md-checkbox ng-model="star_filter.provider_review_score" class="filled-in" ng-true-value="2" ng-click="filterByStars(star_filter.provider_review_score,2)" id="lr4"> </md-checkbox>
+														  </div>
+														  <div flex="" style="text-align: left;">
+														  	  <label for="lr4"> 
+																	<span class="list-rat-ch"> 
+																		<span style="background: #15629e;">2.0</span> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																	</span>
+														      </label>
+														  </div>
+														</div>													
+													</li>
+													<li>
+														<div layout="row" layout-align="start center" layout-xs="row" >
+														  <div style="padding: 10px 15px 0px 0px">
+															  <md-checkbox ng-model="star_filter.provider_review_score" class="filled-in" ng-true-value="1" ng-click="filterByStars(star_filter.provider_review_score,1)" id="lr5"> </md-checkbox>
+														  </div>
+														  <div flex="" style="text-align: left;">
+														  	  <label for="lr5"> 
+																	<span class="list-rat-ch"> 
+																		<span style="background: #15629e;">1.0</span> 
+																			<i class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																			<i class="fa fa-star-o" aria-hidden="true" style="background: #15629e;"></i> 
+																	</span>
+															  </label>
+														  </div>
+														</div>														
+													</li>
+												</ul>
+											</form> 
+										 </div>									  	
+							</div>
+						
+						</div>
+					</md-sidenav>
+					
+					<div ng-hide="isOpenRight">
+						<md-whiteframe class="md-whiteframe-2dp" flex-sm="45" flex-gt-sm="35" flex-gt-md="25" layout layout-align="center center" style="background: white;" >
+							<md-button ng-click="toggleLeft()"
+									   style="color:black;"
+								       class="md-primary" hide-gt-md>
+								         <md-icon md-svg-src="/template/img/find_in_page-24px.svg"></md-icon> {{'Services.Service.showFiltersMenu'|translate}}
+							</md-button>
+						</md-whiteframe>
+					</div>
+
+					
+					
+					<div class="col-md-9 col-sm-12 dir-alp-con-right">
+						<div class="row" ng-show="numResultPerPages != 0">
+							<div class='pagination list-pagenat'>
+								<ul class="pagination" >
+									<li class="waves-effect"><a  ng-click="selectNextBack('B')"><i class="material-icons">chevron_left</i></a></li>
+									<li class="active"><a > {{currentPage+1}}/{{numberOfPages()}} </a></li>
+									<li class="waves-effect"><a ng-click="selectNextBack('N')"><i class="material-icons">chevron_right</i></a></li>
+								</ul>
+							</div>
+						</div> 
+
+
+						<div class="dir-alp-con-right-1 "  ng-show="showGridMap==false">
+							<!--LISTINGS-->
+							<div ng-repeat="service in servicesList track by $index"  class="home-list-pop list-spac">
+								<!--LISTINGS: CONTENT-->
+								<div class="col-md-12 home-list-pop-desc inn-list-pop-desc"> 
+									<a ng-href="/service_details?hospitalID={{service.provider_ID}}&procedure={{service.procedure_ID}}" target="_self">
+										<h3 ng-if="!show_provider_only" style="font-size: xx-large; width: 85%;" ng-bind="service.procedure_Name"> </h3>
+										<h4 style="font-size: x-large; color: black;" >{{service.provider_Name}} </h4>
+										<p style="font-size: large;">
+											<b style="font-size: x-large;">{{"List.Card.Address"|translate}}:</b> 
+											{{(service.provider_Street||'') + ", "+ service.provider_City + ", "+ service.provider_State + ", "+ service.provider_PostalCode}}. {{service.provider_Country}}
+										</p>
+									</a>
+									<div class="list-number">
+										<ul>
+											<!-- <li style="font-size: large;">
+												<img src="/template/img/baseline-call-24px.svg" alt=""> 
+													{{service.provider_Phone}}
+											</li> -->
+											<!-- <li style="font-size: large;">
+												<img src="/template/img/baseline-email-24px.svg" alt=""> 
+													{{service.provider_Email}}
+											</li> -->
+											<li ng-if="!disable_distance_filtering" style="font-size: large;">
+												<img src="/template/img/baseline-transfer_within_a_station-24px.svg" alt=""> 
+													{{"List.Card.Distance"|translate}} {{service.distance_FromSearch | number : 0}} {{"List.Card.DistanceText"|translate}} {{user_search_location||user_actual_location.city}}
+											</li>
+										</ul>
+									</div> 
+									<span ng-if="service.provider_review_score" style="background-color: #9e9e9e8f; color: white; text-align-last: center;"> 
+										<div layout="column" layout-xs="row" class="home-list-pop-rat" style="padding: 5px !important;">
+										  <div >
+										    	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{service.provider_review_score}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										  </div>
+										  <div >
+										    	<img src="/template/img/baseline-star_rate-18px.svg" alt="" class="filter-green" >
+										  </div>
+										</div>	
+									</span>
+									<div class="list-enqu-btn">
+										<ul>
+											<!-- <li>
+												<a ng-href="/listingDetails.html?hospitalID={{service.provider_ID}}&procedure={{service.original_Name}}#!#ld-rew" target="_self">
+													<i class="fa fa-star-o" aria-hidden="true" style="font-size: large;"></i> 
+														{{"List.Card.Review"|translate}}
+												</a> 
+											</li> -->
+											<li>
+												<a ng-href="#" ng-click="selectService(service)" data-dismiss="modal" data-toggle="modal" data-target="#list-quo-msg">
+													<md-icon md-svg-src="/template/img/contact_mail-black-48dp.svg" style="width: 25px; height: 25px;"></md-icon>  
+														{{"List.Card.Contact"|translate}}
+												</a> 
+											</li>
+											<li>
+												<md-tooltip md-direction="Bottom">{{"List.Consultation.Description1"|translate}}.</md-tooltip> 
+												<!-- data-dismiss="modal" data-toggle="modal" data-target="#list-quo" -->
+												<a ng-href="#" id="open-schedule-consultation"  ng-click="selectService(service)">
+													<md-icon md-svg-src="/template/img/assignment-black-48dp.svg" style="width: 25px; height: 25px;"></md-icon>  
+														{{"List.Card.Appointment"|translate}}
+														<md-button id="schedule-consultation-info" ng-click='$event.preventDefault(); $event.stopPropagation(); openConsultationInformationModal()' style="float: right; margin: 0px 0px; min-width: 0%; min-height: 24px;">
+															<md-icon md-svg-src="/template/img/info_black_24dp.svg" style="float: right"></md-icon>
+														</md-button>				
+												</a> 
+											</li>
+											<li ng-show="!show_provider_only">
+												<a ng-if="!service.service_MinPrice" style="font-size: large;">
+													<md-icon md-svg-src="/template/img/attach_money-white-48dp.svg" style="width: 25px; height: 25px;"></md-icon> 
+														{{validateValue(service.price)}}
+												</a> 
+												<a style="width: max-content; min-width: 188px" ng-if="service.service_MinPrice" style="font-size: large;">
+														${{validateValue(service.service_MinPrice)}}-${{validateValue(service.service_MaxPrice)}}
+												</a> 
+											</li>
+										</ul>
+									</div>
+
+									<div ng-if="show_provider_only">
+										<md-chips ng-model="procedure_price_by_provider_first[service.provider_ID]"  md-removable="false" ng-click="">
+											<md-chip-template ng-click="goToService($chip)">
+												<strong>{{$chip.procedure_Name}}</strong>
+												<em style="color: #900 ;">( ${{$chip.price}} )</em>
+											  </md-chip-template>
+										</md-chips>
+										
+										<ul
+										ng-if="procedure_price_by_provider[service.provider_ID].length > 10"
+										data-toggle="collapse"
+										data-parent="#accordion"
+										data-target="#collapse-more-services-{{service.provider_ID}}"
+									>
+											<li class="center">
+												<div>
+													<md-container>
+														<md-tooltip>{{"List.Card.SeeMoreToolTip"|translate}}</md-tooltip>
+														{{"List.Card.SeeMore"|translate}}
+														<md-icon md-svg-src="/template/img/arrow-down-circle.svg"></md-icon>
+													</md-container>
+												</div>
+											</li>
+					
+											<div id="collapse-more-services-{{service.provider_ID}}" class="card-action collapse ">
+												<md-chips ng-model="procedure_price_by_provider_extra[service.provider_ID]"  md-removable="false" ng-click="">
+													<md-chip-template  ng-click="goToService($chip)">
+														<strong>{{$chip.procedure_Name}}</strong>
+														<em style="color: #900 ;">( ${{$chip.price}} )</em>
+													  </md-chip-template>
+												</md-chips>
+											</div>
+										</ul>
+
+									</div>
+								</div>
+							</div>
+							<!--LISTINGS END-->
+						</div>
+						
+						<div id="placesListMaps" ng-show="showGridMap==true">								
+							<div class="card">
+							    <div class="card-image waves-effect waves-block waves-light" >
+							    	<ng-map zoom="{{zoomVar}}" center="{{centeredLocationMap}}" 
+							    			zoom-to-include-markers="auto"
+									        pan-control="false"
+									        street-view-control="true"
+									        street-view-control-options="{position: 'RIGHT_BOTTOM'}"
+									        map-type-control="false"
+									        zoom-control="true"
+									        zoom-control-options="{style:'BIG', position: 'RIGHT_BOTTOM'}"
+									        scale-control="true"
+									        default-style="true"
+									        zoom-to-include-markers="true" >										        
+									</ng-map>		
+							    </div>
+							    <div class="card-content">
+							      <h4 style="font-size: x-large;">{{'List.ProceduresList'|translate}}</h4><br/>
+							      <p>
+							      		<div ng-repeat="service in servicesList" class="home-list-pop">
+											<div class="col-md-9 home-list-pop-desc inn-list-pop-desc">
+												<a ng-href="/service_details?hospitalID={{service.provider_ID}}&procedure={{service.procedure_ID}}" target="_self">
+													<h3>{{service.procedure_Name}}</h3>
+												</a>
+												<h4>{{service.provider_Name}} {{'ListDetailProvider.with'|translate}} {{service.provider_Country}}</h4>
+												<p><b>{{'List.Card.Address'|translate}}:</b> {{service.provider_Street + " "+ service.provider_City + " "+ service.provider_State + ", "+ service.provider_PostalCode}} </p>
+												<div class="list-number">
+													<ul>
+														<li>{{'List.Card.Distance'|translate}} {{searchText.provider_City}}: {{service.distance_FromSearch}}</li>
+													</ul>
+												</div> 
+												<br/>
+												<md-divider ng-if="!$last"></md-divider>
+											</div>
+											<div class="col-md-3 home-list-pop-desc inn-list-pop-desc">
+												<div>
+													<span class="home-list-pop-rat" style="background: #ffffff">
+														<a class="waves-effect waves-light btn" ng-click="showDetaiPlaceInMaps(service)" ng-mouseover="eventOverM(service)" style="background: #15629e"><i class="material-icons right">touch_app</i>{{'List.GoToTheMap'|translate}}</a>
+													</span>
+												</div>												
+											</div>
+										</div>							      										      
+							      </p>
+							    </div>							   
+							</div>													
+						</div>	
+						<div class="row" ng-show="numResultPerPages != 0">
+							<div class='pagination list-pagenat'>
+								<ul class="pagination" >
+									<li class="waves-effect"><a  ng-click="selectNextBack('B')"><i class="material-icons">chevron_left</i></a></li>
+									<li class="active"><a > {{currentPage+1}}/{{numberOfPages()}} </a></li>
+									<li class="waves-effect"><a ng-click="selectNextBack('N')"><i class="material-icons">chevron_right</i></a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	</section><br/>
+	<!--MOBILE APP-->
+	<section class="web-app com-padd">
+		<div class="container">
+			<div class="row">
+			</div>
+		</div>
+	</section>
+
+	
+		<section>
+		<!-- SEND MESSAGE POP UP -->
+		<div class="modal fade dir-pop-com" id="list-quo-msg" role="dialog" >
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header dir-pop-head">
+						<button type="button" class="close" data-dismiss="modal">Ã</button>
+						<h4 class="modal-title">Contact The Clinic</h4>
+						<!--<i class="fa fa-pencil dir-pop-head-icon" aria-hidden="true"></i>-->
+					</div>
+					<div class="modal-body dir-pop-body">
+						<form method="post" class="form-horizontal" name="providerCard" id="provider-card">
+							<p>
+								<h4>{{selectedService.procedure_Name}} with {{selectedService.provider_Name}}</h4>
+							</p>
+
+							<!--LISTING INFORMATION-->
+							<div class="form-group has-feedback ak-field">
+								<label class="col-md-4 control-label">Service </label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" name="uname" placeholder="" value ={{selectedService.procedure_Name}}  readonly> 
+								</div>
+							</div>
+							<!--LISTING INFORMATION-->
+							<div ng-show="false" class="form-group has-feedback ak-field">
+								<label class="col-md-4 control-label">Username </label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" name="uname" placeholder="" value ={{user.username}} readonly> 
+								</div>
+							</div>
+							<!--LISTING INFORMATION-->
+							<div ng-show="false" class="form-group has-feedback ak-field">
+								<label class="col-md-4 control-label">Name </label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" name="name" placeholder="" value ={{user.name}} readonly> 
+								</div>
+							</div>
+							<!--LISTING INFORMATION-->
+							<div ng-show="false" class="form-group has-feedback ak-field">
+								<label class="col-md-4 control-label">Mobile</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" name="mobile" value={{user.phone}} placeholder="" readonly> 
+								</div>
+							</div>
+							<!--LISTING INFORMATION-->
+							<div ng-show="false" class="form-group has-feedback ak-field">
+								<label class="col-md-4 control-label">Email</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" name="email" value={{user.email}} placeholder="" readonly> 
+								</div>
+							</div>
+							<!--LISTING INFORMATION-->
+							<div class="form-group has-feedback ak-field">
+								<label class="col-md-4 control-label">Message</label>
+								<div class="col-md-8 get-quo">
+									<textarea ng-model="user.message"class="form-control"></textarea>
+								</div>
+							</div>
+										
+							<div class="card-panel">
+							    <span class="blue-text text-purple darken-1">{{message.confirmation}}</span>
+							</div>
+
+							<!--LISTING INFORMATION-->
+							<div class="form-group has-feedback ak-field">
+								<div class="col-md-6 col-md-offset-4">
+									<input type="submit" value="SUBMIT" data-dismiss="modal" ng-click="sendMessage(selectedService,user,$event);" class="pop-btn"> </div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</section>
+	<schedule-appointment user="user" provider="selectedService" services-list="procedure_price_by_provider[selectedService.provider_ID]" service="selectedService" documents="requiredDocuments"></schedule-appointment>
+	    
+</body>
+
+</html>

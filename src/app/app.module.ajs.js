@@ -2,6 +2,8 @@ import 'angular-animate'
 import 'angular-route'
 import 'angular-material'
 import 'ng-meta'
+import 'ngmap'
+import 'ng-ui-knob'
 import 'angular-cookies'
 import 'angular-loading-bar'
 import 'angular-messages'
@@ -29,6 +31,11 @@ import './core/procedure_content/procedure_content.module'
 import './core/procedure_content/procedure_content.service'
 import './procedure_content/procedure_content.module'
 import './procedure_content/procedure_content.component'
+/* List Component */
+import './core/list/list.module'
+import './core/list/list.service'
+import './list/list.module'
+import './list/list.component'
 
 /* SignupComponent */
 // import './core/signup/signup.module'; //Remove once upgraded
@@ -44,6 +51,9 @@ import './components/main-dropdown/main_dropdown.component'
 /* Services Search Dropdown */
 import './components/services-search-dropdown/services_search_dropdown.module'
 import './components/services-search-dropdown/services_search_dropdown.component'
+/* Schedule Appointment Dropdown */
+import './components/schedule_appointment/schedule_appointment.module'
+import './components/schedule_appointment/schedule_appointment.component'
 
 export default angular
     .module('mainApp', [
@@ -51,11 +61,13 @@ export default angular
         'ngAnimate',
         'ngMaterial',
         'ngMeta',
+        'ui.knob',
         'ngIntlTelInput',
         'vcRecaptcha',
         'pascalprecht.translate',
         'core',
         'ngCookies',
+        'ngMap',
         'angular-loading-bar',
         'ngMessages',
         'indexModule',
@@ -64,6 +76,8 @@ export default angular
         'mainDropdownModule',
         'procedureContentModule',
         'servicesSearchDropdownModule',
+        'listModule',
+        'scheduleAppointmentModule',
     ])
     .constant('_', window._)
     .config([
