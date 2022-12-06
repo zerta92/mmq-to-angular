@@ -36,9 +36,16 @@ import './core/list/list.module'
 import './core/list/list.service'
 import './list/list.module'
 import './list/list.component'
+/* List Details Component */
+import './core/list_details/list_details.module'
+import './list_details/list_details.module'
+import './list_details/list_details.component'
 /* Service Component */
 import './core/service/service.module'
 import './core/service/service.service'
+/* Service Component */
+import './core/app/brand/brand.module'
+import './core/app/brand/brand.service'
 
 /* SignupComponent */
 // import './core/signup/signup.module'; //Remove once upgraded
@@ -80,6 +87,7 @@ export default angular
         'procedureContentModule',
         'servicesSearchDropdownModule',
         'listModule',
+        'listDetailsModule',
         'scheduleAppointmentModule',
     ])
     .constant('_', window._)

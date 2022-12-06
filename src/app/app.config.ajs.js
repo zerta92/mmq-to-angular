@@ -28,6 +28,10 @@ export default function(appModule) {
                 .when('/list_procedures', {
                     template: '<list-module></list-module>',
                 })
+                .when('/:language?/service_details', {
+                    template: '<list-details-module></list-details-module>',
+                    reloadOnSearch: false,
+                })
                 .otherwise('/')
 
             $locationProvider.html5Mode({ enabled: true })

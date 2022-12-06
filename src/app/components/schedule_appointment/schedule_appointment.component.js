@@ -39,14 +39,14 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
                             $mdDialog
                                 .show({
                                     locals: {
-                                        selectedService: ctrl.selectedService,
+                                        service: ctrl.service,
                                         user: ctrl.user,
                                         provider: ctrl.provider,
                                         servicesList: ctrl.servicesList,
                                         documents: ctrl.documents,
                                     },
                                     controller: [
-                                        'selectedService',
+                                        'service',
                                         'user',
                                         'provider',
                                         'servicesList',
@@ -75,14 +75,15 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
             }
 
             function ScheduleAppointmentControllerModal(
-                selectedService,
+                service,
                 user,
                 provider,
                 servicesList,
                 documents
             ) {
                 const ctrl = this
-                ctrl.selectedService = selectedService
+                ctrl.selectedService = service
+                ctrl.service = service
                 ctrl.servicesList = servicesList
                 ctrl.user = user
                 ctrl.provider = provider

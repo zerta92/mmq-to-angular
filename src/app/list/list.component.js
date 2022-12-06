@@ -31,7 +31,6 @@ angular.module('listModule').component('listModule', {
             $location,
             $cookies
         ) {
-            // $('.modal').modal() //instantiate materialize modal
             const showToastMsg = GlobalServices.showToastMsg
             $scope.displayedListLength = 0
             $scope.servicesList = []
