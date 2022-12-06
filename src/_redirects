@@ -1,2 +1,2 @@
-/api/*  https://mymedquest.com/api/  200
+/api/*  https://mymedquest.com/api/:splat  200
 /*    /index.html   200
