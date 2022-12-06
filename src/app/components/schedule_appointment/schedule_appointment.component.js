@@ -13,7 +13,6 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
         '$rootScope',
         'ListServices',
         'GlobalServices',
-        '$translate',
         '$location',
         '$timeout',
         '$mdDialog',
@@ -21,7 +20,6 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
             $rootScope,
             ListServices,
             GlobalServices,
-            $translate,
             $location,
             $timeout,
             $mdDialog
@@ -47,7 +45,14 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
                                         servicesList: ctrl.servicesList,
                                         documents: ctrl.documents,
                                     },
-                                    controller: ScheduleAppointmentControllerModal,
+                                    controller: [
+                                        'selectedService',
+                                        'user',
+                                        'provider',
+                                        'servicesList',
+                                        'documents',
+                                        ScheduleAppointmentControllerModal,
+                                    ],
                                     controllerAs: 'vm',
                                     templateUrl:
                                         './app/components/schedule_appointment/schedule_appointment.component.html',
