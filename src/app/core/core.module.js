@@ -7,4 +7,5 @@ angular.module('core', [
     'core.services',
     'core.procedureContent',
     'core.list',
+    'core.service',
 ])

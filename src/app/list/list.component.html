@@ -244,14 +244,7 @@
 									</a>
 									<div class="list-number">
 										<ul>
-											<!-- <li style="font-size: large;">
-												<img src="/template/img/baseline-call-24px.svg" alt=""> 
-													{{service.provider_Phone}}
-											</li> -->
-											<!-- <li style="font-size: large;">
-												<img src="/template/img/baseline-email-24px.svg" alt=""> 
-													{{service.provider_Email}}
-											</li> -->
+
 											<li ng-if="!disable_distance_filtering" style="font-size: large;">
 												<img src="/template/img/baseline-transfer_within_a_station-24px.svg" alt=""> 
 													{{"List.Card.Distance"|translate}} {{service.distance_FromSearch | number : 0}} {{"List.Card.DistanceText"|translate}} {{user_search_location||user_actual_location.city}}
@@ -285,7 +278,7 @@
 											<li>
 												<md-tooltip md-direction="Bottom">{{"List.Consultation.Description1"|translate}}.</md-tooltip> 
 												<!-- data-dismiss="modal" data-toggle="modal" data-target="#list-quo" -->
-												<a ng-href="#" id="open-schedule-consultation"  ng-click="selectService(service)">
+												<a ng-href="#" id="open-schedule-consultation"  ng-click="selectService(service); openModal()">
 													<md-icon md-svg-src="/template/img/assignment-black-48dp.svg" style="width: 25px; height: 25px;"></md-icon>  
 														{{"List.Card.Appointment"|translate}}
 														<md-button id="schedule-consultation-info" ng-click='$event.preventDefault(); $event.stopPropagation(); openConsultationInformationModal()' style="float: right; margin: 0px 0px; min-width: 0%; min-height: 24px;">
@@ -368,6 +361,7 @@
 											<div class="col-md-9 home-list-pop-desc inn-list-pop-desc">
 												<a ng-href="/service_details?hospitalID={{service.provider_ID}}&procedure={{service.procedure_ID}}" target="_self">
 													<h3>{{service.procedure_Name}}</h3>
+												
 												</a>
 												<h4>{{service.provider_Name}} {{'ListDetailProvider.with'|translate}} {{service.provider_Country}}</h4>
 												<p><b>{{'List.Card.Address'|translate}}:</b> {{service.provider_Street + " "+ service.provider_City + " "+ service.provider_State + ", "+ service.provider_PostalCode}} </p>
@@ -491,7 +485,7 @@
 		</div>
 		
 	</section>
-	<schedule-appointment user="user" provider="selectedService" services-list="procedure_price_by_provider[selectedService.provider_ID]" service="selectedService" documents="requiredDocuments"></schedule-appointment>
+	<schedule-appointment user="user" is-modal-open="isModalOpen" provider="selectedService" services-list="procedure_price_by_provider[selectedService.provider_ID]" service="selectedService" documents="requiredDocuments"></schedule-appointment>
 	    
 </body>
 

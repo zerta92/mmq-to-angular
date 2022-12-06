@@ -1,15 +1,16 @@
 'use strict'
 
 angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
-    templateUrl: './app/components/schedule_appointment/schedule_appointment.component.html',
     bindings: {
         user: '<',
         provider: '<',
         service: '<',
         documents: '<',
         servicesList: '<',
+        isModalOpen: '<',
     },
     controller: [
+        '$rootScope',
         'ListServices',
         'GlobalServices',
         '$translate',
@@ -17,6 +18,7 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
         '$timeout',
         '$mdDialog',
         function ScheduleAppointmentController(
+            $rootScope,
             ListServices,
             GlobalServices,
             $translate,
@@ -26,13 +28,173 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
         ) {
             var ctrl = this
             const showToastMsg = GlobalServices.showToastMsg
-            // $('.modal').modal() //instantiate materialize modal
 
+            let modalIsOpened = false
             this.$onChanges = function(vars) {
                 if (angular.isDefined(vars)) {
                     ctrl.user.method = 'Video' //default consultation method
                     if (ctrl.service) {
                         ctrl.selectedService = ctrl.service //default service loaded to populate dropdown
+
+                        if (ctrl.isModalOpen && !modalIsOpened) {
+                            modalIsOpened = true
+                            $mdDialog
+                                .show({
+                                    locals: {
+                                        selectedService: ctrl.selectedService,
+                                        user: ctrl.user,
+                                        provider: ctrl.provider,
+                                        servicesList: ctrl.servicesList,
+                                        documents: ctrl.documents,
+                                    },
+                                    controller: ScheduleAppointmentControllerModal,
+                                    controllerAs: 'vm',
+                                    templateUrl:
+                                        './app/components/schedule_appointment/schedule_appointment.component.html',
+                                    parent: angular.element(document.body),
+                                    // targetEvent: ev,
+                                    clickOutsideToClose: false,
+                                    fullscreen: false,
+                                })
+                                .then(function() {
+                                    $rootScope.$broadcast('schedule-appointment-dialog-closed')
+                                    modalIsOpened = false
+                                    return
+                                })
+                                .catch(function() {
+                                    return
+                                })
+                        }
+                    }
+                }
+            }
+
+            function ScheduleAppointmentControllerModal(
+                selectedService,
+                user,
+                provider,
+                servicesList,
+                documents
+            ) {
+                const ctrl = this
+                ctrl.selectedService = selectedService
+                ctrl.servicesList = servicesList
+                ctrl.user = user
+                ctrl.provider = provider
+                ctrl.documents = documents
+                ctrl.goTo = function(redirect_to) {
+                    ctrl.closeModal()
+                    /* Allows for the modal to be dismissed */
+                    $timeout(() => {
+                        const hospitalID = ctrl.selectedService.provider_ID
+                        const procedure = ctrl.selectedService.procedure_ID
+
+                        $location.url(`/${redirect_to}`)
+                        $location.search(
+                            'redirect_to',
+                            `/service_details?hospitalID=${hospitalID}&procedure=${procedure}`
+                        )
+                    }, 1000)
+                }
+
+                ctrl.closeModal = function() {
+                    $mdDialog.hide()
+                }
+
+                ctrl.makeAppointment = function(invalid, service, user, optionItems, e) {
+                    if (invalid) {
+                        return
+                    }
+                    ctrl.closeModal()
+
+                    if (!ctrl.user.ID) {
+                        showToastMsg('MyMedQ_MSG.List.NeedLogIngE1', 'ERROR')
+                    } else if (
+                        ctrl.user.ID == ctrl.service.provider_ID &&
+                        ctrl.user.profileType == 'Provider'
+                    ) {
+                        showToastMsg('MyMedQ_MSG.List.SingOwnPE1', 'ERROR')
+                    } else if (ctrl.user.profileType == 'Provider') {
+                        showToastMsg('MyMedQ_MSG.List.NeedLogIngE3', 'ERROR')
+                    } else {
+                        const serviceToSchedule = angular.copy(service)
+                        serviceToSchedule.messageType = 'Consultation'
+                        serviceToSchedule.service_ID = ctrl.selectedService.service_ID
+                        serviceToSchedule.procedure_Name = ctrl.selectedService.procedure_Name
+                        serviceToSchedule.price = ctrl.selectedService.price
+                        serviceToSchedule.service_consultationCost =
+                            ctrl.selectedService.service_consultationCost
+                        serviceToSchedule.procedure_ID = ctrl.selectedService.procedure_ID
+                        serviceToSchedule.service_PriceFactor =
+                            ctrl.selectedService.service_PriceFactor
+
+                        ListServices.requestAppointment(serviceToSchedule, user).then(function(
+                            appointment
+                        ) {
+                            if (appointment.data.status == -2) {
+                                ctrl.submit.confirmation =
+                                    'You have already registered for this procedure, please check your dashboard'
+                                showToastMsg('MyMedQ_MSG.List.ProcedureAlreadyRE1', 'ERROR')
+                            } else if (appointment.data.status < 0) {
+                                ctrl.submit.confirmation = appointment.data.message
+                                showToastMsg(appointment.data.message, 'ERROR')
+                            } else {
+                                let provider_Msg = appointment.data.provider_msg
+                                let user_Msg = appointment.data.user_msg
+
+                                ctrl.submit.confirmation =
+                                    'Your request has been submitted, please wait for the hospital to confirm'
+                                showToastMsg('MyMedQ_MSG.List.RequestOkSuccessMsg1', 'SUCCESS')
+                                //recursive function to add option items to cart
+                                var addServiceWithoutOptions = true
+                                Object.keys(optionItems).forEach(function(key) {
+                                    try {
+                                        optionItems[key].forEach(function(elem) {
+                                            if (elem.selected == true) {
+                                                noOptions = false
+                                                //this condition as is or skip to next iteration since we already have that option
+                                                if (OptionsSelected.indexOf(key) <= -1) {
+                                                    OptionsSelected.push(key)
+                                                }
+                                                addServiceWithoutOptions = false
+                                            }
+                                        })
+                                    } catch (err) {
+                                        console.log(err)
+                                    }
+                                })
+                                prepareService(
+                                    null,
+                                    user,
+                                    serviceToSchedule,
+                                    optionItems,
+                                    null,
+                                    true,
+                                    user_Msg,
+                                    provider_Msg,
+                                    addServiceWithoutOptions
+                                )
+                                setTimeout(function() {
+                                    let paymentNotificationData = {
+                                        cart_ID: ctrl.globalCartID,
+                                        user_ID: user.ID,
+                                        provider_ID: service.provider_ID,
+                                        amount: shoppingCartAmount,
+                                        form: 'list.html',
+                                        step: 1,
+                                        type: 'Cart',
+                                    }
+                                    paymentNotificationData.status = 'SUCCESS'
+                                    paymentNotificationData.message = 'shopping cart created'
+                                    ListServices.sendPaymentProcessEmail(
+                                        paymentNotificationData
+                                    ).then(function(notification) {
+                                        window.location.href =
+                                            'adminMedquest/#!/userServicesManager'
+                                    })
+                                }, 3000)
+                            }
+                        })
                     }
                 }
             }
@@ -48,124 +210,6 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
             let noOptions = true
 
             var shoppingCartAmount = 0
-
-            ctrl.goTo = function(redirect_to) {
-                ctrl.closeModal()
-                /* Allows for the modal to be dismissed */
-                $timeout(() => {
-                    const hospitalID = ctrl.selectedService.provider_ID
-                    const procedure = ctrl.selectedService.procedure_ID
-
-                    $location.url(`/${redirect_to}`)
-                    $location.search(
-                        'redirect_to',
-                        `/service_details?hospitalID=${hospitalID}&procedure=${procedure}`
-                    )
-                }, 1000)
-            }
-
-            ctrl.closeModal = function() {
-                $('#list-quo').modal('close')
-                $('body').removeClass('modal-open')
-                $('.modal-backdrop').remove()
-            }
-
-            ctrl.makeAppointment = function(invalid, service, user, optionItems, e) {
-                if (invalid) {
-                    return
-                }
-                ctrl.closeModal()
-
-                if (!ctrl.user.ID) {
-                    showToastMsg('MyMedQ_MSG.List.NeedLogIngE1', 'ERROR')
-                } else if (
-                    ctrl.user.ID == ctrl.service.provider_ID &&
-                    ctrl.user.profileType == 'Provider'
-                ) {
-                    showToastMsg('MyMedQ_MSG.List.SingOwnPE1', 'ERROR')
-                } else if (ctrl.user.profileType == 'Provider') {
-                    showToastMsg('MyMedQ_MSG.List.NeedLogIngE3', 'ERROR')
-                } else {
-                    const serviceToSchedule = angular.copy(service)
-                    serviceToSchedule.messageType = 'Consultation'
-                    serviceToSchedule.service_ID = ctrl.selectedService.service_ID
-                    serviceToSchedule.procedure_Name = ctrl.selectedService.procedure_Name
-                    serviceToSchedule.price = ctrl.selectedService.price
-                    serviceToSchedule.service_consultationCost =
-                        ctrl.selectedService.service_consultationCost
-                    serviceToSchedule.procedure_ID = ctrl.selectedService.procedure_ID
-                    serviceToSchedule.service_PriceFactor = ctrl.selectedService.service_PriceFactor
-
-                    ListServices.requestAppointment(serviceToSchedule, user).then(function(
-                        appointment
-                    ) {
-                        if (appointment.data.status == -2) {
-                            ctrl.submit.confirmation =
-                                'You have already registered for this procedure, please check your dashboard'
-                            showToastMsg('MyMedQ_MSG.List.ProcedureAlreadyRE1', 'ERROR')
-                        } else if (appointment.data.status < 0) {
-                            ctrl.submit.confirmation = appointment.data.message
-                            showToastMsg(appointment.data.message, 'ERROR')
-                        } else {
-                            let provider_Msg = appointment.data.provider_msg
-                            let user_Msg = appointment.data.user_msg
-
-                            ctrl.submit.confirmation =
-                                'Your request has been submitted, please wait for the hospital to confirm'
-                            showToastMsg('MyMedQ_MSG.List.RequestOkSuccessMsg1', 'SUCCESS')
-                            //recursive function to add option items to cart
-                            var addServiceWithoutOptions = true
-                            Object.keys(optionItems).forEach(function(key) {
-                                try {
-                                    optionItems[key].forEach(function(elem) {
-                                        if (elem.selected == true) {
-                                            noOptions = false
-                                            //this condition as is or skip to next iteration since we already have that option
-                                            if (OptionsSelected.indexOf(key) <= -1) {
-                                                OptionsSelected.push(key)
-                                            }
-                                            addServiceWithoutOptions = false
-                                        }
-                                    })
-                                } catch (err) {
-                                    console.log(err)
-                                }
-                            })
-                            prepareService(
-                                null,
-                                user,
-                                serviceToSchedule,
-                                optionItems,
-                                null,
-                                true,
-                                user_Msg,
-                                provider_Msg,
-                                addServiceWithoutOptions
-                            )
-                            //process notification
-                            setTimeout(function() {
-                                let paymentNotificationData = {
-                                    cart_ID: ctrl.globalCartID,
-                                    user_ID: user.ID,
-                                    provider_ID: service.provider_ID,
-                                    amount: shoppingCartAmount,
-                                    form: 'list.html',
-                                    step: 1,
-                                    type: 'Cart',
-                                }
-                                paymentNotificationData.status = 'SUCCESS'
-                                paymentNotificationData.message = 'shopping cart created'
-                                ListServices.sendPaymentProcessEmail(paymentNotificationData).then(
-                                    function(notification) {
-                                        window.location.href =
-                                            'adminMedquest/#!/userServicesManager'
-                                    }
-                                )
-                            }, 3000)
-                        }
-                    })
-                }
-            }
 
             function prepareService(
                 globalCartID,

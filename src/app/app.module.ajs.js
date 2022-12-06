@@ -36,6 +36,9 @@ import './core/list/list.module'
 import './core/list/list.service'
 import './list/list.module'
 import './list/list.component'
+/* Service Component */
+import './core/service/service.module'
+import './core/service/service.service'
 
 /* SignupComponent */
 // import './core/signup/signup.module'; //Remove once upgraded

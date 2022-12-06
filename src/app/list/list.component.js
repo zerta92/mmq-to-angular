@@ -3,10 +3,11 @@
 angular.module('listModule').component('listModule', {
     templateUrl: './app/list/list.component.html',
     controller: [
+        '$rootScope',
         '$scope',
         'ListServices',
         'GlobalServices',
-        // 'serviceManager',
+        'ServiceServices',
         '$q',
         'NgMap',
         '$translate',
@@ -16,9 +17,11 @@ angular.module('listModule').component('listModule', {
         '$location',
         '$cookies',
         function ListController(
+            $rootScope,
             $scope,
             ListServices,
             GlobalServices,
+            ServiceServices,
             $q,
             NgMap,
             $translate,
@@ -40,6 +43,7 @@ angular.module('listModule').component('listModule', {
 
             $scope.allServicesList = []
             $scope.selectedService = {}
+            $scope.isModalOpen = false
             $scope.requiredDocuments = []
             $scope.submit = {}
             // $scope.serviceOptions = []
@@ -104,6 +108,10 @@ angular.module('listModule').component('listModule', {
                 displayPrevious: true,
             }
             $scope.star_filter = { provider_review_score: 0 }
+
+            $rootScope.$on('schedule-appointment-dialog-closed', function(event, args) {
+                $scope.isModalOpen = false
+            })
 
             function getUser(token) {
                 GlobalServices.getUserProfile(token).then(function(userData) {
@@ -883,8 +891,8 @@ angular.module('listModule').component('listModule', {
                 location.href = '/listingDetails.html?hospitalID=' + id + '&procedure=' + procedure
             }
 
-            $scope.openModal = function(params) {
-                $('#list-quo').modal('open')
+            $scope.openModal = function() {
+                $scope.isModalOpen = true
             }
 
             $scope.selectService = async function(service) {
@@ -898,11 +906,11 @@ angular.module('listModule').component('listModule', {
                 $scope.selectedService.price = service.price
                 $scope.selectedService.procedure_ID = service.procedure_ID
                 $scope.openModal()
-                //Uncomment when serviceManager is available
-                // const {
-                //     data: documentsData,
-                // } = await serviceManager.getAllDocumentsRequiredByServiceId(service.service_ID)
-                // $scope.requiredDocuments = documentsData
+
+                const {
+                    data: documentsData,
+                } = await ServiceServices.getAllDocumentsRequiredByServiceId(service.service_ID)
+                $scope.requiredDocuments = documentsData
             }
 
             $scope.openConsultationInformationModal = async function(ev) {
