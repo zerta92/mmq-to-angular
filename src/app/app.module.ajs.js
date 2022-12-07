@@ -26,6 +26,11 @@ import './core/login/login.module'
 import './core/login/login.service'
 import './login/login.module'
 import './login/login.component'
+/* Account Verification Component */
+import './core/account_verification/account_verification.module'
+import './core/account_verification/account_verification.service'
+import './account_verification/account_verification.module'
+import './account_verification/account_verification.component'
 /* Procedure Content Component */
 import './core/procedure_content/procedure_content.module'
 import './core/procedure_content/procedure_content.service'
@@ -88,6 +93,7 @@ export default angular
         'servicesSearchDropdownModule',
         'listModule',
         'listDetailsModule',
+        'accountVerificationModule',
         'scheduleAppointmentModule',
     ])
     .constant('_', window._)
@@ -142,7 +148,7 @@ export default angular
         'GlobalServices',
         '$translate',
         function($scope, GlobalServices, $translate) {
-            $scope.register_and_schedule_consultation_users_url = 'whwghjdfgehwfhwgvewufe'
+            $scope.register_and_schedule_consultation_users_url = ''
             $scope.adding_procedures_provider_url = ''
             GlobalServices.getCustomerPreferredLanguage().then(function(lang) {
                 if (lang.data != undefined) {

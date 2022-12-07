@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MyMedQuest Account Verification</title>
+    </head>
+
+    <body ng-cloak>
+        <section class="tz-register">
+            <div class="log-in-pop">
+                <div class="log-in-pop-left" style="background-color: white;">
+                    <h1>{{ 'Signup.CustomerDetails.Confirmation.Header' | translate }}</h1>
+                    <p>{{ 'Signup.CustomerDetails.Confirmation.subHeader' | translate }}</p>
+                    <br />
+                </div>
+                <div class="log-in-pop-right">
+                    <a class="pop-close" data-dismiss="modal">
+                        <img src="template/images/cancel.png" alt="" ng-click="vm.closePopUp()" />
+                    </a>
+                    <form name="accountConfirmationForm" class="s12">
+                        <md-input-container class="md-block">
+                            <label class="customlabel"
+                                >{{ 'Signup.CustomerDetails.resetUserN' | translate }}
+                            </label>
+                            <input
+                                type="text"
+                                ng-model="vm.forgotPasswd.userName"
+                                class="validate"
+                                required="required"
+                            />
+                        </md-input-container>
+
+                        <div class="row" style="margin-left: 0px !important;">
+                            <div class="input-field">
+                                <md-button
+                                    type="submit"
+                                    ng-disabled="accountConfirmationForm.$invalid"
+                                    class="md-raised md-primary waves-effect waves-light btn-large waves-input-wrapper"
+                                    ng-click="vm.confirmAccount()"
+                                >
+                                    {{
+                                        'Signup.CustomerDetails.Confirmation.confirmAccount'
+                                            | translate
+                                    }}
+                                    <md-tooltip md-direction="Bottom">{{
+                                        'Signup.CustomerDetails.Confirmation.confirmAccountTooltip'
+                                            | translate
+                                    }}</md-tooltip>
+                                </md-button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="input-field s12">
+                                <a href="/login"
+                                    ><b>{{
+                                        'Signup.CustomerDetails.areYouMember' | translate
+                                    }}</b></a
+                                >
+                                |
+                                <a href="/register"
+                                    ><b>{{ 'Signup.CustomerDetails.createOne' | translate }}</b></a
+                                >
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <br />
+        <!--ADD BUSINESS-->
+        <section class="com-padd home-dis">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            <span>{{ 'Index.Home.Discount100P' | translate }}</span>
+                            {{ 'Index.Home.RegisterFF' | translate }}
+                            <a href="/register">{{ 'Index.Home.Signup_' | translate }}</a>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <br />
+    </body>
+    <script>
+        let selected_country_data = null
+    </script>
+    <style>
+        .customlabel {
+            position: static !important;
+            transform: translate3d(0, 0px, 0) scale(1) !important;
+        }
+    </style>
+</html>

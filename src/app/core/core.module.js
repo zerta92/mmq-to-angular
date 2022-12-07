@@ -10,4 +10,5 @@ angular.module('core', [
     'core.listDetails',
     'core.service',
     'core.brand',
+    'core.accountVerification',
 ])
