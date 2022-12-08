@@ -1,0 +1,74 @@
+<section>
+    <div class="dir-pop-com"  >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header dir-pop-head">
+                    <button type="button" class="close" ng-click="vm.closeModal()">X</button>
+                    <h4 class="modal-title">{{'ListDetailProvider.ContactTheHospital'|translate}}</h4>
+                    <!--<i class="fa fa-pencil dir-pop-head-icon" aria-hidden="true"></i>-->
+                </div>
+                <div class="modal-body dir-pop-body">
+                    <form method="post" class="form-horizontal" name="providerCard" id="provider-card">
+                        <p>
+                            <h4>{{vm.selectedService.procedure_Name}} {{'ListDetailProvider.with'|translate}}  {{vm.selectedService.provider_Name}}</h4>
+                        </p>
+
+                        <!--LISTING INFORMATION-->
+                        <div class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label">{{'ListDetailProvider.Service'|translate}} </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="uname" placeholder="" value ={{vm.selectedService.procedure_Name}}  readonly> 
+                            </div>
+                        </div>
+                        <!--LISTING INFORMATION-->
+                        <div ng-show="false" class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label">Username </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="uname" placeholder="" value ={{user.username}} readonly> 
+                            </div>
+                        </div>
+                        <!--LISTING INFORMATION-->
+                        <div ng-show="false" class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label">Name </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="name" placeholder="" value ={{user.name}} readonly> 
+                            </div>
+                        </div>
+                        <!--LISTING INFORMATION-->
+                        <div ng-show="false" class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label">Mobile</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="mobile" value={{user.phone}} placeholder="" readonly> 
+                            </div>
+                        </div>
+                        <!--LISTING INFORMATION-->
+                        <div ng-show="false" class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label">Email</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="email" value={{user.email}} placeholder="" readonly> 
+                            </div>
+                        </div>
+                        <!--LISTING INFORMATION-->
+                        <div class="form-group has-feedback ak-field">
+                            <label class="col-md-4 control-label">{{'ListDetailProvider.Message'|translate}}</label>
+                            <div class="col-md-8 get-quo">
+                                <textarea ng-model="vm.user.message"class="form-control"></textarea>
+                            </div>
+                        </div>
+                                    
+                        <div class="card-panel">
+                            <span class="blue-text text-purple darken-1">{{vm.message.confirmation}}</span>
+                        </div>
+
+                        <!--LISTING INFORMATION-->
+                        <div class="form-group has-feedback ak-field">
+                            <div class="col-md-6 col-md-offset-4">
+                                <input type="submit" value="{{'FollowUp.FollowUp.Submit'|translate}}" data-dismiss="modal" ng-click="vm.sendMessage(vm.selectedService,vm.user,$event);" class="pop-btn"> </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</section>

@@ -56,6 +56,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             $scope.submit = {}
             $scope.message = {}
             $scope.isModalOpen = false
+            $scope.isContactProviderModalOpen = false
             $scope.providerInfo = {}
             $scope.user = {}
             $scope.headImage = {}
@@ -78,6 +79,10 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 $scope.isModalOpen = false
             })
 
+            $rootScope.$on('contact-provider-dialog-closed', function(event, args) {
+                $scope.isContactProviderModalOpen = false
+            })
+
             const showToastMsg = GlobalServices.showToastMsg
 
             $scope.toggleBounce = function() {
@@ -98,6 +103,10 @@ angular.module('listDetailsModule').component('listDetailsModule', {
 
             $scope.openModal = function(params) {
                 $scope.isModalOpen = true
+            }
+
+            $scope.openContactProviderModal = function() {
+                $scope.isContactProviderModalOpen = true
             }
 
             $scope.ratingStates = [

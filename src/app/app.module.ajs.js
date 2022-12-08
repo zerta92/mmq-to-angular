@@ -69,6 +69,9 @@ import './components/services-search-dropdown/services_search_dropdown.component
 /* Schedule Appointment Dropdown */
 import './components/schedule_appointment/schedule_appointment.module'
 import './components/schedule_appointment/schedule_appointment.component'
+/* Contact Provider */
+import './components/contact_provider/contact_provider.module'
+import './components/contact_provider/contact_provider.component'
 
 export default angular
     .module('mainApp', [
@@ -95,6 +98,7 @@ export default angular
         'listDetailsModule',
         'accountVerificationModule',
         'scheduleAppointmentModule',
+        'contactProviderModule',
     ])
     .constant('_', window._)
     .config([

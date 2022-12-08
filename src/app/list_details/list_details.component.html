@@ -104,7 +104,7 @@
 						<ul>
 							<li><a ng-if="service" ng-href="#" id="schedule-consultation-info" ng-click="openModal()" style="font-size: large; background: #15629e; color: rgb(244, 241, 241); overflow: visible;" >{{"ListDetailProvider.ScheduleAnAppointment"|translate}} <md-icon ng-click=' $event.preventDefault(); $event.stopPropagation(); openConsultationInformationModal()' md-svg-src="/template/img/info_black_24dp.svg"><md-tooltip md-direction="Bottom">{{"List.Consultation.Description1"|translate}}.</md-tooltip> </md-icon></a> </li>
 							<li><a ng-href="#ld-rew" style="font-size: large;"><i class="fa fa-star-o" aria-hidden="true"></i> {{'ListDetailProvider.WriteReview'|translate}}</a> </li>
-							<li><a ng-href="#" ng-if="service" data-dismiss="modal" data-toggle="modal" data-target="#list-quo-msg" style="font-size: large;"><i class="fa fa-commenting-o" aria-hidden="true"></i> {{"ListDetailProvider.Message"|translate}}</a> </li>
+							<li><a ng-href="#" ng-if="service" ng-click="openContactProviderModal()" style="font-size: large;"><i class="fa fa-commenting-o" aria-hidden="true"></i> {{"ListDetailProvider.Message"|translate}}</a> </li>
 							<li><a ng-show="false" ><i class="fa fa-usd" aria-hidden="true" style="font-size: large;"></i> {{validateValue(service.price)}}</a> </li>
 						</ul>
 					</div>
@@ -543,96 +543,10 @@
 		</div>
 	</section>
 
-	<section>
-		<!-- SEND MESSAGE POP UP -->
-		<div class="modal fade dir-pop-com" id="list-quo-msg" role="dialog" >
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header dir-pop-head">
-						<button type="button" class="close" data-dismiss="modal">Ã</button>
-						<h4 class="modal-title">{{'ListDetailProvider.ContactTheHospital'|translate}}</h4>
-						<!--<i class="fa fa-pencil dir-pop-head-icon" aria-hidden="true"></i>-->
-					</div>
-					<div class="modal-body dir-pop-body">
-						<form method="post" class="form-horizontal">
-							<p>
-								<h4>{{service.procedure_Name}}</h4>
-								<h4> {{'ListDetailProvider.with'|translate}} {{provider.provider_Name}}</h4>
-							</p>
-
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">{{'ListDetailProvider.Service'|translate}} </label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" style="font-size: medium !important; color: black;" name="uname" placeholder="" value ={{service.procedure_Name}}  readonly> </div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">{{'ListDetailProvider.Username'|translate}} </label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" style="font-size: medium !important; color: black;" name="uname" placeholder="" value ={{user.username}} readonly> </div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">{{'ListDetailProvider.Name'|translate}} </label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" style="font-size: medium !important; color: black;" name="name" placeholder="" value ={{user.name}} readonly> </div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">{{'ListDetailProvider.Mobile'|translate}}</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" style="font-size: medium !important; color: black;" name="mobile" value={{user.phone}} placeholder="" readonly> </div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">{{'ListDetailProvider.Email'|translate}}</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" style="font-size: medium !important; color: black;" name="email" value={{user.email}} placeholder="" readonly> </div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">{{'ListDetailProvider.Message'|translate}}</label>
-								<div class="col-md-8 get-quo">
-									<textarea ng-model="user.message" class="form-control" style="font-size: medium !important; color: black;"></textarea>
-								</div>
-							</div>
-												
-							<div class="card-panel">
-							    <span class="blue-text text-purple darken-1">{{message.confirmation}}</span>
-						  	</div>
-							
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<div class="col-md-6 col-md-offset-4">
-									<input type="submit" value="{{'FollowUp.FollowUp.Submit'|translate}}" data-dismiss="modal" ng-click="sendMessage(service,user,$event);" class="pop-btn"> </div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</section>
 	
 	<schedule-appointment user="user" provider="provider" is-modal-open="isModalOpen" service="service" services-list="procedure_price_by_provider" documents="requiredDocuments"></schedule-appointment>
+	<contact-provider user="user" is-modal-open="isContactProviderModalOpen" service="service" ></contact-provider>
 
-	
-	<script>
-		// $('.datepicker').pickadate({
-		// 	  selectMonths: true,// Creates a dropdown to control month
-		// 	  selectYears: 90 // Creates a dropdown of 15 years to control year,
-		// 	});
-		
-		// $(document).ready(function(){
-		//     $('.materialboxed').materialbox();
-		//   });
-		
-		//  $(function(){
-		//       $("#Content").load("Sub.html"); 
-		//     });
-	</script>    
-	
 	
 </body>
 

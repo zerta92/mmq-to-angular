@@ -270,7 +270,7 @@
 												</a> 
 											</li> -->
 											<li>
-												<a ng-href="#" ng-click="selectService(service)" data-dismiss="modal" data-toggle="modal" data-target="#list-quo-msg">
+												<a ng-href="#" ng-click="selectService(service); openContactProviderModal()" >
 													<md-icon md-svg-src="/template/img/contact_mail-black-48dp.svg" style="width: 25px; height: 25px;"></md-icon>  
 														{{"List.Card.Contact"|translate}}
 												</a> 
@@ -410,82 +410,8 @@
 	</section>
 
 	
-		<section>
-		<!-- SEND MESSAGE POP UP -->
-		<div class="modal fade dir-pop-com" id="list-quo-msg" role="dialog" >
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header dir-pop-head">
-						<button type="button" class="close" data-dismiss="modal">Ã</button>
-						<h4 class="modal-title">Contact The Clinic</h4>
-						<!--<i class="fa fa-pencil dir-pop-head-icon" aria-hidden="true"></i>-->
-					</div>
-					<div class="modal-body dir-pop-body">
-						<form method="post" class="form-horizontal" name="providerCard" id="provider-card">
-							<p>
-								<h4>{{selectedService.procedure_Name}} with {{selectedService.provider_Name}}</h4>
-							</p>
-
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Service </label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" name="uname" placeholder="" value ={{selectedService.procedure_Name}}  readonly> 
-								</div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div ng-show="false" class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Username </label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" name="uname" placeholder="" value ={{user.username}} readonly> 
-								</div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div ng-show="false" class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Name </label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" name="name" placeholder="" value ={{user.name}} readonly> 
-								</div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div ng-show="false" class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Mobile</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" name="mobile" value={{user.phone}} placeholder="" readonly> 
-								</div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div ng-show="false" class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Email</label>
-								<div class="col-md-8">
-									<input type="text" class="form-control" name="email" value={{user.email}} placeholder="" readonly> 
-								</div>
-							</div>
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<label class="col-md-4 control-label">Message</label>
-								<div class="col-md-8 get-quo">
-									<textarea ng-model="user.message"class="form-control"></textarea>
-								</div>
-							</div>
-										
-							<div class="card-panel">
-							    <span class="blue-text text-purple darken-1">{{message.confirmation}}</span>
-							</div>
-
-							<!--LISTING INFORMATION-->
-							<div class="form-group has-feedback ak-field">
-								<div class="col-md-6 col-md-offset-4">
-									<input type="submit" value="SUBMIT" data-dismiss="modal" ng-click="sendMessage(selectedService,user,$event);" class="pop-btn"> </div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	</section>
 	<schedule-appointment user="user" is-modal-open="isModalOpen" provider="selectedService" services-list="procedure_price_by_provider[selectedService.provider_ID]" service="selectedService" documents="requiredDocuments"></schedule-appointment>
+	<contact-provider user="user" is-modal-open="isContactProviderModalOpen" service="selectedService" ></contact-provider>
 	    
 </body>
 

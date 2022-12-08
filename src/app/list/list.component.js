@@ -43,6 +43,7 @@ angular.module('listModule').component('listModule', {
             $scope.allServicesList = []
             $scope.selectedService = {}
             $scope.isModalOpen = false
+            $scope.isContactProviderModalOpen = false
             $scope.requiredDocuments = []
             $scope.submit = {}
             // $scope.serviceOptions = []
@@ -110,6 +111,9 @@ angular.module('listModule').component('listModule', {
 
             $rootScope.$on('schedule-appointment-dialog-closed', function(event, args) {
                 $scope.isModalOpen = false
+            })
+            $rootScope.$on('contact-provider-dialog-closed', function(event, args) {
+                $scope.isContactProviderModalOpen = false
             })
 
             function getUser(token) {
@@ -893,6 +897,9 @@ angular.module('listModule').component('listModule', {
             $scope.openModal = function() {
                 $scope.isModalOpen = true
             }
+            $scope.openContactProviderModal = function() {
+                $scope.isContactProviderModalOpen = true
+            }
 
             $scope.selectService = async function(service) {
                 $scope.selectedService.procedure_Name = service.procedure_Name
@@ -904,7 +911,6 @@ angular.module('listModule').component('listModule', {
                 $scope.selectedService.email = service.provider_Email
                 $scope.selectedService.price = service.price
                 $scope.selectedService.procedure_ID = service.procedure_ID
-                $scope.openModal()
 
                 const {
                     data: documentsData,
@@ -942,32 +948,32 @@ angular.module('listModule').component('listModule', {
                 }
             }
 
-            $scope.sendMessage = function(selectedService, user, e) {
-                console.log(selectedService)
-                selectedService.messageType = 'Message'
+            // $scope.sendMessage = function(selectedService, user, e) {
+            //     console.log(selectedService)
+            //     selectedService.messageType = 'Message'
 
-                if (!$scope.user.ID) {
-                    console.log('you need to log in')
-                    showToastMsg('MyMedQ_MSG.List.NeedLogIngE1', 'ERROR')
-                } else if (user.ID == selectedService.provider_ID) {
-                    console.log('you cant message yourself')
-                    showToastMsg('MyMedQ_MSG.List.NeedLogIngE2', 'ERROR')
-                } else if (user.profileType == 'Provider') {
-                    console.log('you cant sign up with a Provider account')
-                    showToastMsg('MyMedQ_MSG.List.NeedLogIngE3', 'ERROR')
-                } else {
-                    ListServices.contactProvider(selectedService, user).then(function(message) {
-                        if (message.data.status < 0) {
-                            $scope.submit.confirmation = message.data.message
-                            showToastMsg('MyMedQ_MSG.List.RequestErrorE2', 'ERROR')
-                        } else {
-                            $scope.message.confirmation =
-                                'Your message has been sent, please wait for the hospital to reply'
-                            showToastMsg('MyMedQ_MSG.List.AppSuccessMsg1', 'SUCCESS')
-                        }
-                    })
-                }
-            }
+            //     if (!$scope.user.ID) {
+            //         console.log('you need to log in')
+            //         showToastMsg('MyMedQ_MSG.List.NeedLogIngE1', 'ERROR')
+            //     } else if (user.ID == selectedService.provider_ID) {
+            //         console.log('you cant message yourself')
+            //         showToastMsg('MyMedQ_MSG.List.NeedLogIngE2', 'ERROR')
+            //     } else if (user.profileType == 'Provider') {
+            //         console.log('you cant sign up with a Provider account')
+            //         showToastMsg('MyMedQ_MSG.List.NeedLogIngE3', 'ERROR')
+            //     } else {
+            //         ListServices.contactProvider(selectedService, user).then(function(message) {
+            //             if (message.data.status < 0) {
+            //                 $scope.submit.confirmation = message.data.message
+            //                 showToastMsg('MyMedQ_MSG.List.RequestErrorE2', 'ERROR')
+            //             } else {
+            //                 $scope.message.confirmation =
+            //                     'Your message has been sent, please wait for the hospital to reply'
+            //                 showToastMsg('MyMedQ_MSG.List.AppSuccessMsg1', 'SUCCESS')
+            //             }
+            //         })
+            //     }
+            // }
 
             function getLatitudeLongitudeByAddress(address) {
                 return new Promise(function(resolveMain, reject) {

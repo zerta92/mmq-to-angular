@@ -37,36 +37,40 @@
                 <form class="col s12">
                     <div class="row">
                         <div class="input-field col s12">
-                            <input
-                                type="text"
-                                id="username_"
-                                class="validate input-font-size"
-                                ng-model="user.username"
-                                style="color: #fff; background-color: #00000028; "
-                                required="required"
-                            />
-                            <label
-                                class="input-font-size"
-                                style="line-height: .5em; color: #fff; background-color: #00000028;"
-                                >{{ 'Login.login.TitleUsername' | translate }}</label
-                            >
+                            <md-input-container>
+                                <label
+                                    class="input-font-size"
+                                    style="color: #fff; background-color: #00000028;"
+                                    >{{ 'Login.login.TitleUsername' | translate }}</label
+                                >
+                                <input
+                                    type="text"
+                                    id="username_"
+                                    class="validate input-font-size"
+                                    ng-model="user.username"
+                                    style="color: #fff; background-color: #00000028; "
+                                    required="required"
+                                />
+                            </md-input-container>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input
-                                type="password"
-                                class="validate input-font-size"
-                                ng-model="user.password"
-                                style="color: #fff; background-color: #00000028; "
-                                required="required"
-                            />
+                            <md-input-container>
+                                <input
+                                    type="password"
+                                    class="validate input-font-size"
+                                    ng-model="user.password"
+                                    style="color: #fff; background-color: #00000028; "
+                                    required="required"
+                                />
 
-                            <label
-                                class="input-font-size"
-                                style="line-height: .5em; color: #fff; background-color: #00000028;"
-                                >{{ 'Login.login.TitlePassword' | translate }}</label
-                            >
+                                <label
+                                    class="input-font-size"
+                                    style="color: #fff; background-color: #00000028;"
+                                    >{{ 'Login.login.TitlePassword' | translate }}</label
+                                >
+                            </md-input-container>
                         </div>
                     </div>
                     <div class="row">
