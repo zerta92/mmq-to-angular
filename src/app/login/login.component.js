@@ -78,7 +78,7 @@ angular.module('loginModule').component('loginModule', {
                             traslateType: $scope.traslateType,
                         },
                         controller: dialogSuggestUsernamesController,
-                        templateUrl: '/dialogTemplate/changePasswdRequest.html',
+                        templateUrl: 'app/pages/modals/change_password_request.template.html',
                         parent: angular.element(document.body),
                         targetEvent: ev,
                         clickOutsideToClose: true,

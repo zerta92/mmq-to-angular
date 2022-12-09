@@ -31,6 +31,11 @@ import './core/account_verification/account_verification.module'
 import './core/account_verification/account_verification.service'
 import './account_verification/account_verification.module'
 import './account_verification/account_verification.component'
+/* Forgot Password */
+import './core/forgot_password/forgot_password.module'
+import './core/forgot_password/forgot_password.service'
+import './forgot_password/forgot_password.module'
+import './forgot_password/forgot_password.component'
 /* Procedure Content Component */
 import './core/procedure_content/procedure_content.module'
 import './core/procedure_content/procedure_content.service'
@@ -97,6 +102,7 @@ export default angular
         'listModule',
         'listDetailsModule',
         'accountVerificationModule',
+        'forgotPasswordModule',
         'scheduleAppointmentModule',
         'contactProviderModule',
     ])

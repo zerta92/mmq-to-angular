@@ -147,7 +147,9 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             function createDynamicProviderDescription() {
                 $scope.description_header = $scope.provider.provider_Name
                 $scope.description_header2 = `${$scope.provider.provider_Country} > ${$scope.provider.provider_State} > ${$scope.provider.provider_City}`
-                $scope.description_header3 = `${$scope.categories_by_provider.join('&#8226')}`
+                $scope.description_header3 = $sce.trustAsHtml(
+                    `${$scope.categories_by_provider.join('&#8226')}`
+                )
             }
 
             $scope.validateValue = function(num) {
@@ -353,7 +355,9 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                     ? `${$scope.service.procedure_Name}`
                     : `Dentist`
 
-                const page_title = `${is_service_title} | ${$scope.provider.provider_City} (${$scope.provider.provider_Country}) | ${$scope.provider.provider_Name}`
+                const page_title = $sce.trustAsHtml(
+                    `${is_service_title} | ${$scope.provider.provider_City} (${$scope.provider.provider_Country}) | ${$scope.provider.provider_Name}`
+                )
                 ngMeta.setTitle(page_title)
                 const page_description = `Book an online or in-person consultation now. ${$scope
                     .provider.provider_Description &&
@@ -806,7 +810,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                             consultationInformation: consultation_information.data.htmlTerms,
                         },
                         controller: consultationInfoDialogController,
-                        templateUrl: '/dialogTemplate/ConsultationInformation.html',
+                        templateUrl: 'app/pages/modals/consultation_information.template.html',
                         parent: angular.element(document.body),
                         targetEvent: ev,
                         clickOutsideToClose: true,
@@ -821,7 +825,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             }
 
             function consultationInfoDialogController($scope, consultationInformation) {
-                $scope.consultationInformation = consultationInformation
+                $scope.consultationInformation = $sce.trustAsHtml(consultationInformation)
 
                 $scope.cancel = function() {
                     $mdDialog.cancel()

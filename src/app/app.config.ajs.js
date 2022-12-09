@@ -19,7 +19,12 @@ export default function(appModule) {
                     template: '<login-module></login-module>',
                 })
                 .when('/account-verification', {
+                    //todo: check backend uses this route
                     template: '<account-verification-module></account-verification-module>',
+                })
+                .when('/password-reset', {
+                    //todo: check backend uses this route
+                    template: '<forgot-password-module></forgot-password-module>',
                 })
                 .when('/what-is-medical-tourism', {
                     templateUrl: 'app/pages/what-is-medical-tourism.template.html',

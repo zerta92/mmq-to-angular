@@ -11,4 +11,5 @@ angular.module('core', [
     'core.service',
     'core.brand',
     'core.accountVerification',
+    'core.forgotPassword',
 ])
