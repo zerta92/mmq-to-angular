@@ -75,12 +75,13 @@ angular.module('loginModule').component('loginModule', {
                 $mdDialog
                     .show({
                         locals: {
-                            traslateType: $scope.traslateType,
+                            $mdDialog,
                         },
-                        controller: dialogSuggestUsernamesController,
+                        controller: ['$mdDialog', dialogSuggestUsernamesController],
                         templateUrl: 'app/pages/modals/change_password_request.template.html',
                         parent: angular.element(document.body),
                         targetEvent: ev,
+                        controllerAs: 'vm',
                         clickOutsideToClose: true,
                         fullscreen: false,
                     })
@@ -110,44 +111,46 @@ angular.module('loginModule').component('loginModule', {
                         }
                     )
 
-                function dialogSuggestUsernamesController($scope, $mdDialog, traslateType) {
-                    $scope.userType
+                function dialogSuggestUsernamesController($mdDialog) {
+                    const ctrl = this
 
-                    $scope.hide = function() {
+                    ctrl.userType
+
+                    ctrl.hide = function() {
                         $mdDialog.hide()
                     }
 
-                    $scope.cancel = function() {
+                    ctrl.cancel = function() {
                         $mdDialog.cancel()
                     }
 
-                    $scope.answer = function(answer) {
-                        if (answer == 'OK' && $scope.userType != undefined) {
-                            LoginServices.validateUserName($scope.userType).then(function(
+                    ctrl.answer = function(answer) {
+                        if (answer == 'OK' && ctrl.userType != undefined) {
+                            LoginServices.validateUserName(ctrl.userType).then(function(
                                 validateResponse
                             ) {
                                 if (validateResponse.data.status < 0) {
                                     showToastMsg('MyMedQ_MSG.LogIn.ErrorValidatingUserNE1', 'ERROR')
                                     $mdDialog.cancel()
                                 } else {
-                                    $scope.userType.id = validateResponse.data.status.split(
+                                    ctrl.userType.id = validateResponse.data.status.split(
                                         '*&=&*'
                                     )[0]
-                                    $scope.userType.email = validateResponse.data.status.split(
+                                    ctrl.userType.email = validateResponse.data.status.split(
                                         '*&=&*'
                                     )[1]
-                                    $scope.userType.username = validateResponse.data.status.split(
+                                    ctrl.userType.username = validateResponse.data.status.split(
                                         '*&=&*'
                                     )[2]
                                     if (validateResponse.data.message == 'USER') {
                                         // Usuario
-                                        $scope.userType.type = 1
+                                        ctrl.userType.type = 1
 
-                                        $mdDialog.hide($scope.userType)
+                                        $mdDialog.hide(ctrl.userType)
                                     } else if (validateResponse.data.message == 'PROVIDER') {
                                         // Provider
-                                        $scope.userType.type = 2
-                                        $mdDialog.hide($scope.userType)
+                                        ctrl.userType.type = 2
+                                        $mdDialog.hide(ctrl.userType)
                                     }
                                 }
                             })

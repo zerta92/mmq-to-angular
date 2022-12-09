@@ -34,9 +34,6 @@ angular.module('contactProviderModule').component('contactProvider', {
                                     locals: {
                                         service: ctrl.service,
                                         user: ctrl.user,
-                                        provider: ctrl.provider,
-                                        servicesList: ctrl.servicesList,
-                                        documents: ctrl.documents,
                                     },
                                     controller: ['service', 'user', ContactProviderControllerModal],
                                     controllerAs: 'vm',

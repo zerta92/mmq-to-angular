@@ -809,7 +809,11 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         locals: {
                             consultationInformation: consultation_information.data.htmlTerms,
                         },
-                        controller: consultationInfoDialogController,
+                        controller: [
+                            '$scope',
+                            'consultationInformation',
+                            consultationInfoDialogController,
+                        ],
                         templateUrl: 'app/pages/modals/consultation_information.template.html',
                         parent: angular.element(document.body),
                         targetEvent: ev,
