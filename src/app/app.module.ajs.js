@@ -77,6 +77,9 @@ import './components/schedule_appointment/schedule_appointment.component'
 /* Contact Provider */
 import './components/contact_provider/contact_provider.module'
 import './components/contact_provider/contact_provider.component'
+/* Footer */
+import './components/footer/footer.module'
+import './components/footer/footer.component'
 
 export default angular
     .module('mainApp', [
@@ -105,6 +108,7 @@ export default angular
         'forgotPasswordModule',
         'scheduleAppointmentModule',
         'contactProviderModule',
+        'footerModule',
     ])
     .constant('_', window._)
     .config([

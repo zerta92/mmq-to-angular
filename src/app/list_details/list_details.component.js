@@ -652,7 +652,6 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         ($scope.currentPage + 1) * $scope.pageSize
                     )
                 } else {
-                    //showToastMsg( 'MyMedQ_MSG.List.ServicesNFE1',"INFO")
                     $scope.reviewsInfoDataShown = []
                 }
             }

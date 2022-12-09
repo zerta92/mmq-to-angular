@@ -61,7 +61,6 @@
     "eslint-plugin-prettier": "^3.1.2",
     "flag-icon-css": "3.3.0",
     "flash": "1.1.0",
-    "font-awesome": "^4.7.0",
     "fullcalendar": "^2.3.1",
     "json-export-excel": "^1.0.8",
     "jsonwebtoken": "^7.3.0",

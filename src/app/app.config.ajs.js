@@ -43,6 +43,12 @@ export default function(appModule) {
                     template: '<list-details-module></list-details-module>',
                     reloadOnSearch: false,
                 })
+                .when('/about-us', {
+                    templateUrl: 'app/pages/about_us.template.html',
+                })
+                .when('/contact_us', {
+                    templateUrl: 'app/pages/contact_us.template.html',
+                })
                 .otherwise('/')
 
             $locationProvider.html5Mode({ enabled: true })
