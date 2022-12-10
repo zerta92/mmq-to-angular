@@ -117,17 +117,7 @@ angular
                 ctrl.curentyear = new Date().getFullYear()
                 ctrl.curentDate = new Date()
                 ctrl.mymedQuestInfo = {}
-                // ctrl.forgotPasswd = {}
-                // const search = location.search
-                // if (search.includes('confirmation=')) {
-                //     ctrl.user.confirmation = true
-                // }
-                // if (search.includes('username=')) {
-                //     let username = location.search.slice(search.indexOf('username'), search.length)
-                //     ctrl.forgotPasswd.userName = username.replace('username=', '') || ''
-                // } else {
-                //     ctrl.forgotPasswd.userName = ''
-                // }
+
                 ctrl.captchaResponse = undefined
                 ctrl.captchaFPResponse = undefined
                 ctrl.processButtonClicked = false
@@ -153,9 +143,6 @@ angular
                     }
                 }
 
-                /**
-                 * @author Jorge Medina
-                 */
                 ctrl.validateUserN = function() {
                     SignupServices.validateUserName(ctrl.forgotPasswd).then(function(
                         validateResponse
@@ -175,42 +162,6 @@ angular
                         }
                     })
                 }
-
-                // ctrl.resetPassWd = function() {
-                //     const search = location.search
-
-                //     let key = search.slice(
-                //         search.indexOf('authentication_key'),
-                //         search.indexOf('type') - 1
-                //     )
-                //     key = key.replace('authentication_key=', '')
-                //     let type = search.slice(search.indexOf('type'), search.indexOf('type') + 6)
-                //     type = type.replace('type=', '')
-                //     ctrl.forgotPasswd.type = type
-                //     SignupServices.authenticateAccountPasswordReset({
-                //         key: key,
-                //         type: type,
-                //         username: ctrl.forgotPasswd.userName,
-                //     }).then(function(validationStatus) {
-                //         if (validationStatus.data.status < 0) {
-                //             showToastMsg('MyMedQ_MSG.SignUp.ErrorChangingPE1', 'ERROR')
-                //         } else {
-                //             SignupServices.resetPasswordByUserName(ctrl.forgotPasswd).then(function(
-                //                 changeStatus
-                //             ) {
-                //                 if (changeStatus.data.status == -1) {
-                //                     showToastMsg('MyMedQ_MSG.SignUp.ErrorChangingPE1', 'ERROR')
-                //                     ctrl.forgotPasswd.password = ''
-                //                 } else {
-                //                     showToastMsg('MyMedQ_MSG.SignUp.PasswdSuccessMsg1', 'SUCCESS')
-                //                     setTimeout(function() {
-                //                         window.location.href = '/login'
-                //                     }, 2000)
-                //                 }
-                //             })
-                //         }
-                //     })
-                // }
 
                 ctrl.closePopUp = function() {
                     window.location.href = '/index.html'
@@ -232,10 +183,6 @@ angular
                     showToastMsg('MyMedQ_MSG.CaptchacountryCodeError1', 'ERROR')
                     ctrl.captchaResponse = undefined
                 }
-                // ctrl.cbFPExpiration = function() {
-                //     showToastMsg('MyMedQ_MSG.CaptchaCodeError1', 'ERROR')
-                //     ctrl.captchaFPResponse = undefined
-                // }
 
                 ctrl.loadTermsAndConditions = async function(ev) {
                     return new Promise(async function(resolve, reject) {
@@ -271,38 +218,6 @@ angular
                     }
                 }
 
-                // ctrl.confirmAccount = async function() {
-                //     // ON PROVIDERSERVICE.JS SET DEFAULT STATUS TO 0 LINE 412
-                //     const search = location.search
-                //     let key = location.search.slice(
-                //         search.indexOf('authentication_key'),
-                //         search.indexOf('type') - 1
-                //     )
-                //     key = key.replace('authentication_key=', '')
-                //     let type = location.search.slice(
-                //         search.indexOf('type'),
-                //         search.indexOf('type') + 6
-                //     )
-                //     type = type.replace('type=', '')
-                //     const confirmationObj = {
-                //         username: ctrl.forgotPasswd.userName,
-                //         authentication_key: key,
-                //         type,
-                //     }
-
-                //     const confirmation_result = await SignupServices.confirmAccount(confirmationObj)
-
-                //     if (confirmation_result.data.error) {
-                //         showToastMsg('Signup.CustomerDetails.Confirmation.errorMessage', 'ERROR')
-                //     } else {
-                //         showToastMsg(
-                //             'Signup.CustomerDetails.Confirmation.successMessage',
-                //             'SUCCESS'
-                //         )
-                //         const token = confirmation_result.data.token
-                //         GlobalServices.getCustomer(token)
-                //     }
-                // }
                 ;(ctrl.getLocationsAll = function() {
                     return new Promise(function(resolve, reject) {
                         let resultList = []
@@ -368,8 +283,8 @@ angular
                     if (response != 'AGREE') {
                         return
                     }
-                    return
-                    var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone //new Date().getTimezoneOffset() / 60
+
+                    var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
                     ctrl.user.timezone = timezone
 
                     // if (ctrl.captchaResponse !== undefined) {

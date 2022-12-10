@@ -88,7 +88,7 @@ angular.module('indexModule').component('indexModule', {
             }
 
             function getMInfo() {
-                IndexServices.getMyMedQuestInf0()
+                GlobalServices.getMyMedQuestInf0()
                     .then(function(info_) {
                         this.mymedQuestInfo = info_
                     })

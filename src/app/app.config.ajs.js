@@ -47,7 +47,7 @@ export default function(appModule) {
                     templateUrl: 'app/pages/about_us.template.html',
                 })
                 .when('/contact_us', {
-                    templateUrl: 'app/pages/contact_us.template.html',
+                    template: '<contact-us-module></contact-us-module>',
                 })
                 .otherwise('/')
 

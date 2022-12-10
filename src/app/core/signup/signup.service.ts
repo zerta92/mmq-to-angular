@@ -20,9 +20,7 @@ export class SignupServices {
     getListCategories(): Observable<any[]> {
         return this.http.get('/api/categories/main_categories').toPromise()
     }
-    getMyMedQuestInf0(): Observable<any[]> {
-        return this.http.get('/api/dashboard/getMyMedQuestInfo').toPromise()
-    }
+
     validateUserName(forgotObj): Observable<any[]> {
         return this.http.post('/api/providers/validateUserName', forgotObj).toPromise()
     }

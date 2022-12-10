@@ -126,9 +126,6 @@ angular.module(`core.list`, []).factory(`ListServices`, [
             // setCustomerPreferredLanguage: function(lang) {
             //     return $http.get('/api/setCustomerPreferredLanguage/' + lang)
             // },
-            getMyMedQuestInf0: function() {
-                return $http.get('/api/dashboard/getMyMedQuestInfo')
-            },
         }
     },
 ])

@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="indexModule">
+<html lang="en">
     <head>
         <title>Contact Us</title>
     </head>
 
-    <body ng-controller="mainController">
+    <body>
         <section>
             <div class="con-page">
                 <div class="con-page-ri">
                     <div class="con-com">
-                        <h4 class="con-tit-top-o">{{"ContactUs.Title1"|translate}}</h4>
-                        <p>{{mymedQuestInfo.data.MyMedQAddress}}</p>
+                        <h4 class="con-tit-top-o">{{ 'ContactUs.Title1' | translate }}</h4>
+                        <p>{{ vm.mymedQuestInfo.data.MyMedQAddress }}</p>
                         <span
                             ><md-icon md-svg-icon="/template/img/ic_phone_black_24px.svg"></md-icon>
-                            {{"ContactUs.SupportAndContactForm.Phone"|translate}}:
-                            {{mymedQuestInfo.data.MyMedQPhone}}</span
+                            {{ 'ContactUs.SupportAndContactForm.Phone' | translate }}:
+                            {{ vm.mymedQuestInfo.data.MyMedQPhone }}</span
                         >
                         <span
                             ><md-icon md-svg-icon="/template/img/ic_email_black_24px.svg"></md-icon>
-                            {{"ContactUs.SupportAndContactForm.Email2"|translate}}:
-                            {{mymedQuestInfo.data.MyMedQEmail}}</span
+                            {{ 'ContactUs.SupportAndContactForm.Email2' | translate }}:
+                            {{ vm.mymedQuestInfo.data.MyMedQEmail }}</span
                         >
                         <!-- <h4>{{"ContactUs.FollowUsTitle"|translate}}</h4>
                         <p>
@@ -44,56 +44,62 @@
                     <div class="con-com">
                         <div class="cpn-pag-form">
                             <form name="contactForm">
-                                <h3>{{"ContactUs.SupportAndContactForm"|translate}}</h3>
+                                <h3>{{ 'ContactUs.SupportAndContactForm' | translate }}</h3>
                                 <p>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 </p>
                                 <div>
                                     <div class="input-field col s12">
+                                        <label for="gfc_name">{{
+                                            'ContactUs.SupportAndContactForm.Name' | translate
+                                        }}</label>
                                         <input
                                             id="gfc_name"
                                             type="text"
                                             class="validate"
-                                            ng-model="contactInfoObj.contactName_"
+                                            ng-model="vm.contactInfoObj.contactName_"
                                             required
                                         />
-                                        <label for="gfc_name"
-                                            >{{"ContactUs.SupportAndContactForm.Name"|translate}}</label
-                                        >
                                     </div>
                                 </div>
                                 <div>
                                     <div class="input-field col s12">
-                                        <input ng-model="contactInfoObj.contactPhone_"" name="phone"
-                                        type="text" ng-intl-tel-input style="padding: 40px 0px 15px
-                                        70px;">
+                                        <label for="phone">{{
+                                            'ContactUs.SupportAndContactForm.Phone' | translate
+                                        }}</label>
+                                        <input
+                                            ng-model="vm.contactInfoObj.contactPhone_"
+                                            name="phone"
+                                            id="phone"
+                                            type="text"
+                                        />
                                     </div>
                                 </div>
                                 <div>
                                     <div class="input-field col s12">
+                                        <label for="gfc_mail">{{
+                                            'ContactUs.SupportAndContactForm.Email' | translate
+                                        }}</label>
                                         <input
                                             id="gfc_mail"
                                             type="email"
-                                            ng-model="contactInfoObj.contactEmail_"
+                                            ng-model="vm.contactInfoObj.contactEmail_"
                                             class="validate"
                                         />
-                                        <label for="gfc_mail"
-                                            >{{"ContactUs.SupportAndContactForm.Email"|translate}}</label
-                                        >
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="input-field col s12">
+                                    <div class="input-field col s12" style="padding-top: 45px;">
+                                        <label for="gfc_msg">{{
+                                            'ContactUs.SupportAndContactForm.Message' | translate
+                                        }}</label>
                                         <textarea
                                             id="gfc_msg"
-                                            ng-model="contactInfoObj.information_"
+                                            ng-model="vm.contactInfoObj.information_"
                                             class="validate"
                                             style="height:200px"
                                             required
                                         ></textarea>
-                                        <label for="gfc_msg"
-                                            >{{"ContactUs.SupportAndContactForm.Message"|translate}}</label
-                                        >
                                     </div>
                                 </div>
                                 <div>
@@ -106,7 +112,7 @@
                                             lang="en"
                                             ng-model="captchaResponse"
                                             size="normal"
-                                            on-expire="cbExpiration()"
+                                            on-expire="vm.cbExpiration()"
                                         ></div>
                                     </div>
                                 </div>
@@ -114,11 +120,13 @@
                                     <div class="input-field col s12">
                                         <md-button
                                             type="submit"
-                                            ng-click="sendContactUsInfo()"
+                                            ng-click="vm.sendContactUsInfo()"
                                             class="md-raised md-primary waves-effect waves-light btn-large waves-input-wrapper"
                                             ng-disabled="captchaResponse == undefined || contactForm.$invalid"
                                         >
-                                            {{'ContactUs.SupportAndContactForm.Submit'|translate}}
+                                            {{
+                                                'ContactUs.SupportAndContactForm.Submit' | translate
+                                            }}
                                         </md-button>
                                     </div>
                                 </div>
@@ -127,7 +135,7 @@
                     </div>
                     <!-- <div class="con-com con-pag-map con-com-mar-bot-o">
                         <h4 class="con-tit-top-o">{{"ContactUs.TouchWitUs"|translate}}</h4>
-                        <p>{{mymedQuestInfo.data.MyMedQAddress}}</p>
+                        <p>{{vm.mymedQuestInfo.data.MyMedQAddress}}</p>
 
                         <iframe
                             width="450"
@@ -149,9 +157,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h2>
-                            <span>{{"Index.Home.Discount100P"|translate}}</span>
-                            {{"Index.Home.RegisterFF"|translate}}
-                            <a href="/register">{{"Index.Home.Signup_"|translate}}</a>
+                            <span>{{ 'Index.Home.Discount100P' | translate }}</span>
+                            {{ 'Index.Home.RegisterFF' | translate }}
+                            <a href="/register">{{ 'Index.Home.Signup_' | translate }}</a>
                         </h2>
                     </div>
                 </div>

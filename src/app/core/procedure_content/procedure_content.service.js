@@ -13,9 +13,6 @@ angular.module(`core.procedureContent`, []).factory(`ProcedureContentServices`, 
             findRelatedProceduresByCategoryID: function(id) {
                 return $http.get('/api/findRelatedProceduresByCategoryID/' + id)
             },
-            getMyMedQuestInf0: function() {
-                return $http.get('/api/dashboard/getMyMedQuestInfo')
-            },
         }
     },
 ])
