@@ -14,7 +14,7 @@ import { SignupServices } from './core/signup/signup.service'
     providers: [SignupServices],
     bootstrap: [],
 })
-export class AppModule {
+export class WebsiteModule {
     constructor(private upgrade: UpgradeModule) {}
     ngDoBootstrap() {
         this.upgrade.bootstrap(document.documentElement, ['mainApp'])
