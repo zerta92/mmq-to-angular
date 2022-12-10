@@ -10,7 +10,7 @@
                                 <!-- <img src="template/images/aff-logo.png" alt="">  -->
                             </a>
                         </div>
-                        <div class="ts-menu-2" style="width: 108px">
+                        <div class="ts-menu-2" style="">
                             <div layout="row" style="width : fit-content;">
                                 <div>
                                     <a href="/index" class="logo">
@@ -114,7 +114,6 @@
                             </div>
                         </div>
 
-                        <!--SECTION: SEARCH BOX-->
                         <div class="ts-menu-3">
                             <div class="">
                                 <form class="tourz-search-form " style="margin: -25px 0px;">
@@ -124,7 +123,7 @@
                                             ng-model="$ctrl.procedure"
                                             id="select-search"
                                             md-on-open="$ctrl.getProceduresMatches($ctrl.resultListProcedure)"
-                                            style="margin: 20px !important;"
+                                            style="margin: 29px !important;"
                                         >
                                             <md-optgroup
                                                 label="{{'Index.Home.SearchProcedure'|translate}}"
@@ -146,84 +145,85 @@
                                 </form>
                             </div>
                         </div>
-                        <!--SECTION: REGISTER,SIGNIN AND ADD YOUR BUSINESS-->
 
-                        <div
-                            class="ts-menu-4"
-                            layout="row"
-                            layout-xs="column"
-                            style="align-items: center; width: 33% !important"
-                        >
-                            <div flex>
-                                <a
-                                    ng-click="$ctrl.changeLanguage('sp');$ctrl.parseUrl()"
-                                    class="waves-effect v3-menu-sign"
-                                    style="background-color: transparent; border: none;"
-                                    title="{{'Languages.Spanish'|translate}}"
+                        <div class="ts-menu-4" style=" width: 45% !important">
+                            <div class="center">
+                                <div
+                                    flex
+                                    style="display: flex; justify-content: space-evenly; max-width: 25%;"
                                 >
-                                    <span
-                                        class="flag-icon flag-icon-mx"
-                                        style="width: 45px; height: 45px;"
-                                    ></span>
-                                </a>
-                                <a
-                                    ng-click="$ctrl.changeLanguage('en');$ctrl.parseUrl()"
-                                    class="waves-effect v3-menu-sign"
-                                    style="background-color: transparent; border: none; "
-                                    title="{{'Languages.English'|translate}}"
+                                    <a
+                                        ng-click="$ctrl.changeLanguage('sp');$ctrl.parseUrl()"
+                                        style="background-color: transparent; border: none;"
+                                        title="{{'Languages.Spanish'|translate}}"
+                                    >
+                                        <span
+                                            class="flag-icon flag-icon-mx"
+                                            style="width: 45px; height: 45px;"
+                                        ></span>
+                                    </a>
+                                    <a
+                                        ng-click="$ctrl.changeLanguage('en');$ctrl.parseUrl()"
+                                        style="background-color: transparent; border: none; "
+                                        title="{{'Languages.English'|translate}}"
+                                    >
+                                        <span
+                                            class="flag-icon flag-icon-us"
+                                            style="width: 45px; height: 45px;"
+                                        ></span>
+                                    </a>
+                                </div>
+                                <div
+                                    flex
+                                    class="v3-top-ri"
+                                    style="display: flex;justify-content: space-evenly; "
                                 >
-                                    <span
-                                        class="flag-icon flag-icon-us"
-                                        style="width: 45px; height: 45px;"
-                                    ></span>
-                                </a>
-                            </div>
-                            <div class="v3-top-ri">
-                                <ul>
-                                    <li>
-                                        <a
-                                            ng-if="!$ctrl.is_logged_in"
-                                            href="/login"
-                                            target="_self"
-                                            class="v3-menu-sign"
-                                            style="font-size: large;"
-                                            ><i class="fa fa-sign-in"></i>
-                                            {{'Login.login.Header.TitleLogIn'|translate}}</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a
-                                            ng-if="$ctrl.is_logged_in"
-                                            href="adminMedquest/#!/adminDashboard"
-                                            target="_self"
-                                            class="v3-menu-sign"
-                                            style="font-size: large;"
-                                            ><i class="fa fa-sign-in"></i
-                                            >{{'Login.login.Header.Dashboard'|translate}}</a
-                                        >
-                                    </li>
-                                    <li>
-                                        <a
-                                            ng-if="!$ctrl.is_logged_in"
-                                            href="/register"
-                                            target="_self"
-                                            class="v3-add-bus"
-                                            style="font-size: large;"
-                                            ><i class="fa fa-plus" aria-hidden="true"></i>
-                                            {{'Login.login.Header.TitleAccount'|translate}}</a
-                                        >
-                                        <a
-                                            ng-if="$ctrl.is_logged_in"
-                                            ng-click="$ctrl.logout()"
-                                            href="/login"
-                                            target="_self"
-                                            class="v3-add-bus"
-                                            style="font-size: large;"
-                                            ><i class="fa fa-plus" aria-hidden="true"></i>
-                                            {{'LogOut.Header'|translate}}</a
-                                        >
-                                    </li>
-                                </ul>
+                                    <ul>
+                                        <li>
+                                            <a
+                                                ng-if="!$ctrl.is_logged_in"
+                                                href="/login"
+                                                target="_self"
+                                                class="v3-menu-sign"
+                                                style="font-size: large;"
+                                                ><i class="fa fa-sign-in"></i>
+                                                {{'Login.login.Header.TitleLogIn'|translate}}</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                ng-if="$ctrl.is_logged_in"
+                                                href="adminMedquest/#!/adminDashboard"
+                                                target="_self"
+                                                class="v3-menu-sign"
+                                                style="font-size: large;"
+                                                ><i class="fa fa-sign-in"></i
+                                                >{{'Login.login.Header.Dashboard'|translate}}</a
+                                            >
+                                        </li>
+                                        <li>
+                                            <a
+                                                ng-if="!$ctrl.is_logged_in"
+                                                href="/register"
+                                                target="_self"
+                                                class="v3-add-bus"
+                                                style="font-size: large;"
+                                                ><i class="fa fa-plus" aria-hidden="true"></i>
+                                                {{'Login.login.Header.TitleAccount'|translate}}</a
+                                            >
+                                            <a
+                                                ng-if="$ctrl.is_logged_in"
+                                                ng-click="$ctrl.logout()"
+                                                href="/login"
+                                                target="_self"
+                                                class="v3-add-bus"
+                                                style="font-size: large;"
+                                                ><i class="fa fa-plus" aria-hidden="true"></i>
+                                                {{'LogOut.Header'|translate}}</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
@@ -320,4 +320,10 @@
 
         <script src="/template/js/custom.js"></script>
     </body>
+    <style>
+        .center {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
 </html>

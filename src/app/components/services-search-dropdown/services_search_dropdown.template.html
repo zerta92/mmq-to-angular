@@ -1,15 +1,8 @@
 <form layout="row" layout-md="column" style="margin-top: 10px; margin-block-end: -10px;">
-    <div
-        layout-gt-sm="col"
-        layout-gt-lg="row"
-        ng-cloak
-        flex="100"
-        class="md-padding"
-        style="padding: 0px 0px 10px 10px;"
-    >
+    <div layout-gt-sm="col" layout-gt-lg="row" ng-cloak flex="100">
         <md-select
             placeholder="{{'Index.Home.SearchCategory'|translate}}"
-            style=" border-radius: 10px !important; background-color: white; height: 48px !important; padding: 13px 8px !important; margin:11px 8px 25px !important; "
+            style=" border-radius: 10px !important; background-color: white; height: 48px !important; padding: 13px 8px !important; margin:11px 0px 25px !important; "
             ng-model="$ctrl.categorySearch"
             class="category-dropdown"
             id="select-categoriesA"
@@ -25,7 +18,7 @@
 
         <md-autocomplete
             class="input-field ng-cloak location-dropdown"
-            style="padding: 8px 0px !important; height: 50px !important; line-height: 0px !important; border-radius: 10px !important; "
+            style="padding: 6px 0px !important; height: 50px !important; margin-top: 8px; border-radius: 10px !important; "
             md-no-cache="true"
             md-selected-item="$ctrl.selectedLocationItem.locations"
             md-search-text="locationSearch"
@@ -36,10 +29,6 @@
             input-aria-labelledby="Available Locations"
         >
             <md-item-template class="item-title">
-                <!-- <md-icon
-                    md-svg-src="/template/img/location_on-24px.svg"
-                    style="width: 25px; height: 52px;"
-                ></md-icon> -->
                 <span
                     ng-if="item.flag=='mexico'"
                     class="flag-icon flag-icon-mx"
@@ -72,7 +61,7 @@
         <md-autocomplete
             ng-if="$ctrl.searchObj.procedureId && $ctrl.searchObj.procedureId !=='0' "
             class="input-field ng-cloak procedure-dropdown"
-            style="padding: 8px 0px !important; height: 50px !important; line-height: 0px !important; border-radius: 10px !important;"
+            style="padding: 6px 0px !important; height: 50px !important; margin-top: 8px; border-radius: 10px !important; "
             md-no-cache="true"
             md-selected-item="$ctrl.selectedProcedureItem.procedures"
             md-search-text="procedureSearch"
