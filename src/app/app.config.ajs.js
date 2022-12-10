@@ -1,5 +1,5 @@
-export default function(websiteModule) {
-    websiteModule.config([
+export default function(appModule) {
+    appModule.config([
         '$locationProvider',
         '$routeProvider',
         function config($locationProvider, $routeProvider) {
