@@ -34,7 +34,8 @@
               "src/template/css/responsive.css",
               "src/template/css/bootstrap.css",
               "./node_modules/intl-tel-input/build/css/intlTelInput.css",
-              "./node_modules/flag-icon-css/css/flag-icon.min.css"
+              "./node_modules/flag-icon-css/css/flag-icon.min.css",
+              "./node_modules/fullcalendar/dist/fullcalendar.min.css"
             ],
             "scripts": []
           },
@@ -110,7 +111,8 @@
               "src/template/css/responsive.css",
               "src/template/css/bootstrap.css",
               "./node_modules/intl-tel-input/build/css/intlTelInput.css",
-              "./node_modules/flag-icon-css/css/flag-icon.min.css"
+              "./node_modules/flag-icon-css/css/flag-icon.min.css",
+              "./node_modules/fullcalendar/dist/fullcalendar.min.css"
             ],
             "scripts": [  
               "src/template/js/custom.js",

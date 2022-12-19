@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Profile</title>
+    </head>
+
+    <body ng-cloak>
+        <div id="wrapper">
+            <br />
+            <div class="sb2-2" style="padding: 5px 15px 10px 10px;">
+                <!--== breadcrumbs ==-->
+                <div class="sb2-2-2">
+                    <ul>
+                        <li>
+                            <a href="index.html"
+                                ><i class="fa fa-home" aria-hidden="true"></i>
+                                <span translate="Index.Home"></span
+                            ></a>
+                        </li>
+                        <li class="page-back">
+                            <a href="javascript:history.back();"
+                                ><i class="fa fa-backward" aria-hidden="true"></i>
+                                {{ 'Index.Back' | translate }}</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tz-2 tz-2-admin">
+                    <div class="tz-2-com tz-2-main">
+                        <h4 style="text-align: center;">
+                            {{ 'Profiles.Profile.UserProfile' | translate }}
+                        </h4>
+                        <div class="db-list-com tz-db-table">
+                            <div>
+                                <ul>
+                                    <li class="view-msg">
+                                        <md-content class="md-no-momentum">
+                                            <md-input-container class="md-icon-float md-block">
+                                                <label
+                                                    ><h5>
+                                                        {{ 'Profiles.Profile.Name' | translate }}
+                                                    </h5></label
+                                                >
+                                                <md-icon
+                                                    md-svg-src="/template/img/baseline-account_circle-24px.svg"
+                                                    class="name"
+                                                ></md-icon>
+                                                <input
+                                                    ng-model="user.username"
+                                                    type="text"
+                                                    ng-disabled="!disable_changes"
+                                                    style="color: black;"
+                                                />
+                                            </md-input-container>
+                                        </md-content>
+                                    </li>
+                                    <li class="view-msg">
+                                        <md-content class="md-no-momentum">
+                                            <md-input-container class="md-icon-float md-block">
+                                                <label
+                                                    ><h5>
+                                                        {{ 'Profiles.Profile.Email' | translate }}
+                                                    </h5></label
+                                                >
+                                                <md-icon
+                                                    md-svg-src="/template/img/baseline-contact_mail-24px.svg"
+                                                    class="name"
+                                                ></md-icon>
+                                                <input
+                                                    ng-model="user.email"
+                                                    type="email"
+                                                    ng-disabled="!disable_changes"
+                                                    style="color: black;"
+                                                />
+                                            </md-input-container>
+                                        </md-content>
+                                    </li>
+
+                                    <li class="view-msg" ng-show="disable_changes">
+                                        <div layout="row" layout-xs="column">
+                                            <div flex="">
+                                                <md-input-container
+                                                    class="md-icon-float md-block"
+                                                    flex-gt-sm
+                                                >
+                                                    <label>{{ 'Country' | translate }}</label>
+                                                    <md-icon
+                                                        md-svg-src="/template/img/ic_public_black_24px.svg"
+                                                        class="name"
+                                                    ></md-icon>
+                                                    <md-select
+                                                        ng-model="user.country"
+                                                        style="font-size: 25px !important"
+                                                        ng-change="loadStates()"
+                                                    >
+                                                        <md-option
+                                                            ng-repeat="country in countryList"
+                                                            value="{{ country }}"
+                                                            required
+                                                        >
+                                                            <p
+                                                                style="font-size: 25px !important; color: black;"
+                                                            >
+                                                                {{ country }}
+                                                            </p>
+                                                        </md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+                                            <div flex="">
+                                                <md-input-container
+                                                    class="md-icon-float md-block"
+                                                    flex-gt-sm
+                                                >
+                                                    <label>{{ 'City' | translate }}</label>
+                                                    <md-icon
+                                                        md-svg-src="/template/img/ic_navigation_black_24px.svg"
+                                                        class="name"
+                                                    ></md-icon>
+                                                    <input
+                                                        ng-model="user.city"
+                                                        type="text"
+                                                        required
+                                                        style="color: black;"
+                                                    />
+                                                </md-input-container>
+                                            </div>
+                                            <div flex="">
+                                                <md-input-container
+                                                    class="md-icon-float md-block"
+                                                    flex-gt-sm
+                                                >
+                                                    <label>{{ 'State' | translate }}</label>
+                                                    <md-icon
+                                                        md-svg-src="/template/img/ic_my_location_black_24px.svg"
+                                                        class="name"
+                                                    ></md-icon>
+                                                    <md-select
+                                                        ng-model="user.state"
+                                                        style="font-size: 25px !important"
+                                                    >
+                                                        <md-option
+                                                            ng-repeat="state in statesT"
+                                                            value="{{ state }}"
+                                                            required
+                                                        >
+                                                            <p
+                                                                style="font-size: 25px !important; color: black;"
+                                                            >
+                                                                {{ state }}
+                                                            </p>
+                                                        </md-option>
+                                                    </md-select>
+                                                </md-input-container>
+                                            </div>
+                                            <div flex="">
+                                                <md-input-container
+                                                    class="md-icon-float md-block"
+                                                    flex-gt-sm
+                                                >
+                                                    <label>{{ 'PostalCode' | translate }}</label>
+                                                    <md-icon
+                                                        md-svg-src="/template/img/ic_keyboard_black_24px.svg"
+                                                        class="name"
+                                                    ></md-icon>
+                                                    <input
+                                                        name="postalCode"
+                                                        type="text"
+                                                        ng-model="user.postalCode"
+                                                        mask="9"
+                                                        repeat="5"
+                                                        required
+                                                        numeric-only
+                                                        style="color: black;"
+                                                    />
+                                                </md-input-container>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="view-msg">
+                                        <md-content class="md-no-momentum">
+                                            <md-input-container class="md-icon-float md-block">
+                                                <label
+                                                    ><h5>
+                                                        {{ 'Profiles.Profile.Address' | translate }}
+                                                    </h5></label
+                                                >
+                                                <md-icon
+                                                    md-svg-src="/template/img/baseline-location_on-24px.svg"
+                                                    class="name"
+                                                ></md-icon>
+                                                <input
+                                                    ng-model="user.address"
+                                                    type="text"
+                                                    ng-disabled="!disable_changes"
+                                                    style="color: black;"
+                                                />
+                                            </md-input-container>
+                                        </md-content>
+                                    </li>
+
+                                    <li class="view-msg">
+                                        <md-content class="md-no-momentum">
+                                            <md-input-container class="md-icon-float md-block">
+                                                <label
+                                                    ><h5>
+                                                        {{ 'Profiles.Profile.Phone' | translate }}
+                                                    </h5></label
+                                                >
+                                                <md-icon
+                                                    md-svg-src="/template/img/baseline-call-24px.svg"
+                                                    class="name"
+                                                ></md-icon>
+                                                <input
+                                                    name="phone"
+                                                    ng-model="user.phone"
+                                                    type="text"
+                                                    numeric-only
+                                                    style="padding: 35px 0px 13px 70px;color: black;"
+                                                    ng-disabled="!disable_changes"
+                                                />
+                                            </md-input-container>
+                                        </md-content>
+                                    </li>
+                                    <li class="view-msg">
+                                        <md-content class="md-no-momentum">
+                                            <md-input-container class="md-icon-float md-block">
+                                                <label
+                                                    ><h5>
+                                                        {{ 'Profiles.Profile.Account' | translate }}
+                                                    </h5></label
+                                                >
+                                                <md-icon
+                                                    md-svg-src="/template/img/imgCheckType.svg"
+                                                    class="name"
+                                                ></md-icon>
+                                                <input
+                                                    ng-model="user.profile_type_in_approprtiate_language"
+                                                    type="text"
+                                                    disabled
+                                                    style="color: black;"
+                                                />
+                                            </md-input-container>
+                                        </md-content>
+                                    </li>
+                                    <li class="view-msg">
+                                        <md-content class="md-no-momentum">
+                                            <md-input-container class="md-icon-float md-block">
+                                                <label
+                                                    ><h5>
+                                                        {{
+                                                            'Profiles.Profile.DateOfJoin'
+                                                                | translate
+                                                        }}
+                                                    </h5></label
+                                                >
+                                                <md-icon
+                                                    md-svg-src="/template/img/CalendarToday24px.svg"
+                                                    class="name"
+                                                ></md-icon>
+                                                <input
+                                                    ng-model="user.dateOfJoin"
+                                                    format-date4
+                                                    type="text"
+                                                    disabled
+                                                    style="color: black;"
+                                                />
+                                            </md-input-container>
+                                        </md-content>
+                                    </li>
+                                    <li class="view-msg">
+                                        <md-content class="md-no-momentum">
+                                            <md-input-container class="md-icon-float md-block">
+                                                <label
+                                                    ><h5>
+                                                        {{ 'Profiles.Profile.Status' | translate }}
+                                                    </h5></label
+                                                >
+                                                <md-icon
+                                                    md-svg-src="/template/img/baseline-check_circle_outline-24px.svg"
+                                                    class="name"
+                                                ></md-icon>
+                                                <input
+                                                    ng-model="user.status"
+                                                    type="text"
+                                                    disabled
+                                                    style="color: black;"
+                                                />
+                                            </md-input-container>
+                                        </md-content>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-group text-center">
+                                <md-button
+                                    ng-click="saveInfo()"
+                                    md-autofocus
+                                    style="background: #263a78; background: linear-gradient(to bottom, #455ca2, #263a78); color: #fff;"
+                                >
+                                    {{ 'SaveLabel' | translate }}
+                                    <md-tooltip md-direction="up">{{
+                                        'SaveLabel' | translate
+                                    }}</md-tooltip>
+                                </md-button>
+                                <md-button
+                                    ng-click="cancellSave()"
+                                    style="background: #263a78; background: linear-gradient(to bottom, #D32F2F, #D32F2F); color: #fff;"
+                                >
+                                    {{ 'CancelLabel' | translate }}
+                                    <md-tooltip md-direction="right">{{
+                                        'CancelLabel' | translate
+                                    }}</md-tooltip>
+                                </md-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

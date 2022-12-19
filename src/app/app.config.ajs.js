@@ -49,6 +49,13 @@ export default function(appModule) {
                 .when('/contact_us', {
                     template: '<contact-us-module></contact-us-module>',
                 })
+                .when('/profile', {
+                    //todo: match profile and dashboard routes in redirects and backend paths
+                    template: '<profile-module></profile-module>',
+                })
+                .when('/dashboard', {
+                    template: '<dashboard-module></dashboard-module>',
+                })
                 .otherwise('/')
 
             $locationProvider.html5Mode({ enabled: true })

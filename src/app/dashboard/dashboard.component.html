@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MyMedQuest - Dashboard</title>
+    </head>
+
+    <body ng-cloak>
+        <md-divider md-inset><br /><br /></md-divider>
+        <div class="sb2-2" style="padding: 5px 15px 10px 10px;">
+            <div class="sb2-2-2">
+                <ul>
+                    <li>
+                        <a href="index.html"
+                            ><i class="fa fa-home" aria-hidden="true"></i>
+                            <span translate="Index.Home"></span
+                        ></a>
+                    </li>
+                    <li class="page-back">
+                        <a href="javascript:history.back();"
+                            ><i class="fa fa-backward" aria-hidden="true"></i>
+                            {{ 'Index.Back' | translate }}</a
+                        >
+                    </li>
+                </ul>
+            </div>
+            <div class="tz-2 tz-2-admin" style="padding-bottom: 5%;">
+                <div class="tz-2-com tz-2-main">
+                    <h4 ng-if="video.show" align="center">{{ 'Dashboard.Video' | translate }}</h4>
+                    <twilio-video
+                        appointment="selectedAppointment"
+                        video-show="video"
+                        id="twilio-video"
+                        ng-if="video.show"
+                    ></twilio-video>
+
+                    <div class="tz-2 tz-2-admin" ng-show="user.profileType == 'Admin'">
+                        <div class="tz-2-com tz-2-main">
+                            <div class="tz-2-main-com bot-sp-20">
+                                <div class="tz-2-main-1 tz-2-main-admin col-md-6">
+                                    <div class="tz-2-main-2">
+                                        <canvas
+                                            class="chart chart-pie"
+                                            chart-click="loadProceduresDataModal"
+                                            chart-colors="colorsGrapicPYB"
+                                            chart-data="proceduresChartData"
+                                            chart-labels="proceduresChartLabels"
+                                        >
+                                        </canvas>
+                                        <div>&nbsp;</div>
+                                        <span> {{ 'Dashboard.Title.1' | translate }} </span>
+                                        <div flex-xs layout="column">
+                                            <p>
+                                                {{ 'Dashboard.Seccion.Text.1' | translate }}
+                                            </p>
+                                            <md-card-actions layout="row" layout-align="end center">
+                                                <md-button
+                                                    class="md-fab md-primary"
+                                                    aria-label="Favorite"
+                                                    ng-href="/listProcedures.html"
+                                                >
+                                                    <md-icon
+                                                        md-svg-icon="/template/img/ic_forward_white_24px.svg"
+                                                    ></md-icon>
+                                                    <md-tooltip md-direction="Bottom">{{
+                                                        'Dashboard.GoToMPList.1' | translate
+                                                    }}</md-tooltip>
+                                                </md-button>
+                                                <md-button
+                                                    class="md-fab md-primary"
+                                                    aria-label="Settings"
+                                                    ng-href="/procedures.html"
+                                                >
+                                                    <md-icon
+                                                        md-svg-icon="/template/img/ic_add_box_white_24px.svg"
+                                                    ></md-icon>
+                                                    <md-tooltip md-direction="Bottom">{{
+                                                        'Dashboard.AddNewP.1' | translate
+                                                    }}</md-tooltip>
+                                                </md-button>
+                                            </md-card-actions>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tz-2-main-1 tz-2-main-admin col-md-6">
+                                    <div class="tz-2-main-2">
+                                        <canvas
+                                            class="chart chart-bar"
+                                            chart-data="servicesChartData"
+                                            chart-colors="colorsGrapicPYS"
+                                            chart-labels="servicesChartLabel"
+                                            chart-series="series"
+                                        >
+                                        </canvas>
+                                        <div>&nbsp;</div>
+                                        <span>{{ 'Dashboard.Title.2' | translate }}</span>
+                                        <div flex-xs layout="column">
+                                            <p>
+                                                {{ 'Dashboard.Seccion.Text.2' | translate }}
+                                            </p>
+                                            <md-card-actions layout="row" layout-align="end center">
+                                                <md-button
+                                                    class="md-fab md-primary"
+                                                    aria-label="Favorite"
+                                                    ng-href="/services.html?showMyServices=1"
+                                                >
+                                                    <md-icon
+                                                        md-svg-icon="/template/img/ic_forward_white_24px.svg"
+                                                    ></md-icon>
+                                                    <md-tooltip md-direction="Bottom">{{
+                                                        'Dashboard.GoToMPList.1' | translate
+                                                    }}</md-tooltip>
+                                                </md-button>
+                                                <md-button
+                                                    class="md-fab md-primary"
+                                                    aria-label="Settings"
+                                                    ng-href="/services.html"
+                                                >
+                                                    <md-icon
+                                                        md-svg-icon="/template/img/ic_add_box_white_24px.svg"
+                                                    ></md-icon>
+                                                    <md-tooltip md-direction="Bottom">{{
+                                                        'Dashboard.AddNewP.1' | translate
+                                                    }}</md-tooltip>
+                                                </md-button>
+                                            </md-card-actions>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="tz-2 tz-2-admin" ng-show="cardType == 1" >
+						<div class="tz-2-com tz-2-main">							
+							<div class="tz-2-main-com bot-sp-20">							
+								<div class="tz-2-main-1 tz-2-main-admin col-md-12">
+									<div class="tz-2-main-2"> 
+										<span style="color: black;">{{"Dashboard.ReportInfo.AcceptedAppointments"|translate}}</span>
+										<canvas class="chart chart-pie" chart-colors="colorsGrapicPYB" 
+											  	chart-data="acceptedServicesData" chart-labels="acceptedServicesLabels" >
+									    </canvas> <div >&nbsp;</div>
+										<div flex-xs layout="column">
+											<md-card md-theme-watch ng-show="showUsrInfoGrid">
+										        <md-card-title>
+										          <md-card-title-text>
+										            <span class="md-headline"><b>{{'Dashboard.InformationAB'|translate}}</b> </span><br/>
+										            <span class="md-subhead">
+										            	<md-icon md-svg-icon="/template/img/baseline-contacts-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick.user_Name"></span><br/>
+													    <md-icon md-svg-icon="/template/img/baseline-contact_mail-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick.user_Email"></span><br/>
+													    <md-icon md-svg-icon="/template/img/baseline-location_on-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick.user_Country"></span><br/>
+													    <md-icon md-svg-icon="/template/img/baseline-call-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick.user_Phone"></span><br/>
+										            </span>
+										          </md-card-title-text>
+										          <md-card-title-media>
+										            <div class="md-media-sm card-media">
+										            	<img ng-src="{{ imagePath }}" >
+										            </div>
+										          </md-card-title-media>
+										        </md-card-title>
+										        <md-card-actions layout="row" layout-align="end center">
+										          <md-button>{{'Dashboard.ShowCompletePInfo'|translate}}</md-button>
+										        </md-card-actions>
+										    </md-card>
+										</div> 
+									</div>
+								</div>
+								
+								
+								<div class="tz-2-main-1 tz-2-main-admin col-md-6">
+									<div class="tz-2-main-2"> 
+										<span style="color: black;">{{"Dashboard.ReportInfo.AwaitingConfirmation"|translate}}</span>
+										<canvas class="chart chart-pie" chart-click="loadUserInfoData4Accepting" chart-colors="colorsGrapicPYB" 
+											  	chart-data="servicesForAcceptingData" chart-labels="servicesForAcceptingLabels" >
+									    </canvas> <div >&nbsp;</div>
+										<div flex-xs layout="column">
+											<md-card md-theme-watch ng-show="showUsrInfoGrid4Accepting">
+										        <md-card-title>
+										          <md-card-title-text>
+										            <span class="md-headline"><b>{{'Dashboard.InformationAB'|translate}}</b> </span><br/>
+										            <span class="md-subhead">
+										            	<md-icon md-svg-icon="/template/img/baseline-contacts-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick4Accepting.user_Name"></span> <br/>
+													    <md-icon md-svg-icon="/template/img/baseline-contact_mail-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick4Accepting.user_Email"></span><br/>
+													    <md-icon md-svg-icon="/template/img/baseline-location_on-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick4Accepting.user_Country"></span><br/>
+													    <md-icon md-svg-icon="/template/img/baseline-call-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick4Accepting.user_Phone"></span><br/>
+										            </span>
+										          </md-card-title-text>
+										          <md-card-title-media>
+										            <div class="md-media-sm card-media">
+										            	<img ng-src="{{ imagePath }}" >
+										            </div>
+										          </md-card-title-media>
+										        </md-card-title>
+										        <md-card-actions layout="row" layout-align="end center">
+										          <md-button>{{'Dashboard.ShowCompletePInfo'|translate}}</md-button>
+										        </md-card-actions>
+										    </md-card> 
+									   	</div>
+									</div>
+								</div>
+															
+							</div>
+						</div>
+					</div>          	 -->
+
+                    <md-divider></md-divider>
+                    <!-- ng-show="cardType == 1" -->
+                    <div ng-show='user.profileType!="Admin"'>
+                        <div class="tz-2 tz-2-admin">
+                            <div class="tz-2-com tz-2-main">
+                                <h4 align="center">
+                                    {{ 'Dashboard.Table.Appointments' | translate }}
+                                </h4>
+                                <div class="box-inn-sp ad-inn-page">
+                                    <md-card-content>
+                                        <div class="tab-inn ad-tab-inn">
+                                            <div ng-show="pendingAppoinmentList.length ==0">
+                                                <h1 align="center">
+                                                    {{
+                                                        'Dashboard.Table.NoAppointments' | translate
+                                                    }}
+                                                </h1>
+                                            </div>
+                                            <div class="container-grid">
+                                                <appointment-card
+                                                    ng-repeat="appointment in pendingAppoinmentList"
+                                                    appointment="appointment"
+                                                    user="user"
+                                                    video="video"
+                                                    selected-appointment="selectedAppointment"
+                                                    highlighted-card="highlightedCard"
+                                                ></appointment-card>
+                                            </div>
+                                        </div>
+                                    </md-card-content>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tz-2 tz-2-admin">
+                            <div class="tz-2-com tz-2-main">
+                                <h4 align="center">
+                                    {{ 'Dashboard.Table.PastAppointments' | translate }}
+                                </h4>
+                                <div class="box-inn-sp ad-inn-page">
+                                    <md-card-content>
+                                        <div class="tab-inn ad-tab-inn">
+                                            <div ng-show="pastAppoinmentList.length ==0">
+                                                <h1 align="center">
+                                                    {{
+                                                        'Dashboard.Table.NoPastAppointments'
+                                                            | translate
+                                                    }}
+                                                </h1>
+                                            </div>
+                                            <div class="container-grid">
+                                                <appointment-card
+                                                    ng-repeat="appointment in pastAppoinmentList"
+                                                    appointment="appointment"
+                                                    user="user"
+                                                    video="video"
+                                                    selected-appointment="selectedAppointment"
+                                                    highlighted-card="highlightedCard"
+                                                ></appointment-card>
+                                            </div>
+                                        </div>
+                                    </md-card-content>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tz-2 tz-2-admin">
+                        <div class="tz-2-com tz-2-main">
+                            <h4 align="center">
+                                {{ 'Dashboard.Table.Calendar' | translate }}
+                            </h4>
+
+                            <calendar-component
+                                ng-show='user.profileType!="Admin"'
+                                appointments="pendingAppoinmentList"
+                                highlighted-card="highlightedCard"
+                            ></calendar-component>
+                        </div>
+                    </div>
+
+                    <section></section>
+                    <div ng-show="user.profileType == 'Admin'">
+                        <div class="tz-2 tz-2-admin">
+                            <h4 align="center">{{ 'Dashboard.UsersTitleValue_' | translate }}</h4>
+                            <div class="split-row">
+                                <div class="col-md-12">
+                                    <div class="box-inn-sp ad-inn-page">
+                                        <md-card-content>
+                                            <div class="table-responsive">
+                                                <table
+                                                    datatable="ng"
+                                                    dt-instance="dtInstance"
+                                                    class="table table-hover"
+                                                    dt-options="dtOptions"
+                                                >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.UserNameTitleRow'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.EmailTitleRow'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.JoinDateRow'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.CountryRow'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="user in allUsers">
+                                                            <td>
+                                                                {{ user.user_UserName }}
+                                                            </td>
+                                                            <td>
+                                                                {{ user.user_Email }}
+                                                            </td>
+                                                            <td>
+                                                                {{ user.user_CreationDate }}
+                                                            </td>
+                                                            <td>
+                                                                {{ user.user_Country }}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </md-card-content>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4 align="center">
+                                {{ 'Dashboard.ProvidersTitleValue_' | translate }}
+                            </h4>
+                            <div class="split-row">
+                                <div class="col-md-12">
+                                    <div class="box-inn-sp ad-inn-page">
+                                        <md-card-content>
+                                            <div class="table-responsive">
+                                                <table
+                                                    datatable="ng"
+                                                    dt-instance="dtInstance"
+                                                    class="table table-hover"
+                                                    dt-options="dtOptions"
+                                                >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.UserNameTitleRow'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.EmailTitleRow'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.JoinDateRow'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.CountryRow'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+
+                                                            <th>
+                                                                {{
+                                                                    'Dashboard.Table.Provider.Action'
+                                                                        | translate
+                                                                }}
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="provider in allProviders">
+                                                            <td>
+                                                                {{ provider.provider_UserName }}
+                                                            </td>
+                                                            <td>
+                                                                {{ provider.provider_Email }}
+                                                            </td>
+                                                            <td>
+                                                                {{ provider.provider_CreationDate }}
+                                                            </td>
+                                                            <td>
+                                                                {{ provider.provider_Country }}
+                                                            </td>
+                                                            <td>
+                                                                <md-button
+                                                                    ng-href="/service_details?hospitalID={{
+                                                                        provider.provider_ID
+                                                                    }}"
+                                                                    class="md-accent"
+                                                                >
+                                                                    {{
+                                                                        'Dashboard.ViewProfileValue_'
+                                                                            | translate
+                                                                    }}
+                                                                </md-button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </md-card-content>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<style>
+    .container-grid {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(auto-fill);
+        grid-row-gap: 0.5em;
+        grid-column-gap: 1em;
+    }
+
+    @media (max-width: 400px) {
+        .container-grid {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            grid-template-rows: repeat(auto-fill);
+            grid-row-gap: 0.5em;
+            grid-column-gap: 1em;
+        }
+    }
+</style>

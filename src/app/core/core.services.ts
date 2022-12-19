@@ -426,6 +426,41 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
                         })
                 }
             },
+            getDataProviderInforDashBoard: function(profileId) {
+                return $http.get(
+                    '/api/dashboard/getDataReportProviderServicesForAcceptingByProviderId/' +
+                        profileId
+                )
+            },
+            getPendingAppoinments: function(providerId) {
+                return $http.get('/api/dashboard/getPendingAppoinments/' + providerId)
+            },
+            getUserAppoinments: function(providerId) {
+                return $http.get('/api/dashboard/getUserAppoinments/' + providerId)
+            },
+            getDataUserInforDashBoard: function(profileId) {
+                return $http.get(
+                    '/api/dashboard/getDataReportUserConsultationNotificationByUserId/' + profileId
+                )
+            },
+            getDataUserInforHiredServicesDashBoard: function(userId) {
+                return $http.get('/api/dashboard/getDataReportHiredServicesByUserId/' + userId)
+            },
+            getUserMenu: function(profile_id) {
+                return $http.get('/api/customer/getMenuPages/' + profile_id)
+            },
+            getUserAppointmentsDiff: function(userId, type) {
+                return $http.get('/api/dashboard/getUserAppointmentsDiff/' + userId + '/' + type)
+            },
+            getAllProviderMessages: function(user) {
+                return $http.post('/api/getAllProviderMessages', user)
+            },
+            checkCurrentAppointmentRoom: function(appointment_data) {
+                return $http.post('/api/twilio/checkCurrentAppointmentRoom', appointment_data)
+            },
+            getAllUserMessages: function(user) {
+                return $http.post('/api/getAllUserMessages', user)
+            },
         }
     },
 ])

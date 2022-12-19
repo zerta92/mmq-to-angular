@@ -13,4 +13,6 @@ angular.module('core', [
     'core.accountVerification',
     'core.forgotPassword',
     'core.contactUs',
+    'core.profile',
+    'core.dashboard',
 ])
