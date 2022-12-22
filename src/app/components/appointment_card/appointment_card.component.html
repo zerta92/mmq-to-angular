@@ -1,0 +1,414 @@
+<div>
+    <div
+        class="card white darken-1 card-small-device"
+        ng-focus="$ctrl.highlightedCard.appointment_id==$ctrl.appointment.appointment_ID"
+        ng-class="{highlightedCardClass: $ctrl.highlightedCard.appointment_id==$ctrl.appointment.appointment_ID}"
+        id="{{ $ctrl.appointment.appointment_ID }}"
+        style="max-height: 900px;"
+    >
+        <div class="card-content white-text" style="height:442px">
+            <span class="card-title"
+                ><span style="font-weight: bold" ng-bind="$ctrl.appointment.appointment_Type"></span
+                >: <br />
+                <span ng-bind="$ctrl.appointment.procedure_Name"></span>
+                <span style="color:white" ng-bind="$ctrl.appointment.appointment_ID"></span>
+            </span>
+            <ul class="collection">
+                <li class="collection-item">
+                    {{ 'AppointmentCard.Name' | translate }}:
+                    <span style="float:right">{{ $ctrl.appointment.clientName }}</span>
+                </li>
+                <li class="collection-item">
+                    {{ 'AppointmentCard.Email' | translate }}:
+                    <span style="float:right">{{ $ctrl.appointment.clientEmail }}</span>
+                </li>
+                <li class="collection-item">
+                    {{ 'AppointmentCard.Phone' | translate }}:
+                    <span style="float:right">{{ $ctrl.appointment.clientPhone }}</span>
+                </li>
+                <!-- <li class="collection-item">Date: <span style="float:right" class="txt-success" ng-bind="($ctrl.appointment.appointment_Date| date:'MM/dd/yyyy h:mma')"></span></li> -->
+                <li class="collection-item">
+                    {{ 'AppointmentCard.Date' | translate }}:
+                    <span style="float:right;" ng-if="$ctrl.appointment.appointment_ID">
+                        <select-datetime
+                            user="$ctrl.user"
+                            message="$ctrl.appointment"
+                        ></select-datetime>
+                    </span>
+                </li>
+                <li
+                    ng-if="$ctrl.appointment.appointment_Type =='Consultation'"
+                    class="collection-item"
+                >
+                    {{ 'AppointmentCard.AppointmentMethod' | translate }}:
+                    <span style="float:right"
+                        >{{ $ctrl.appointment.appointment_Method
+                        }}<i
+                            ng-if="$ctrl.appointment.appointment_Paid == 1 && $ctrl.user.profileType=='User' && !$ctrl.is_past_appointment"
+                            class="fa fa-exclamation"
+                        >
+                            <md-tooltip md-direction="top" style="font-size: 15px;">{{
+                                'AppointmentCard.VideoConsultationMethodTooltip' | translate
+                            }}</md-tooltip></i
+                        >
+                    </span>
+                </li>
+                <li
+                    ng-if="$ctrl.appointment.appointment_Type =='Procedure' && $ctrl.user.profileType=='User'"
+                    class="collection-item"
+                >
+                    {{ 'AppointmentCard.AppointmentMethod' | translate }}:
+                    <span style="float:right"
+                        ><a href="" ng-click="$ctrl.showProcedureLocation($event)">{{
+                            'AppointmentCard.SeeLocationLabel' | translate
+                        }}</a>
+                        <md-tooltip md-direction="left" style="font-size: 15px;">{{
+                            'AppointmentCard.InPersonConsultationMethodTooltip' | translate
+                        }}</md-tooltip></span
+                    >
+                </li>
+                <li class="collection-item">
+                    <span class="badge" style="background-color: #ffcc00">
+                        <span
+                            style="color: #380a0a"
+                            ng-bind="$ctrl.appointment.appointment_time_local"
+                        ></span> </span
+                    >{{ 'AppointmentCard.Time' | translate }}
+                </li>
+                <li ng-if="$ctrl.appointment.appointment_Days > 0" class="collection-item">
+                    <span class="badge" style="background-color: #ffcc00">
+                        <span
+                            ng-if="$ctrl.appointment.appointment_Days > 0"
+                            ng-bind="$ctrl.appointment.appointment_Days"
+                            style="color: #380a0a"
+                        ></span> </span
+                    >{{ 'AppointmentCard.DaysUntil' | translate }}
+                </li>
+            </ul>
+
+            <div style="text-align: center;">
+                <md-button
+                    ng-show="$ctrl.appointment.appointment_Status!=0 && !$ctrl.is_appointment_time"
+                    aria-label="AddToGoogleCalendarButton"
+                    class=" md-raised md-mini"
+                    ng-click="$ctrl.addToGoogleCalendar($ctrl.appointment)"
+                    style="background-color: #4b5663; border-radius: 10px !important;"
+                >
+                    <label style="color: rgb(254, 254, 254)">{{
+                        'AppointmentCard.AddToGoogleCalendar' | translate
+                    }}</label>
+                    <md-tooltip md-direction="left">{{
+                        'AppointmentCard.AddToGoogleCalendar' | translate
+                    }}</md-tooltip>
+                    <md-icon
+                        style="color: rgb(254, 254, 254)"
+                        md-svg-icon="/template/img/CalendarToday24px.svg"
+                    ></md-icon>
+                </md-button>
+                <md-button
+                    aria-label="VideoCallButton"
+                    class=" md-raised md-mini"
+                    ng-click="$ctrl.startVideoCall()"
+                    style="background-color: #3d80d6; margin: auto; border-radius: 10px !important;"
+                    ng-if="$ctrl.user.profileType=='Provider' && $ctrl.is_appointment_time && !meeting_has_started "
+                >
+                    <label style="color: black">{{ 'meeting.StartCall' | translate }}</label>
+                    <md-tooltip md-direction="left">{{
+                        'Dashboard.StartCall' | translate
+                    }}</md-tooltip>
+                    <md-icon md-svg-icon="/template/img/videocam_black_36dp.svg"></md-icon>
+                </md-button>
+
+                <md-button
+                    aria-label="VideoCallButton"
+                    class=" md-raised md-mini"
+                    ng-click="$ctrl.joinVideoCall()"
+                    style="background-color: #3d80d6; margin: auto; border-radius: 10px !important;"
+                    ng-if="$ctrl.user.profileType=='User' && $ctrl.meeting_has_started"
+                >
+                    <label style="color: black">Join Meeting</label>
+                    <md-tooltip md-direction="left">{{
+                        'Dashboard.StartCall' | translate
+                    }}</md-tooltip>
+                    <md-icon md-svg-icon="/template/img/videocam_black_36dp.svg"></md-icon>
+                </md-button>
+            </div>
+        </div>
+        <div ng-if="false" style="text-align: center; color:#3d91d6">
+            <md-button
+                data-toggle="collapse"
+                data-parent="#accordion"
+                data-target="#collapseOne-{{ $ctrl.appointment.appointment_ID }}"
+            >
+                <md-icon md-svg-icon="/template/img/expand_circle_down_black_48dp.svg"></md-icon>
+                <md-label>{{ 'Dashboard.CardActions' | translate }}</md-label>
+            </md-button>
+        </div>
+
+        <!-- <div id="collapseOne-{{$ctrl.appointment.appointment_ID}}" class="card-action collapse "> -->
+        <div class="card-action ">
+            <div layout="row" layout-wrap>
+                <div flex="100" layout-wrap>
+                    <div flex>
+                        <div
+                            ng-show="$ctrl.appointment.appointment_Status==0"
+                            style="height:64px"
+                        ></div>
+                        <md-toolbar
+                            ng-show="$ctrl.appointment.appointment_Status!=0"
+                            class="md-hue-2"
+                        >
+                            <div class="md-toolbar-tools">
+                                <md-button
+                                    ng-if="$ctrl.is_past_appointment && (($ctrl.user.profileType=='Provider'  && $ctrl.appointment.followUp_Status_Provider == null)
+                                     || ($ctrl.user.profileType=='User' && $ctrl.appointment.followUp_Status_User == null))"
+                                    class="md-icon-button btn-floating_MyMedQuest_Red btn-large_MyMedQuest red pulse"
+                                    style="padding-bottom: 10px;"
+                                    aria-label="FollowUpButton"
+                                    ng-click="$ctrl.appointmentFollowUp($event, $ctrl.appointment)"
+                                >
+                                    <md-tooltip md-direction="left">{{
+                                        'Dashboard.ProviderFLLUP' | translate
+                                    }}</md-tooltip>
+                                    <md-icon
+                                        md-svg-icon="/template/img/ic_mode_edit_black_24px.svg"
+                                    ></md-icon>
+                                </md-button>
+                                <md-button
+                                    ng-if="$ctrl.user.profileType=='Provider' && !$ctrl.is_past_appointment"
+                                    aria-label="Request Document Button"
+                                    class="md-icon-button"
+                                    ng-click="$ctrl.requestDocuments()"
+                                    target="_blank"
+                                >
+                                    <md-tooltip md-direction="left">{{
+                                        'Dashboard.requestDocs' | translate
+                                    }}</md-tooltip>
+                                    <md-icon
+                                        md-svg-icon="/template/img/text-box-plus.svg"
+                                    ></md-icon>
+                                </md-button>
+                                <md-button
+                                    aria-label="Message"
+                                    class="md-icon-button"
+                                    ng-click="$ctrl.newChat($ctrl.appointment)"
+                                >
+                                    <md-tooltip md-direction="top">{{
+                                        'Dashboard.MessageValue' | translate
+                                    }}</md-tooltip>
+                                    <md-icon
+                                        md-svg-icon="/template/img/baseline-chat-24px.svg"
+                                    ></md-icon>
+                                </md-button>
+                                <md-button
+                                    aria-label="ShoppingCartButton"
+                                    class="md-icon-button"
+                                    ng-class="{'md-icon-button btn-floating_MyMedQuest_Red btn-large_MyMedQuest red pulse': $ctrl.user.profileType != 'Provider' && $ctrl.appointment.appointment_Paid != 1 && $ctrl.appointment.appointment_Days >= 0}"
+                                    ng-click="$ctrl.getShoppingCart($ctrl.appointment.appointment_ID)"
+                                    target="_blank"
+                                >
+                                    <md-tooltip md-direction="top">{{
+                                        'Dashboard.GoToSCForTS' | translate
+                                    }}</md-tooltip>
+                                    <md-icon
+                                        md-svg-icon="/template/img/baseline-shopping_cart-24px.svg"
+                                    ></md-icon>
+                                </md-button>
+
+                                <md-button
+                                    aria-label="WhatsAppBtn"
+                                    class="md-icon-button"
+                                    style="margin-right: 0px !important;"
+                                    href="https://api.whatsapp.com/send?phone={{
+                                        $ctrl.appointment.clientPhoneWApp
+                                    }}"
+                                    target="_blank"
+                                >
+                                    <md-tooltip md-direction="down">{{
+                                        'Dashboard.MessageWhatsapp' | translate
+                                    }}</md-tooltip>
+                                    <md-icon md-svg-icon="/template/img/WhatsApp.svg"></md-icon>
+                                </md-button>
+
+                                <md-button
+                                    ng-disabled="!$ctrl.is_appointment_time"
+                                    aria-label="Video Call Button"
+                                    style="margin-right: 0px !important;"
+                                    class="md-icon-button"
+                                    ng-if="$ctrl.user.profileType=='Provider' && $ctrl.appointment.appointment_Method !='Skype'"
+                                    ng-click="$ctrl.startVideoCall()"
+                                >
+                                    <md-tooltip
+                                        ng-show="!$ctrl.is_appointment_time"
+                                        md-direction="top"
+                                    >
+                                        {{ 'Dashboard.StartCallDisabled' | translate }}
+                                    </md-tooltip>
+                                    <md-tooltip
+                                        ng-show="$ctrl.is_appointment_time"
+                                        md-direction="top"
+                                    >
+                                        {{ 'Dashboard.StartCall' | translate }}
+                                    </md-tooltip>
+
+                                    <md-icon
+                                        md-svg-icon="/template/img/video_call_white_24dp.svg"
+                                    ></md-icon>
+                                </md-button>
+                                <!-- <a href="skype:joe.camero?call&video=true"><i class="fa fa-skype"></i> </a> -->
+                                <md-button
+                                    ng-show="$ctrl.appointment.skype_account && $ctrl.appointment.appointment_Method =='Skype'"
+                                    ng-disabled="!$ctrl.is_appointment_time"
+                                    aria-label="Skype Video Call Button"
+                                    style="margin-right: 0px !important;"
+                                    class="md-icon-button"
+                                    ng-click="$ctrl.startSkypeCall()"
+                                >
+                                    <md-tooltip
+                                        ng-show="!$ctrl.is_appointment_time"
+                                        md-direction="top"
+                                    >
+                                        {{ 'Dashboard.StartCallDisabled' | translate }}
+                                    </md-tooltip>
+                                    <md-tooltip
+                                        ng-show="$ctrl.is_appointment_time"
+                                        md-direction="top"
+                                    >
+                                        {{ 'Dashboard.StartCall' | translate }}
+                                    </md-tooltip>
+
+                                    <md-icon md-svg-icon="/template/img/skype_.svg"></md-icon>
+                                </md-button>
+
+                                <md-button
+                                    ng-disabled="$ctrl.appointment.appointment_Paid || $ctrl.appointment.appointment_Status == 0"
+                                    aria-label="Cancel Appointment"
+                                    class="md-icon-button"
+                                    ng-click="$ctrl.cancelAppointment()"
+                                >
+                                    <md-tooltip
+                                        ng-show="$ctrl.appointment.appointment_Paid"
+                                        md-direction="right"
+                                        >{{ 'Dashboard.CantCancelValue' | translate }}
+                                    </md-tooltip>
+                                    <md-tooltip
+                                        ng-show="!$ctrl.appointment.appointment_Paid"
+                                        md-direction="right"
+                                        >{{ 'Dashboard.CancelValue' | translate }}
+                                    </md-tooltip>
+
+                                    <md-icon
+                                        md-svg-icon="/template/img/delete_forever_white_24dp.svg"
+                                    ></md-icon>
+                                </md-button>
+                            </div>
+                        </md-toolbar>
+
+                        <div style="text-align: end" flex>
+                            <div ng-if="$ctrl.request_documents_flag.status">
+                                <request-documents
+                                    appointment="$ctrl.appointment"
+                                    user="$ctrl.user"
+                                    flag="$ctrl.request_documents_flag"
+                                ></request-documents>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div layout="row" layout-wrap></div>
+                    <div
+                        id="placeholder-{{ $ctrl.appointment.appointment_ID }}"
+                        ng-class="{chartPadding: true}"
+                        style="width: 100%;"
+                    ></div>
+                    <!-- <div ng-show="false" id="internal-{{$ctrl.appointment.appointment_ID}}" ng-class="{chartPadding: true}" style="width: 100%;">
+                        <canvas
+                            id="$ctrl.appointment.appointment_ID"
+                            ng-if="$ctrl.showAppointmentServices"
+                            class="chart chart-pie"
+                            chart-colors="$ctrl.colorsGrapicPYS"
+                            chart-data="$ctrl.hiredServicesData"
+                            chart-labels="$ctrl.hiredServicesLabels"
+                        >
+                        </canvas>
+                    </div> -->
+                    <div
+                        layout-gt-sm="row"
+                        style="justify-content: space-evenly; text-align: center; height: 36px;"
+                        layout-align="center"
+                    >
+                        <!-- <span
+                            style="width: 30%;"
+                            ng-if="$ctrl.appointment.appointment_Status == 1"
+                            ng-bind="'Accepted by Provider'"
+                            class="label label-primary"
+                        ></span> -->
+
+                        <span style="width: max-content; height: 36px;">
+                            <span
+                                style="padding: 5px 20px;"
+                                ng-if="$ctrl.appointment.appointment_Status == null"
+                                class="label label-danger"
+                            >
+                                {{ 'MessagesMedQ.NotConfirmedYetLabel' | translate }}</span
+                            >
+                            <span
+                                style="padding: 5px 20px;"
+                                ng-if="$ctrl.appointment.appointment_Status == 0 "
+                                class="label label-danger"
+                            >
+                                {{ 'MessagesMedQ.Cancelled' | translate }}</span
+                            >
+                            <div ng-if="$ctrl.appointment.appointment_Paid == 1">
+                                {{ 'Dashboard.PaidValue_' | translate }}
+                            </div>
+                            <md-button
+                                ng-show="$ctrl.appointment.appointment_Status == 1 && $ctrl.appointment.appointment_Paid != 1"
+                                class="btn btn-primary"
+                                ng-disabled="$ctrl.appointment.appointment_Paid == 1"
+                                ng-click="$ctrl.getShoppingCart($ctrl.appointment.appointment_ID)"
+                            >
+                                <md-tooltip
+                                    ng-if="$ctrl.user.profileType=='User'"
+                                    md-direction="left"
+                                    >{{ 'MessagesMedQ.PayValue' | translate }}</md-tooltip
+                                >
+
+                                <div ng-if="$ctrl.appointment.appointment_Paid != 1">
+                                    {{ 'Dashboard.NotPaidValue_' | translate }}
+                                </div>
+                            </md-button>
+                        </span>
+                        <!-- <span
+                            style="width: 48%;"
+                            ng-show="$ctrl.appointment.followUp_Status_Provider == 1 || $ctrl.appointment.followUp_Status_Provider == 0"
+                            class="label label-primary"
+                        >
+                            {{'Dashboard.FollowUpCmp'|translate}}
+                        </span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .chartPadding {
+        padding-top: 68px;
+    }
+    .highlightedCardClass {
+        border-color: rgb(172, 14, 14);
+        border-width: 5px;
+        border-style: groove;
+    }
+
+    @media (max-width: 400px) {
+        .card-small-device {
+            max-width: 350px;
+        }
+    }
+
+    md-fab-toolbar md-toolbar.pevents__initial {
+        pointer-events: initial;
+    }
+</style>

@@ -21,6 +21,7 @@ import './core/dashboard/dashboard.module'
 import './core/dashboard/dashboard.service'
 import './dashboard/dashboard.module'
 import './dashboard/dashboard.component'
+
 /* Profile */
 import './core/profile/profile.module'
 import './core/profile/profile.service'
@@ -39,6 +40,18 @@ import './core/login/login.module'
 import './core/login/login.service'
 import './login/login.module'
 import './login/login.component'
+/* Service Manager */
+import './core/service_manager/service_manager.module'
+import './core/service_manager/service_manager.service'
+/* Documents */
+import './core/documents/documents.module'
+import './core/documents/documents.service'
+/* Shopping Cart */
+import './core/shopping_cart/shopping_cart.module'
+import './core/shopping_cart/shopping_cart.service'
+/* Follow Up*/
+import './core/follow_up/follow_up.module'
+import './core/follow_up/follow_up.service'
 /* Account Verification Component */
 import './core/account_verification/account_verification.module'
 import './core/account_verification/account_verification.service'
@@ -89,6 +102,10 @@ import './components/main-dropdown/main_dropdown.component'
 /* Calendar */
 import './components/calendar/calendar.module'
 import './components/calendar/calendar.component'
+
+/* Appointment Card */
+import './components/appointment_card/appointment_card.module'
+import './components/appointment_card/appointment_card.component'
 /* Services Search Dropdown */
 import './components/services-search-dropdown/services_search_dropdown.module'
 import './components/services-search-dropdown/services_search_dropdown.component'
@@ -126,6 +143,7 @@ export default angular
         'loginModule',
         'mainDropdownModule',
         'calendarModule',
+        'appointmentCardModule',
         'procedureContentModule',
         'servicesSearchDropdownModule',
         'listModule',

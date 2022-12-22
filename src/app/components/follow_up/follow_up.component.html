@@ -1,0 +1,212 @@
+<html>
+	<body ng-cloak>
+	<md-dialog aria-label="Follow Up form" flex>
+		<div class="tz-2-com tz-2-main">
+			<h4>{{"FollowUp.FollowUp.Title"|translate}}
+				<md-button class="md-icon-button" ng-click="cancel()">
+					<md-icon md-svg-src="/template/img/ic_cancel_black_24px.svg" aria-label="Close dialog"></md-icon>
+				</md-button>
+			</h4> 
+		</div>
+	
+		<md-dialog-content>
+		<div class="container-fluid">
+				
+				<form ng-show="user.profileType == 'User'" id="followUpUser" name="FollowUpForm" ng-cloak ng-submit="userAnswer('OK', FollowUpForm.$invalid)">	
+					<div layout-padding style="background: #eaedef; padding: 5px 15px 10px 10px;">					
+						<div ng-show = "false" class="column" flex-gt-sm>
+							<div class="input-field col s12" style="margin:0px auto">
+									<md-tooltip md-direction="Bottom">{{"FollowUp.FollowUp.DidItHappen"|translate}}</md-tooltip>
+									<div class="switch validate">
+										<label>
+											<b>{{"FollowUp.FollowUp.Status"|translate}}</b><br/>{{appointment.appointment_Type}} {{"FollowUp.FollowUp.DidNotAttend"|translate}} 
+												<input type="checkbox" name="attended" ng-model="newFollowUp.followUp_Status_User" aria-label="FollowUp Status" class="md-primary" >
+													<span class="lever"></span>
+													{{appointment.appointment_Type}} {{"FollowUp.FollowUp.Attended"|translate}}
+										</label>
+									</div>
+							</div>
+						</div>
+							<hr/>
+						
+
+						<div layout-gt-xs="row" flex-gt-sm>
+							<md-input-container class="md-icon-float md-icon-left md-block md-caption" flex-gt-sm>
+								<md-tooltip md-direction="Bottom">{{"FollowUp.FollowUp.Feedback"|translate}}</md-tooltip>
+								<md-icon md-svg-src="/template/img/ic_content_paste_black_36px.svg"></md-icon>
+								<textarea ng-model="newFollowUp.followUp_UserFeedback" rows="5" ng-maxlength="1000" aria-label="Feedback" placeholder="ENTER ANY FEEDBACK YOU WOULD LIKE TO PROVIDE ABOUT YOUR EXPERIENCE"  min="1" style="height: 45px; position: relative; padding: 5px 24px; box-sizing: border-box; box-shadow: none; border: 1px solid #e8e8e8; text-indent: 0; line-height: 12px; -webkit-transition: border-color .4s, color .4s; transition: border-color .4s, color .4s; /* -webkit-appearance: none; */ width: 100%; font-size: 14px; background: #fff;"></textarea>
+							</md-input-container>
+						</div>
+			
+						<div class="form-group text-center">			
+							<md-button type="submit"  md-autofocus style="background: #263a78; background: linear-gradient(to bottom, #455ca2, #263a78); color: #fff;">
+								{{"FollowUp.FollowUp.Submit"|translate}}
+								<md-tooltip md-direction="up">Click to submit follow-up</md-tooltip>
+							</md-button>
+							<md-button ng-click="cancel('OK')" style="background: #263a78; background: linear-gradient(to bottom, #D32F2F, #D32F2F); color: #fff;">
+								{{"FollowUp.FollowUp.Cancel"|translate}}
+								<md-tooltip md-direction="right">Click to Cancell</md-tooltip>
+							</md-button>		
+						</div>
+						
+					</div>
+					
+				</form>
+
+				<form  ng-show="user.profileType == 'Provider'" id="followUpProvider" name="FollowUpForm" ng-cloak ng-submit="providerAnswer('OK',FollowUpForm.$invalid)">
+					<div layout-padding style="background: #ffffff; padding: 5px 15px 10px 10px;">	
+					<div ng-show = "false" class="column" flex-gt-sm>
+						<div class="input-field col s12" style="margin:0px auto">
+								<md-tooltip md-direction="Bottom">{{"FollowUp.FollowUp.DidItHappen"|translate}}</md-tooltip>
+								<div class="switch validate" >
+									<label>
+										<b>{{"FollowUp.FollowUp.Status"|translate}}</b><br/>{{appointment.appointment_Type}} {{"FollowUp.FollowUp.DidNotAttend"|translate}} 
+											<input name="attended" type="checkbox" ng-model="newFollowUp.followUp_Status_Provider" aria-label="FollowUp Status" class="md-primary" >
+												<span class="lever"></span>
+													{{appointment.appointment_Type}} {{"FollowUp.FollowUp.Attended"|translate}}
+									</label>
+								</div>
+						</div>
+					</div>
+					
+					<!-- <div ng-show="!FollowUpForm.attended.$viewValue">
+						<span style="color:#D32F2F">If you did not attend, you will not be able to schedule a service.</span style="color="red">
+					</div> -->
+					<md-divider ></md-divider>
+					<div layout="row" >
+						<div flex="" class="input-field ">
+							<md-tooltip md-direction="Bottom">{{"FollowUp.FollowUp.WantToScheduleProcedure"|translate}}</md-tooltip>
+							<div class="switch validate" style="padding-bottom: 80px;">
+								<label>
+									<b>{{"FollowUp.FollowUp.ScheduleProcedure"|translate}}</b><br/>{{"FollowUp.FollowUp.No"|translate}}
+										<input ng-change="newFollowUp.scheduleConsultation = false; appointment.appointment_Type='Procedure'" type="checkbox" ng-model="newFollowUp.scheduleSurgery" ng-disabled="!newFollowUp.followUp_Status_Provider"  form="FollowUpForm" aria-label="FollowUp Surgery" class="md-primary">
+											<span class="lever"></span>
+												{{"FollowUp.FollowUp.Yes"|translate}}
+								</label>
+							</div>
+							
+							<div flex="" style="float: left;">
+								<div ng-if="newFollowUp.scheduleSurgery">
+									<select-datetime ng-init="message.chooseDate = true" user="user" message="message"></select-datetime>
+								</div>
+							</div>	
+						</div>
+						<div flex="" class="input-field " >
+							<md-tooltip md-direction="Bottom">{{"FollowUp.FollowUp.WantToScheduleConsultation"|translate}}</md-tooltip>
+							<div flex="" class="switch validate" style="padding-bottom: 80px;">
+								<label>
+									<b>{{"FollowUp.FollowUp.ScheduleConsultation"|translate}}</b><br/>{{"FollowUp.FollowUp.No"|translate}}
+										<input type="checkbox" ng-change="newFollowUp.scheduleSurgery = false; appointment.appointment_Type='Consultation'" ng-model="newFollowUp.scheduleConsultation" form="FollowUpForm" aria-label="FollowUp Consultation" class="md-primary">
+											<span class="lever"></span>
+												{{"FollowUp.FollowUp.Yes"|translate}}
+								</label>
+							</div>
+							
+							<div flex="" style="float: left;">
+								<div ng-if="newFollowUp.scheduleConsultation">
+									<select-datetime ng-init="message.chooseDate = true" user="user" message="message"></select-datetime>
+								</div>
+							</div>
+						</div>
+					
+						<hr/>
+					</div>
+					<md-divider ></md-divider>
+					
+					<div class="column" flex-gt-sm>
+						<div class="input-field col s12" style="margin:0px; padding-bottom:50px">
+							<md-tooltip md-direction="Bottom">{"FollowUp.FollowUp.WantToAddProcedure"|translate}}</md-tooltip>
+								<div class="switch validate">
+									<label>
+										<b>{{"FollowUp.FollowUp.AddProcedure"|translate}}</b><br/>{{"FollowUp.FollowUp.No"|translate}}
+											<input type="checkbox" ng-model="addServiceCheckbox" ng-disabled="!newFollowUp.followUp_Status_Provider"  aria-label="FollowUp Change Surgery" class="md-primary" >
+												<span class="lever"></span>
+													{{"FollowUp.FollowUp.Yes"|translate}}
+									</label>
+								</div>	
+						</div>
+						<br/>
+						<br/>
+					<div style="padding-bottom:50px" ng-if="addServiceCheckbox">
+						<service-selector appointment="appointment" shopping-cart="shoppingCart" total="total"></service-selector>
+					</div>
+						<div>
+							<cart
+								cart="shoppingCart"
+								total="total"
+								service-brands="service_brands"
+								appointment="appointment"
+								direct-price-change="directPriceChange"
+								is-follow-up='true'
+						></cart>
+							<!-- <div layout-gt-sm="row" ng-repeat="service in shoppingCart">
+								<md-input-container class="md-block" flex-gt-sm>
+								<label>Quantity</label>
+								<md-select required ng-model="service[0].cart_Quantity" ng-change="changeQuantity(service[0].cart_Quantity,'{{service[0].cart_Quantity}}',service[0].service_ID)">
+									<md-option><em>None</em></md-option>
+									<md-option ng-repeat="qty in allowedQuantities" ng-value="qty" >
+									{{qty}}
+									</md-option>
+								</md-select>
+								</md-input-container>
+								
+								<md-input-container class="md-block" flex-gt-sm>
+									<label>Procedure</label>
+									<input ng-model="service[0].procedure_Name" readonly/>
+								</md-input-container>
+					
+									
+								<md-input-container class="md-block" style="max-width:120px;" flex-gt-sm>
+									<label>Price</label>
+									<input style="max-width:120px;"  type="number" min="0"  ng-model="service[0].cart_Cost" ng-readonly="user.profileType=='User'|| total.factorApplied != 1" ng-change="updatePrice(service[0].service_ID,null,service[0].cart_Cost);"">
+								</md-input-container>
+			
+								<md-input-container class="md-block" layout-gt-sm="row">
+									<md-button  aria-label="CallBtn" class="md-secondary md-icon-button" ng-click="removeFromShoppingCart(service[0])" target="_blank">
+										<md-tooltip md-direction="left">Remove From Shopping Cart</md-tooltip>
+										<md-icon md-svg-icon="/template/img/baseline-delete_forever-24px.svg"></md-icon>
+									</md-button> 
+								</md-input-container>
+						
+							</div> -->
+						</div>
+				</div>
+						
+					<md-divider ></md-divider>
+					<div layout-gt-xs="row" flex-gt-sm>
+						<md-input-container class="md-icon-float md-icon-left md-block md-caption" flex-gt-sm>
+							<md-tooltip md-direction="Bottom">{{"FollowUp.FollowUp.Feedback"|translate}}</md-tooltip>
+							<md-icon md-svg-src="/template/img/ic_content_paste_black_36px.svg"></md-icon>
+							<textarea ng-model="newFollowUp.followUp_ProviderFeedback" rows="5" ng-maxlength="1000" aria-label="Feedback" placeholder="{{'FollowUp.FollowUp.FeedbackPlaceholder'|translate}}"  placeholder="Enter any feedback you would like to provide about your experience so far"  min="1" style="height: 45px; position: relative; padding: 5px 24px; box-sizing: border-box; box-shadow: none; border: 1px solid #e8e8e8; text-indent: 0; line-height: 12px; -webkit-transition: border-color .4s, color .4s; transition: border-color .4s, color .4s; /* -webkit-appearance: none; */ width: 100%; font-size: 14px; background: #fff;"></textarea>
+						</md-input-container>
+					</div>
+					
+					<div class="form-group text-center">			
+						<md-button type="submit" ng-disabled="FollowUpForm.docSelect.$invalid" md-autofocus style="background: #263a78; background: linear-gradient(to bottom, #455ca2, #263a78); color: #fff;">
+								{{"FollowUp.FollowUp.Submit"|translate}}
+								<md-tooltip md-direction="up">Click to submit follow-up</md-tooltip>
+						</md-button>
+						<md-button ng-click="cancel('OK')" style="background: #263a78; background: linear-gradient(to bottom, #D32F2F, #D32F2F); color: #fff;">
+							{{"FollowUp.FollowUp.Cancel"|translate}}
+							<md-tooltip md-direction="right">Click to Cancell</md-tooltip>
+						</md-button>		
+					</div>
+					
+				
+				
+			</form>
+			</div>
+		</md-dialog-content>
+	
+	</md-dialog>
+
+	</body>
+
+</html>
+
+<style>
+.moment-picker {
+  position: fixed;
+  z-index: 1060;
+}
+</style>

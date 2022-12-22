@@ -15,4 +15,8 @@ angular.module('core', [
     'core.contactUs',
     'core.profile',
     'core.dashboard',
+    'core.serviceManager',
+    'core.followUp',
+    'core.documents',
+    'core.shoppingCart',
 ])
