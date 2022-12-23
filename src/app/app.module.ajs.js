@@ -210,109 +210,115 @@ export default angular
             ngMeta.init()
         },
     ])
-    .run(function($rootScope, $location, $cookies, GlobalServices) {
-        const adminRoutes = [
-            '/categoryUpload',
-            '/listCategories',
-            '/includes',
-            '/listIncludes',
-            '/procedures',
-            '/listProcedures',
-            '/adminOptions',
-            '/listAdminOptions',
-            '/bulkProceduresUpload',
-            '/customerSupport',
-            '/providerInvoices',
-            '/brands',
-        ]
-        const commonRoutes = [
-            '/adminMedquest:',
-            '/dashboard',
-            '/dashboard:load_demo',
-            '/profile',
-            '/medquestMyPlaces',
-            '/shoppingCart',
-            '/medquestDocuments',
-            '/listDocuments',
-        ]
-        const userRoutes = [
-            '/userMessages',
-            '/userServicesManager',
-            '/user',
-            '/user/:userId',
-            '/listUsers',
-        ]
-        const providerRoutes = [
-            '/messages',
-            '/openMessage',
-            '/providerServicesManager',
-            '/adminServices',
-            '/provider',
-            '/staff',
-            '/inviteStaff',
-            '/listStaff',
-            '/listProvider',
-        ]
+    .run([
+        '$rootScope',
+        '$location',
+        '$cookies',
+        'GlobalServices',
+        function($rootScope, $location, $cookies, GlobalServices) {
+            const adminRoutes = [
+                '/categoryUpload',
+                '/listCategories',
+                '/includes',
+                '/listIncludes',
+                '/procedures',
+                '/listProcedures',
+                '/adminOptions',
+                '/listAdminOptions',
+                '/bulkProceduresUpload',
+                '/customerSupport',
+                '/providerInvoices',
+                '/brands',
+            ]
+            const commonRoutes = [
+                '/adminMedquest:',
+                '/dashboard',
+                '/dashboard:load_demo',
+                '/profile',
+                '/medquestMyPlaces',
+                '/shoppingCart',
+                '/medquestDocuments',
+                '/listDocuments',
+            ]
+            const userRoutes = [
+                '/userMessages',
+                '/userServicesManager',
+                '/user',
+                '/user/:userId',
+                '/listUsers',
+            ]
+            const providerRoutes = [
+                '/messages',
+                '/openMessage',
+                '/providerServicesManager',
+                '/adminServices',
+                '/provider',
+                '/staff',
+                '/inviteStaff',
+                '/listStaff',
+                '/listProvider',
+            ]
 
-        const allRoutes = [...providerRoutes, ...adminRoutes, ...userRoutes, ...commonRoutes]
-        $rootScope.$on('$locationChangeStart', function(event) {
-            if (allRoutes.includes($location.url())) {
-                $rootScope.showDashboardMenu = true
-            } else {
-                $rootScope.showDashboardMenu = false
-            }
-        })
-
-        var getRoutePermissions = function(route) {
-            const need_admin_permission = adminRoutes.find(function(noAuthRoute) {
-                return noAuthRoute.includes(route)
+            const allRoutes = [...providerRoutes, ...adminRoutes, ...userRoutes, ...commonRoutes]
+            $rootScope.$on('$locationChangeStart', function(event) {
+                if (allRoutes.includes($location.url())) {
+                    $rootScope.showDashboardMenu = true
+                } else {
+                    $rootScope.showDashboardMenu = false
+                }
             })
-            if (need_admin_permission) {
-                return GlobalEnums.AccountType.Admin
-            }
-            const need_provider_permission = providerRoutes.find(function(noAuthRoute) {
-                return noAuthRoute.includes(route)
-            })
-            if (need_provider_permission) {
-                return GlobalEnums.AccountType.Provider
-            }
-            const need_user_permission = userRoutes.find(function(noAuthRoute) {
-                return noAuthRoute.includes(route)
-            })
-            if (need_user_permission) {
-                return GlobalEnums.AccountType.User
+
+            var getRoutePermissions = function(route) {
+                const need_admin_permission = adminRoutes.find(function(noAuthRoute) {
+                    return noAuthRoute.includes(route)
+                })
+                if (need_admin_permission) {
+                    return GlobalEnums.AccountType.Admin
+                }
+                const need_provider_permission = providerRoutes.find(function(noAuthRoute) {
+                    return noAuthRoute.includes(route)
+                })
+                if (need_provider_permission) {
+                    return GlobalEnums.AccountType.Provider
+                }
+                const need_user_permission = userRoutes.find(function(noAuthRoute) {
+                    return noAuthRoute.includes(route)
+                })
+                if (need_user_permission) {
+                    return GlobalEnums.AccountType.User
+                }
+
+                return 'Any'
             }
 
-            return 'Any'
-        }
-
-        $rootScope.$on('$routeChangeStart', async function(event, next, current) {
-            const cookie = $cookies.getObject('MyMedQuestC00Ki3')
-            if (!cookie && allRoutes.includes($location.url())) {
-                location.href = '/login'
-            }
-            const userData = await GlobalServices.getUserProfile(cookie?.token)
-            if (
-                !userData &&
-                !userData.data &&
-                !userData.data.profileType &&
-                allRoutes.includes($location.url())
-            ) {
-                location.href = '/login'
-            }
-            const profileType = userData.data.profileType
-            if (profileType === 'Admin') {
-                return
-            }
-            const requiredPermission = getRoutePermissions($location.url())
-            if (requiredPermission === 'Any') {
-                return
-            }
-            if (requiredPermission !== profileType && allRoutes.includes($location.url())) {
-                location.href = 'dashboard'
-            }
-        })
-    })
+            $rootScope.$on('$routeChangeStart', async function(event, next, current) {
+                const cookie = $cookies.getObject('MyMedQuestC00Ki3')
+                if (!cookie && allRoutes.includes($location.url())) {
+                    location.href = '/login'
+                }
+                const userData = await GlobalServices.getUserProfile(cookie?.token)
+                if (
+                    !userData &&
+                    !userData.data &&
+                    !userData.data.profileType &&
+                    allRoutes.includes($location.url())
+                ) {
+                    location.href = '/login'
+                }
+                const profileType = userData.data.profileType
+                if (profileType === 'Admin') {
+                    return
+                }
+                const requiredPermission = getRoutePermissions($location.url())
+                if (requiredPermission === 'Any') {
+                    return
+                }
+                if (requiredPermission !== profileType && allRoutes.includes($location.url())) {
+                    location.href = 'dashboard'
+                }
+            })
+        },
+    ])
 
     .filter('trustAsResourceUrl', [
         '$sce',

@@ -269,9 +269,6 @@ const serviceSelector = {
                             $scope.addNewService(procedure)
                         }
                     })
-                    .catch(function(error) {
-                        // User clicked outside or hit escape
-                    })
             }
 
             const full_description_template = `

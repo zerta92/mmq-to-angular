@@ -32,6 +32,7 @@ angular.module(`core.followUp`, []).factory(`FollowUpServices`, [
                 ctrl.notes = ''
                 ctrl.directPriceChange = {}
                 let cartInfo = {}
+
                 cartInfo = {
                     cart_ID: ctrl.appointment.cart_ID,
                     requestor_ID: ctrl.user.ID,
