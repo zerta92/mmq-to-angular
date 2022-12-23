@@ -1,6 +1,6 @@
 //@ts-nocheck
 'use strict'
-
+import _ from 'lodash'
 const serviceSelector = {
     selector: 'serviceSelector',
     controller: class ServiceSelectorController {
@@ -34,18 +34,15 @@ const serviceSelector = {
             this.$mdBottomSheet = $mdBottomSheet
             this.$mdSidenav = $mdSidenav
         }
-        // var ctrl = this
+
         $onChanges = function(appointment) {
             if (angular.isDefined(appointment)) {
-                console.log('hello 1')
                 this.showModal()
             }
         }
 
         showModal() {
-            console.log('hello 2')
-            console.log(this.$mdDialog)
-
+            const ctrl = this
             this.$mdDialog
                 .show({
                     locals: {
@@ -73,20 +70,43 @@ const serviceSelector = {
                         'BrandServices',
                         '$mdSidenav',
                         '$mdBottomSheet',
-                        this.DialogControllerAddServiceToCart,
+                        function DialogControllerAddServiceToCart(
+                            $scope,
+                            $mdDialog,
+                            appointmentObj,
+                            user,
+                            total,
+                            brands,
+                            shoppingCart,
+                            ShoppingCartServices,
+                            GlobalServices,
+                            BrandServices,
+                            $mdSidenav,
+                            $mdBottomSheet
+                        ) {
+                            return ctrl.DialogControllerAddServiceToCart(
+                                $scope,
+                                $mdDialog,
+                                appointmentObj,
+                                user,
+                                total,
+                                brands,
+                                shoppingCart,
+                                ShoppingCartServices,
+                                GlobalServices,
+                                BrandServices,
+                                $mdSidenav,
+                                $mdBottomSheet
+                            )
+                        },
                     ],
                     templateUrl:
                         './app/components/service_selector/service_selector.component.html',
                     parent: angular.element(document.body),
                     multiple: true,
-                    clickOutsideToClose: false,
+                    clickOutsideToClose: true,
                 })
                 .catch(err => console.log(err))
-                .then(
-                    function(answer) {},
-                    function(cancelAnswer) {}
-                )
-                .finally(function() {})
         }
 
         DialogControllerAddServiceToCart(
@@ -103,7 +123,6 @@ const serviceSelector = {
             $mdSidenav,
             $mdBottomSheet
         ) {
-            console.log('hellooo')
             $scope.appointment = appointmentObj
             $scope.user = user
             $scope.brands = brands
@@ -209,7 +228,7 @@ const serviceSelector = {
                     $scope.brands.push(new_service_brands)
                 }
                 //@ts-ignore
-                $scope.brands = uniqBy($scope.brands, v => [v.brand_ID, v.service_ID].join())
+                $scope.brands = _.uniqBy($scope.brands, v => [v.brand_ID, v.service_ID].join())
 
                 if ($scope.shoppingCart[newProcedure.service_ID] == undefined) {
                     $scope.shoppingCart[newProcedure.service_ID] = {}
