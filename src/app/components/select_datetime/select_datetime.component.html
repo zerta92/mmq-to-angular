@@ -1,0 +1,92 @@
+<div class="overlay" id="overlay">
+    <div
+        class="center"
+        style="border-color:#253d52; border-width: 2px; border-style: solid;"
+        ng-if="$ctrl.message.chooseDate || $ctrl.message.changeDate"
+    >
+        <md-toolbar>
+            <div class="md-toolbar-tools" style="background-color: #15629e; text-align: center;">
+                <h2
+                    ng-bind="('Dashboard.PickAppointmentDate'|translate)"
+                    style="padding-left: 50px;"
+                ></h2>
+                <span flex></span>
+                <md-button style="margin-right: -30px;" ng-click="$ctrl.cancelDateChange()">
+                    <md-icon
+                        ng-show="$ctrl.message.changeDate"
+                        class="md-light"
+                        style="height: 40px; width: 40px;"
+                        md-svg-src="/template/img/cancel-white-48dp.svg"
+                        aria-label="Close dialog"
+                    ></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <div>
+            <label>Select Date and Time</label>
+            <div style="padding: 10px 10px 10px 10px">
+                <input
+                    ng-if="$ctrl.data_loaded"
+                    class="form-control"
+                    moment-picker="$ctrl.message.appointment_Date"
+                    ng-model="$ctrl.message.appointment_Date"
+                    ng-model-options="{ updateOn: 'blur' }"
+                    placeholder="Click to select a date..."
+                    start-view="month"
+                    min-view="month"
+                    max-view="hour"
+                    selectable="$ctrl.isSelectable(date, type)"
+                />
+            </div>
+
+            <!-- <md-input-container style="width: 195px;" class="">
+                <label>{{'MessagesMedQ.SelectDateValue'| translate }}</label>
+                <md-datepicker type="date" md-min-date="$ctrl.minDate" ng-model="$ctrl.message.appointment_Date">
+                </md-datepicker>
+            </md-input-container>
+        </br>
+        <md-input-container style="width: 200px;"  class="">
+            <label>{{'MessagesMedQ.TimeLabelValue_'| translate }}</label>
+            <input type="time" ng-model="$ctrl.message.appointment_Time" />
+        </md-input-container> -->
+        </div>
+        <md-button
+            ng-show="$ctrl.message.changeDate"
+            ng-click="$ctrl.rescheduleSelected($ctrl.message)"
+            class="md-raised md-primary "
+        >
+            {{ 'Confirm' | translate }}
+        </md-button>
+    </div>
+
+    <!-- $ctrl.message.user_message_replied &&  -->
+    <div
+        ng-if="$ctrl.message.appointment_Date && !$ctrl.message.chooseDate && !$ctrl.message.changeDate "
+    >
+        <span
+            class="txt-success"
+            ng-bind="($ctrl.message.appointment_Date.toLocaleString()| date:'dd/MMM/yyyy h:mma')"
+        ></span>
+        <md-icon
+            ng-show="$ctrl.message.message_Action != 'Declined' && $ctrl.user.profileType=='Provider' && $ctrl.message.appointment_Status != 0"
+            md-svg-src="/template/img/change_circle_black_24dp.svg"
+            style="width: 20px; height: 20px;"
+            ng-click="$ctrl.message.changeDate=true"
+        >
+            <md-tooltip md-direction="Bottom">{{ 'Dashboard.ReSchedule_' | translate }}</md-tooltip>
+        </md-icon>
+    </div>
+</div>
+<style>
+    .center {
+        justify-content: center;
+        align-items: center;
+    }
+
+    div#overlay {
+        background: rgb(255, 255, 255);
+        position: relative;
+        z-index: 21;
+    }
+</style>

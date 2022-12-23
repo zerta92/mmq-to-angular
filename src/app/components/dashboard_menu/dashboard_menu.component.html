@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+    <body id="mainContainer_">
+        <div class="container-fluid sb1">
+            <div layout="row" layout-align="center center" style="justify-content: space-between">
+                <div class="col-sm-4 tab-hide">
+                    <a href="/index" class="logo">
+                        <img
+                            src="../template/images/logoNew.jpg"
+                            alt=""
+                            style="width: 50px; padding: 8px 0px 5px 0px;"
+                        /><label>{{ 'Index.Home.MenuText3' | translate }}</label>
+                    </a>
+                </div>
+
+                <div class="col">
+                    <a href="" class="btn-close-menu">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
+                    <a href="" class="atab-menu">
+                        <i class="fa fa-bars tab-menu" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <div class="col"></div>
+
+                <div class="col-md-3 " style="padding: 0px 0px 20px 0px;">
+                    <span ng-if="user.profileType=='User' || user_x.profileType=='User'">
+                        <a
+                            class="waves-effect btn-noti new-msg-notification"
+                            ng-href="#!/userServicesManager"
+                        >
+                            <md-tooltip>{{
+                                'Index.Home.ConsultationManagerTooltip' | translate
+                            }}</md-tooltip>
+                            <md-icon
+                                md-svg-icon="/template/img/new_releases-24px.svg"
+                                style="color:#000;"
+                                aria-label="Add2"
+                            ></md-icon>
+                            <span
+                                ng-bind="messages.unreadServiceMessages"
+                                style="padding: 0px 10px 0px 10px"
+                            ></span>
+                        </a>
+                    </span>
+                    <span
+                        ng-if="user.profileType=='Provider' || user.profileType=='Admin' || user_x.profileType=='Admin'"
+                    >
+                        <a
+                            class="waves-effect btn-noti new-msg-notification"
+                            ng-href="#!/providerServicesManager"
+                        >
+                            <md-tooltip>{{
+                                'Index.Home.ConsultationManagerTooltip' | translate
+                            }}</md-tooltip>
+                            <md-icon
+                                md-svg-icon="/template/img/new_releases-24px.svg"
+                                style="color:#000;"
+                                aria-label="Add3"
+                            ></md-icon>
+                            <span
+                                ng-bind="messages.unreadServiceMessages"
+                                style="padding: 0px 10px 0px 10px"
+                            ></span>
+                        </a>
+                    </span>
+                    <span ng-if="user.profileType=='User' || user_x.profileType=='User'">
+                        <a
+                            class="waves-effect btn-noti new-msg-notification"
+                            ng-href="#!/userMessages"
+                        >
+                            <md-tooltip>{{
+                                'Index.Home.MessagesFromProviderTooltip' | translate
+                            }}</md-tooltip>
+                            <md-icon
+                                md-svg-icon="/template/img/chat-24px.svg"
+                                style="color:#000;"
+                                aria-label="Add4"
+                            ></md-icon>
+                            <span
+                                ng-bind="messages.unreadMessages"
+                                style="padding: 0px 10px 0px 10px; left: 26px;"
+                            ></span>
+                        </a>
+                    </span>
+                    <span
+                        ng-if="user.profileType=='Provider' || user.profileType=='Admin' || user_x.profileType=='Admin'"
+                    >
+                        <a class="waves-effect btn-noti new-msg-notification" ng-href="#!/messages">
+                            <md-tooltip>{{
+                                'Index.Home.MessagesFromUserTooltip' | translate
+                            }}</md-tooltip>
+                            <md-icon
+                                md-svg-icon="/template/img/chat-24px.svg"
+                                style="color:#000;"
+                                aria-label="Add5"
+                            ></md-icon>
+                            <span
+                                ng-bind="messages.unreadMessages"
+                                style="padding: 0px 10px 0px 10px; left: 26px;"
+                            ></span>
+                        </a>
+                    </span>
+                </div>
+
+                <div class="col-md-2 col-sm-7 col-xs-10">
+                    <div layout="row" layout-align="center center">
+                        <div flex>
+                            <div layout="row">
+                                <div flex="">
+                                    <a
+                                        ng-click="changeLanguage('sp')"
+                                        class="waves-effect"
+                                        title="{{ 'Languages.Spanish' | translate }}"
+                                    >
+                                        <span
+                                            class="flag-icon flag-icon-mx"
+                                            style="width: 42px; height: 42px;"
+                                        ></span>
+                                    </a>
+                                </div>
+                                <div flex="">
+                                    <a
+                                        ng-click="changeLanguage('en')"
+                                        class="waves-effect"
+                                        title="{{ 'Languages.English' | translate }}"
+                                    >
+                                        <span
+                                            class="flag-icon flag-icon-us"
+                                            style="width: 42px; height: 42px;"
+                                        ></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div flex>
+                            <a
+                                class="waves-effect dropdown-button top-user-pro-MedQuest"
+                                data-activates="top-menu"
+                            >
+                                <div layout="row">
+                                    <div>
+                                        <img src="../template/images/userImgageCard.png" alt="" />
+                                    </div>
+                                    <div layout="row">
+                                        <span translate="MyAccount.Header"></span>
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <!-- Dropdown Structure -->
+                            <ul id="top-menu" class="dropdown-content top-menu-sty">
+                                <li>
+                                    <a href="#!/profile" class="waves-effect"
+                                        ><i class="fa fa-eye"></i>
+                                        <span translate="UserProfile.Header"></span>
+                                    </a>
+                                </li>
+                                <li
+                                    ng-if="user.profileType =='Provider' || user.profileType =='Admin'"
+                                >
+                                    <a ng-href="#!/provider/{{ user.uniqueID }}"
+                                        ><i class="fa fa-cogs"></i>
+                                        <span
+                                            translate="UserProvider.AllPersonalInformation"
+                                        ></span>
+                                    </a>
+                                </li>
+                                <li ng-if="user.profileType == 'Staff' ">
+                                    <a ng-href="#!/staff/{{ user.ID }}"
+                                        ><i class="fa fa-edit"></i>
+                                        <span
+                                            translate="UserProvider.AllPersonalInformation"
+                                        ></span>
+                                    </a>
+                                </li>
+                                <li
+                                    ng-if="user.profileType =='User' || user_x.profileType =='User'"
+                                >
+                                    <a ng-href="#!/user/{{ user.uniqueID }}"
+                                        ><i class="fa fa-cogs"></i>
+                                        <span
+                                            translate="UserProvider.UserPersonalInformation"
+                                        ></span>
+                                    </a>
+                                </li>
+                                <li
+                                    ng-if="user.profileType =='Provider' || user.profileType =='Admin'"
+                                >
+                                    <a ng-href="/service_details?hospitalID={{ user.ID }}"
+                                        ><i class="fa fa-edit"></i>
+                                        <span translate="UserProvider.viewProfile"></span>
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a ng-click="logout()" class="ho-dr-con-last waves-effect"
+                                        ><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>
+                                        <span translate="LogOut.Header"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--== BODY CONTNAINER ==-->
+        <div class="container-fluid sb2">
+            <div class="row">
+                <div class="sb2-1">
+                    <div class="sb2-12">
+                        <ul>
+                            <li>
+                                <img
+                                    src="../template/img/baseline-account_circle-24px.svg"
+                                    alt=""
+                                    style="width: 60px;"
+                                />
+                            </li>
+
+                            <li>
+                                <h5
+                                    style="padding: 10px 10px 10px 10px;"
+                                    style="font-size: x-large;"
+                                >
+                                    {{ 'AppName' | translate }}
+                                    <span
+                                        ng-bind="user.username"
+                                        style="font-size: xx-large;"
+                                    ></span>
+                                </h5>
+                            </li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <!--== LEFT MENU ==-->
+                    <div class="sb2-13">
+                        <ul class="collapsible" data-collapsible="accordion">
+                            <li class="index-button-hidden">
+                                <a href="/index">
+                                    <img
+                                        src="../template/images/logoNew.jpg"
+                                        alt=""
+                                        style="width: 30px;"
+                                    />{{ 'Index.Home.MenuText3' | translate }}</a
+                                >
+                            </li>
+                            <li ng-repeat="menuItem in userMenu">
+                                <a
+                                    ng-click="makeClick(menuItem)"
+                                    class="collapsible-header"
+                                    style="font-size: large;"
+                                    ng-show="menuItem.page_Location == null"
+                                >
+                                    <i
+                                        class="{{
+                                            messages.unreadServiceMessages > 0 &&
+                                            menuItem.page_Alias == 'Consultations'
+                                                ? 'fa fa-exclamation redCustom'
+                                                : menuItem.page_IconImage
+                                        }}"
+                                        aria-hidden="true"
+                                    ></i>
+                                    {{
+                                        languageSelected == undefined
+                                            ? menuItem.page_Alias
+                                            : languageSelected == 'sp'
+                                            ? menuItem.text_Translation
+                                            : menuItem.page_Alias
+                                    }}
+                                </a>
+                                <div
+                                    class="collapsible-body left-sub-menu"
+                                    ng-show="menuItem.menuChild != null"
+                                >
+                                    <ul>
+                                        <li ng-repeat="menuSubItem in menuItem.menuChild">
+                                            <a
+                                                ng-href="{{ menuSubItem.page_Url }}"
+                                                style="font-size: large;"
+                                            >
+                                                {{
+                                                    languageSelected == undefined
+                                                        ? menuSubItem.page_Alias
+                                                        : languageSelected == 'sp'
+                                                        ? menuSubItem.text_Translation
+                                                        : menuSubItem.page_Alias
+                                                }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <br /><br /><br /><br />
+                    <div
+                        class="pglist-p3 pglist-bg pglist-p-com"
+                        ng-show="infoBannerMenu.length != 0"
+                    >
+                        <div class="pglist-p-com-ti pglist-p-com-ti-right">
+                            <h3 style="background: #253d52;">
+                                {{ 'Index.Home.HowItWorks' | translate }}
+                            </h3>
+                        </div>
+                        <div class="list-pg-inn-sp">
+                            <h3
+                                style="color: #636363; font-size: 15px; font-family: 'Poppins', sans-serif; font-weight: 400;"
+                            >
+                                {{ 'Index.Home.HowItWorks_SubTitle' | translate }}
+                            </h3>
+                            <ul class="collapsible">
+                                <li ng-repeat="infoLink in infoBannerMenu track by $index">
+                                    <div class="left-sub-menu" flex>
+                                        <div class="video-container">
+                                            <iframe
+                                                ng-src="{{ infoLink | trustAsResourceUrl }}"
+                                                allowfullscreen
+                                            ></iframe>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                $('.dropdown-button').dropdown({
+                    inDuration: 300,
+                    outDuration: 225,
+                    constrain_width: false, // Does not change width of dropdown to that of the activator
+                    hover: true, // Activate on hover
+                    gutter: 0,
+                    belowOrigin: false,
+                    alignment: 'left',
+                })
+            })
+        </script>
+    </body>
+</html>
+
+<style>
+    @media (max-width: 400px) {
+        .new-msg-notification {
+            margin-right: 12px !important;
+        }
+    }
+    @media (min-width: 400px) {
+        .index-button-hidden {
+            display: none;
+        }
+    }
+</style>

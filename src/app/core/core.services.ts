@@ -376,8 +376,7 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
                                 window.location.href =
                                     redirect_url || 'adminMedquest/#!/adminServices'
                             } else {
-                                window.location.href =
-                                    redirect_url || 'adminMedquest/#!/adminDashboard'
+                                window.location.href = redirect_url || 'dashboard'
                             }
                         }
                     })

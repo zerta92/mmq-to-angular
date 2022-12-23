@@ -15,6 +15,7 @@ import 'ng-intl-tel-input'
 import 'angular-recaptcha'
 import 'angular-datatables'
 import 'angular-ui-calendar'
+import 'angular-moment-picker'
 
 /* Dashboard */
 import './core/dashboard/dashboard.module'
@@ -49,6 +50,9 @@ import './core/documents/documents.service'
 /* Shopping Cart */
 import './core/shopping_cart/shopping_cart.module'
 import './core/shopping_cart/shopping_cart.service'
+/* Dashboard Menu */
+import './components/dashboard_menu/dashboard_menu.module'
+import './components/dashboard_menu/dashboard_menu.component'
 /* Follow Up*/
 import './core/follow_up/follow_up.module'
 import './core/follow_up/follow_up.service'
@@ -106,9 +110,15 @@ import './components/calendar/calendar.component'
 /* Appointment Card */
 import './components/appointment_card/appointment_card.module'
 import './components/appointment_card/appointment_card.component'
+/* Select Datetime */
+import './components/select_datetime/select_datetime.module'
+import './components/select_datetime/select_datetime.component'
 /* Services Search Dropdown */
 import './components/services-search-dropdown/services_search_dropdown.module'
 import './components/services-search-dropdown/services_search_dropdown.component'
+/* Services Selector */
+import './components/service_selector/service_selector.module'
+import './components/service_selector/service_selector.component'
 /* Schedule Appointment Dropdown */
 import './components/schedule_appointment/schedule_appointment.module'
 import './components/schedule_appointment/schedule_appointment.component'
@@ -143,8 +153,10 @@ export default angular
         'loginModule',
         'mainDropdownModule',
         'calendarModule',
+        'serviceSelectorModule',
         'appointmentCardModule',
         'procedureContentModule',
+        'dashboardMenuModule',
         'servicesSearchDropdownModule',
         'listModule',
         'listDetailsModule',
@@ -152,10 +164,12 @@ export default angular
         'contactUsModule',
         'forgotPasswordModule',
         'scheduleAppointmentModule',
+        'selectDatetimeModule',
         'contactProviderModule',
         'footerModule',
         'profileModule',
         'dashboardModule',
+        'dashboardMenuModule',
     ])
     .constant('_', window._)
     .config([
@@ -196,6 +210,110 @@ export default angular
             ngMeta.init()
         },
     ])
+    .run(function($rootScope, $location, $cookies, GlobalServices) {
+        const adminRoutes = [
+            '/categoryUpload',
+            '/listCategories',
+            '/includes',
+            '/listIncludes',
+            '/procedures',
+            '/listProcedures',
+            '/adminOptions',
+            '/listAdminOptions',
+            '/bulkProceduresUpload',
+            '/customerSupport',
+            '/providerInvoices',
+            '/brands',
+        ]
+        const commonRoutes = [
+            '/adminMedquest:',
+            '/dashboard',
+            '/dashboard:load_demo',
+            '/profile',
+            '/medquestMyPlaces',
+            '/shoppingCart',
+            '/medquestDocuments',
+            '/listDocuments',
+        ]
+        const userRoutes = [
+            '/userMessages',
+            '/userServicesManager',
+            '/user',
+            '/user/:userId',
+            '/listUsers',
+        ]
+        const providerRoutes = [
+            '/messages',
+            '/openMessage',
+            '/providerServicesManager',
+            '/adminServices',
+            '/provider',
+            '/staff',
+            '/inviteStaff',
+            '/listStaff',
+            '/listProvider',
+        ]
+
+        const allRoutes = [...providerRoutes, ...adminRoutes, ...userRoutes, ...commonRoutes]
+        $rootScope.$on('$locationChangeStart', function(event) {
+            if (allRoutes.includes($location.url())) {
+                $rootScope.showDashboardMenu = true
+            } else {
+                $rootScope.showDashboardMenu = false
+            }
+        })
+
+        var getRoutePermissions = function(route) {
+            const need_admin_permission = adminRoutes.find(function(noAuthRoute) {
+                return noAuthRoute.includes(route)
+            })
+            if (need_admin_permission) {
+                return GlobalEnums.AccountType.Admin
+            }
+            const need_provider_permission = providerRoutes.find(function(noAuthRoute) {
+                return noAuthRoute.includes(route)
+            })
+            if (need_provider_permission) {
+                return GlobalEnums.AccountType.Provider
+            }
+            const need_user_permission = userRoutes.find(function(noAuthRoute) {
+                return noAuthRoute.includes(route)
+            })
+            if (need_user_permission) {
+                return GlobalEnums.AccountType.User
+            }
+
+            return 'Any'
+        }
+
+        $rootScope.$on('$routeChangeStart', async function(event, next, current) {
+            const cookie = $cookies.getObject('MyMedQuestC00Ki3')
+            if (!cookie && allRoutes.includes($location.url())) {
+                location.href = '/login'
+            }
+            const userData = await GlobalServices.getUserProfile(cookie?.token)
+            if (
+                !userData &&
+                !userData.data &&
+                !userData.data.profileType &&
+                allRoutes.includes($location.url())
+            ) {
+                location.href = '/login'
+            }
+            const profileType = userData.data.profileType
+            if (profileType === 'Admin') {
+                return
+            }
+            const requiredPermission = getRoutePermissions($location.url())
+            if (requiredPermission === 'Any') {
+                return
+            }
+            if (requiredPermission !== profileType && allRoutes.includes($location.url())) {
+                location.href = 'dashboard'
+            }
+        })
+    })
+
     .filter('trustAsResourceUrl', [
         '$sce',
         function($sce) {
@@ -216,6 +334,7 @@ export default angular
 
             $scope.main_controller_user_loaded = false
             await getUser()
+
             $scope.main_controller_user_loaded = true
 
             $scope.messages = []
@@ -263,7 +382,7 @@ export default angular
             async function getUser() {
                 try {
                     const userData = await GlobalServices.getUserProfile(
-                        $cookies.getObject('MyMedQuestC00Ki3').token
+                        $cookies.getObject('MyMedQuestC00Ki3')?.token
                     )
                     if (userData.data.username !== undefined) {
                         $scope.user.username = userData.data.username
@@ -411,13 +530,11 @@ export default angular
                                 $scope.cardType = 3
                             }
                         }
-                    } else {
-                        location.href = '/login'
                     }
                 } catch (err) {
                     console.log(err)
                     GlobalServices.showToastMsg('MyMedQ_MSG.PleaseContactTheAdministrator', 'ERROR')
-                    location.href = '/login'
+                    // location.href = '/login'
                 }
             }
 

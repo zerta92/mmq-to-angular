@@ -1,0 +1,173 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>{{ 'ShoppingCart.addToCart' | translate }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="close()">
+            <md-icon
+                md-svg-src="/template/img/ic_cancel_black_24px.svg"
+                aria-label="Close dialog"
+            ></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+<section layout="row" flex>
+    <md-sidenav
+        class="md-sidenav-left"
+        style="height: 600px;"
+        md-component-id="left"
+        md-is-locked-open="$mdMedia('gt-md')"
+        md-whiteframe="4"
+    >
+        <div class="" layout-wrap>
+            <h4>
+                <div layout="row" layout-wrap>
+                    <div flex layout-wrap>
+                        <div flex>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                ng-click="backToAllCategories()"
+                            >
+                                <md-icon
+                                    md-svg-icon="/template/img/ic_keyboard_backspace_black_24px.svg"
+                                ></md-icon>
+                                <md-tooltip md-direction="Bottom">{{
+                                    'Services.Service.clickToBack' | translate
+                                }}</md-tooltip>
+                            </button>
+                        </div>
+                    </div>
+                    <div flex>
+                        {{ 'Services.Service.categories' | translate }}
+                    </div>
+                </div>
+            </h4>
+        </div>
+        <md-content layout-padding>
+            <md-button ng-click="closeSideNav()" class="md-primary" hide-gt-md>
+                {{ 'Services.Service.closeSidenavLeft' | translate }}
+            </md-button>
+
+            <md-list-item
+                class="md-3-line"
+                ng-repeat="categorie in categorieList"
+                ng-click="selectCategorieClick(categorie)"
+                ng-class="{selectedIndexC: selectedIndexC === $index}"
+            >
+                <img class="md-avatar" ng-src="/template/img/ic_style_black_24px.svg" />
+                <div class="md-list-item-text" layout="column">
+                    <h3>{{ categorie.category_Name }}</h3>
+                </div>
+                <md-divider inset></md-divider>
+            </md-list-item>
+        </md-content>
+    </md-sidenav>
+    <md-content flex style="height: 600px; ">
+        <md-subheader>
+            <div class=" tz-2-main">
+                <h4>
+                    <div class="md-toolbar-tools">
+                        <div layout="row">
+                            <div flex>
+                                <h2>{{ 'Services.Service.procedures' | translate }}</h2>
+                                <span class="md-caption">
+                                    <ins
+                                        ><em
+                                            >Showing Services of the (
+                                            <span style="color:#F44336;font-weight:bold"
+                                                ><b>{{ categorie.category_Name }}</b></span
+                                            >
+                                            ) Category</em
+                                        ></ins
+                                    >
+                                </span>
+                            </div>
+                        </div>
+
+                        <span flex style="float: right; padding-left: 15px;">
+                            <md-autocomplete
+                                md-no-cache="noCache"
+                                md-selected-item="selectedItem"
+                                md-search-text="searchText"
+                                md-items="item in querySearch(searchText)"
+                                md-item-text="item.procedure_Name"
+                                md-min-length="0"
+                                md-escape-options="clear"
+                                placeholder="Search Service"
+                                input-aria-labelledby="Available Services"
+                            >
+                                <md-item-template>
+                                    <span md-highlight-text="searchText" md-highlight-flags="^i">{{
+                                        item.procedure_Name
+                                    }}</span>
+                                </md-item-template>
+                                <md-not-found>
+                                    No services matching "{{ searchText }}" were found.
+                                </md-not-found>
+                            </md-autocomplete>
+                        </span>
+                    </div>
+                </h4>
+            </div>
+        </md-subheader>
+
+        <div>
+            <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
+                <md-icon
+                    md-svg-src="/template/img/ic_format_indent_decrease_black_24px.svg"
+                ></md-icon>
+                {{ 'Services.Service.showCategoriesMenu' | translate }}
+            </md-button>
+        </div>
+        <md-divider inset></md-divider>
+        <md-card ng-repeat="procedure in querySearch(searchText)">
+            <md-card-title>
+                <img class="md-card-image" />
+                <md-card-title-text>
+                    <span class="md-headline">{{ procedure.procedure_Name }}</span>
+                    <span class="md-subhead" style="text-align: justify; display:block;">{{
+                        procedure.procedure_Description
+                    }}</span>
+                </md-card-title-text>
+
+                <md-card-title-media>
+                    <div layout="column" class="card-media" layout-align="end end">
+                        <md-button
+                            flex="50"
+                            class="md-primary md-raised"
+                            ng-click="showFullDescription(procedure)"
+                            >Full Description</md-button
+                        >
+                        <md-button
+                            class="md-primary md-raised md-warn md-cornered"
+                            ng-click="addNewService(procedure)"
+                        >
+                            Add To Cart
+                            <md-icon
+                                md-svg-icon="/template/img/ic_done_all_black_24px.svg"
+                            ></md-icon>
+                            <md-tooltip md-direction="Bottom">Add Service To Cart </md-tooltip>
+                        </md-button>
+                    </div>
+                </md-card-title-media>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                <div class="md-icon-float md-icon-left md-block md-caption">
+                    <label
+                        >{{ 'Services.Service.price' | translate }}:
+                        <md-icon
+                            md-svg-src="/template/img/ic_monetization_on_black_24px.svg"
+                        ></md-icon>
+                        {{ procedure.servicePrice }}
+                    </label>
+                </div>
+            </md-card-actions>
+        </md-card>
+    </md-content>
+</section>
+
+<style>
+    md-bottom-sheet {
+        z-index: 101;
+    }
+</style>

@@ -56,9 +56,7 @@
                                                 >
                                             </li>
                                             <li>
-                                                <a
-                                                    href="adminMedquest/#!/adminDashboard"
-                                                    target="_self"
+                                                <a href="dashboard" target="_self"
                                                     >{{'Login.login.Header.Dashboard'|translate}}</a
                                                 >
                                             </li>
@@ -193,7 +191,7 @@
                                         <li>
                                             <a
                                                 ng-if="$ctrl.is_logged_in"
-                                                href="adminMedquest/#!/adminDashboard"
+                                                href="dashboard"
                                                 target="_self"
                                                 class="v3-menu-sign"
                                                 style="font-size: large;"
@@ -239,10 +237,7 @@
                             <h5>{{'Index.Home.MenuResponsive.Account'|translate}}</h5>
                             <ul class="mob-menu-icon">
                                 <li>
-                                    <a
-                                        ng-if="$ctrl.is_logged_in"
-                                        href="adminMedquest/#!/adminDashboard"
-                                        target="_self"
+                                    <a ng-if="$ctrl.is_logged_in" href="dashboard" target="_self"
                                         >{{'Login.login.Header.Dashboard'|translate}}</a
                                     >
                                 </li>
@@ -317,8 +312,6 @@
                 </div>
             </div>
         </section>
-
-        <script src="/template/js/custom.js"></script>
     </body>
     <style>
         .center {
