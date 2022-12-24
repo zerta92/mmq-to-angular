@@ -248,6 +248,7 @@
                                     />{{ 'Index.Home.MenuText3' | translate }}</a
                                 >
                             </li>
+
                             <li ng-repeat="menuItem in userMenu">
                                 <a
                                     ng-click="makeClick(menuItem)"
@@ -317,7 +318,7 @@
                                     <div class="left-sub-menu" flex>
                                         <div class="video-container">
                                             <iframe
-                                                ng-src="{{ infoLink | trustAsResourceUrl }}"
+                                                ng-src="{{ infoLink.source | trustAsResourceUrl }}"
                                                 allowfullscreen
                                             ></iframe>
                                         </div>

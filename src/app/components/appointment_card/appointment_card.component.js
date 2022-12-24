@@ -1,6 +1,6 @@
 import { GoogleCalendar } from 'datebook'
 import moment from 'moment'
-import { GlobalEnums } from '../../utils/global_enums'
+import * as GlobalEnums from '../../utils/global_enums'
 
 angular.module('appointmentCardModule', []).component('appointmentCard', {
     templateUrl: './app/components/appointment_card/appointment_card.component.html',

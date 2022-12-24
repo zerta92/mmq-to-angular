@@ -379,12 +379,6 @@ export default angular
                 }
             }
 
-            function getMenu(profile_id) {
-                GlobalServices.getUserMenu(profile_id).then(function(menuData) {
-                    $scope.userMenu = menuData.data
-                })
-            }
-
             async function getUser() {
                 try {
                     const userData = await GlobalServices.getUserProfile(
@@ -419,7 +413,6 @@ export default angular
                         ) {
                             location.href = '/index'
                         } else {
-                            await getMenu($scope.user.profileId)
                             $scope.priviliges.remove = 1
                             // $scope.priviliges.update = 1
                             $scope.priviliges.create = 1

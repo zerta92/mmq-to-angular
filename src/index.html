@@ -37,10 +37,10 @@
         <div>
             <div id="loading-bar-container"></div>
             <div ng-if="main_controller_user_loaded" id="wrapper">
-                <main-dropdown ng-show="!showDashboardMenu"></main-dropdown>
-                <dashboard-menu ng-show="showDashboardMenu"></dashboard-menu>
+                <main-dropdown ng-if="!showDashboardMenu"></main-dropdown>
+                <dashboard-menu ng-if="showDashboardMenu"></dashboard-menu>
                 <ng-view id="routedContent" autoscroll="true"></ng-view>
-                <main-footer ng-show="!showDashboardMenu"></main-footer>
+                <main-footer ng-if="!showDashboardMenu"></main-footer>
             </div>
         </div>
         <script

@@ -448,6 +448,9 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
             getUserMenu: function(profile_id) {
                 return $http.get('/api/customer/getMenuPages/' + profile_id)
             },
+            getBannerInfoByMenu: function(menu) {
+                return $http.get(`/api/customer/getInfoBannerByMenu/` + menu)
+            },
             getUserAppointmentsDiff: function(userId, type) {
                 return $http.get('/api/dashboard/getUserAppointmentsDiff/' + userId + '/' + type)
             },

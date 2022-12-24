@@ -50,9 +50,6 @@ angular.module(`core.index`, []).factory(`IndexServices`, [
             getRecaptchaKey: function() {
                 return $http.get(`/api/getRecaptchaKey`)
             },
-            getBannerInfoByMenu: function(menu) {
-                return $http.get(`/api/customer/getInfoBannerByMenu/` + menu)
-            },
             getFeaturedClinics: function() {
                 return $http.get(`/api/getFeaturedClinics`)
             },
