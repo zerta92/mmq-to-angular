@@ -1147,6 +1147,12 @@ angular.module('dashboardMenuModule', []).component('dashboardMenu', {
                 }
             }
 
+            $scope.makeClick = function(param) {
+                if (param.menuChild == null) {
+                    window.location.href = param.page_Url
+                }
+            }
+
             function getMenu(profile_id) {
                 GlobalServices.getUserMenu(profile_id).then(function(menuData) {
                     $scope.userMenu = menuData.data

@@ -117,7 +117,7 @@
                                     >
                                         <span
                                             class="flag-icon flag-icon-mx"
-                                            style="width: 42px; height: 42px;"
+                                            style="width: 40px; height: 40px;"
                                         ></span>
                                     </a>
                                 </div>
@@ -130,7 +130,7 @@
                                     >
                                         <span
                                             class="flag-icon flag-icon-us"
-                                            style="width: 42px; height: 42px;"
+                                            style="width: 40px; height: 40px;"
                                         ></span>
                                     </a>
                                 </div>
@@ -246,25 +246,7 @@
                         </ul>
                     </div>
                     <div class="sb2-13">
-                        <p>
-                            <button
-                                type="button"
-                                data-toggle="collapse"
-                                data-target="#collapseExample"
-                                aria-expanded="false"
-                                aria-controls="collapseExample"
-                            >
-                                Button with data-target
-                            </button>
-                        </p>
-                        <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
-                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
-                                terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
-                                labore wes anderson cred nesciunt sapiente ea proident.
-                            </div>
-                        </div>
-                        <ul class="collapsible" data-collapsible="accordion">
+                        <ul>
                             <li class="index-button-hidden">
                                 <a href="/index">
                                     <img
@@ -280,6 +262,8 @@
                                     ng-click="makeClick(menuItem)"
                                     style="font-size: large;"
                                     ng-show="menuItem.page_Location == null"
+                                    data-toggle="collapse"
+                                    data-target="#menu-children-{{ menuItem.page_ID }}"
                                 >
                                     <i
                                         class="{{
@@ -299,7 +283,8 @@
                                     }}
                                 </a>
                                 <div
-                                    class="collapsible-body left-sub-menu"
+                                    class="left-sub-menu collapse"
+                                    id="menu-children-{{ menuItem.page_ID }}"
                                     ng-show="menuItem.menuChild != null"
                                 >
                                     <ul>
