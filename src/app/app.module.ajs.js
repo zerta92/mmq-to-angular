@@ -537,50 +537,6 @@ export default angular
                 }
             }
 
-            async function getMessages() {
-                if (
-                    $scope.user.profileType == GlobalEnums.AccountType.Provider ||
-                    $scope.user.profileType == 'Admin'
-                ) {
-                    const messages = await GlobalServices.getAllProviderMessages($scope.user)
-                    $scope.messages = messages.data
-                    $scope.messages.unreadMessages = 0
-                    $scope.messages.unreadServiceMessages = 0
-
-                    messages.data.forEach(message => {
-                        if (message.message_Read == 0 && message.message_Type == 'Message') {
-                            $scope.messages.unreadMessages++
-                        } else if (
-                            !message.message_Read &&
-                            message.message_status == 1 &&
-                            (message.message_Type == 'Consultation' ||
-                                message.message_Type == 'Procedure')
-                        ) {
-                            $scope.messages.unreadServiceMessages++
-                        }
-                    })
-                }
-                if ($scope.user.profileType == GlobalEnums.AccountType.User) {
-                    const messages = await GlobalServices.getAllUserMessages($scope.user)
-                    $scope.messages = messages.data
-                    $scope.messages.unreadMessages = 0
-                    $scope.messages.unreadServiceMessages = 0
-
-                    messages.data.forEach(message => {
-                        if (message.message_Read == 0 && message.message_Type == 'Message') {
-                            $scope.messages.unreadMessages++
-                        } else if (
-                            !message.message_Replied &&
-                            message.message_status == 1 &&
-                            (message.message_Type == 'Consultation' ||
-                                message.message_Type == 'Procedure')
-                        ) {
-                            $scope.messages.unreadServiceMessages++
-                        }
-                    })
-                }
-            }
-
             setTimeout(() => {
                 refreshProfile()
             }, 500)
@@ -590,7 +546,6 @@ export default angular
             }, 60000)
 
             async function refreshProfile() {
-                getMessages()
                 let upcoming_appointment
                 if ($scope.user.profileType === GlobalEnums.AccountType.User) {
                     upcoming_appointment = await getNearestAppointmentNotification('user')

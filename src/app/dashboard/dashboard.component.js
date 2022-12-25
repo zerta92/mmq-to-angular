@@ -1,6 +1,7 @@
 'use strict'
 import * as GlobalEnums from '../utils/global_enums'
 import moment from 'moment'
+import _ from 'lodash'
 angular
     .module('dashboardModule')
     .component('dashboardModule', {
@@ -210,7 +211,7 @@ angular
                     )
                     $scope.servicesChartLabel = Object.keys(services_by_category)
                     $scope.servicesChartDataSerieB = Object.values(services_by_category).map(
-                        x => sumBy(x, 'price') / x.length / 1000
+                        x => _.sumBy(x, 'price') / x.length / 1000
                     )
 
                     $scope.servicesChartData.push(

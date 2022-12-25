@@ -110,6 +110,7 @@
                             <div layout="row">
                                 <div flex="">
                                     <a
+                                        href="#"
                                         ng-click="changeLanguage('sp')"
                                         class="waves-effect"
                                         title="{{ 'Languages.Spanish' | translate }}"
@@ -122,6 +123,7 @@
                                 </div>
                                 <div flex="">
                                     <a
+                                        href="#"
                                         ng-click="changeLanguage('en')"
                                         class="waves-effect"
                                         title="{{ 'Languages.English' | translate }}"
@@ -135,79 +137,86 @@
                             </div>
                         </div>
 
-                        <div flex>
-                            <a
-                                class="waves-effect dropdown-button top-user-pro-MedQuest"
-                                data-activates="top-menu"
+                        <div class="md-menu-demo" ng-cloak>
+                            <div
+                                class="menu-demo-container"
+                                layout-align="center center"
+                                layout="column"
                             >
-                                <div layout="row">
-                                    <div>
-                                        <img src="../template/images/userImgageCard.png" alt="" />
-                                    </div>
-                                    <div layout="row">
-                                        <span translate="MyAccount.Header"></span>
-                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
-                                    </div>
-                                </div>
-                            </a>
-                            <!-- Dropdown Structure -->
-                            <ul id="top-menu" class="dropdown-content top-menu-sty">
-                                <li>
-                                    <a href="#!/profile" class="waves-effect"
-                                        ><i class="fa fa-eye"></i>
-                                        <span translate="UserProfile.Header"></span>
-                                    </a>
-                                </li>
-                                <li
-                                    ng-if="user.profileType =='Provider' || user.profileType =='Admin'"
-                                >
-                                    <a ng-href="#!/provider/{{ user.uniqueID }}"
-                                        ><i class="fa fa-cogs"></i>
-                                        <span
-                                            translate="UserProvider.AllPersonalInformation"
-                                        ></span>
-                                    </a>
-                                </li>
-                                <li ng-if="user.profileType == 'Staff' ">
-                                    <a ng-href="#!/staff/{{ user.ID }}"
-                                        ><i class="fa fa-edit"></i>
-                                        <span
-                                            translate="UserProvider.AllPersonalInformation"
-                                        ></span>
-                                    </a>
-                                </li>
-                                <li
-                                    ng-if="user.profileType =='User' || user_x.profileType =='User'"
-                                >
-                                    <a ng-href="#!/user/{{ user.uniqueID }}"
-                                        ><i class="fa fa-cogs"></i>
-                                        <span
-                                            translate="UserProvider.UserPersonalInformation"
-                                        ></span>
-                                    </a>
-                                </li>
-                                <li
-                                    ng-if="user.profileType =='Provider' || user.profileType =='Admin'"
-                                >
-                                    <a ng-href="/service_details?hospitalID={{ user.ID }}"
-                                        ><i class="fa fa-edit"></i>
-                                        <span translate="UserProvider.viewProfile"></span>
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a ng-click="logout()" class="ho-dr-con-last waves-effect"
-                                        ><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i>
-                                        <span translate="LogOut.Header"></span>
-                                    </a>
-                                </li>
-                            </ul>
+                                <md-menu>
+                                    <md-button
+                                        aria-label="Open menu with custom trigger"
+                                        class="md-icon-button"
+                                        ng-mouseenter="$mdMenu.open()"
+                                    >
+                                        <md-icon
+                                            md-svg-icon="/template/img/dashboard_menu_dropdown.svg"
+                                        ></md-icon>
+                                    </md-button>
+                                    <md-menu-content width="4" ng-mouseleave="$mdMenu.close()">
+                                        <md-menu-item>
+                                            <a href="/profile" class="waves-effect"
+                                                ><i class="fa fa-eye"></i>
+                                                <span translate="UserProfile.Header"></span>
+                                            </a>
+                                        </md-menu-item>
+                                        <md-menu-item
+                                            ng-if="user.profileType =='Provider' || user.profileType =='Admin'"
+                                        >
+                                            <a ng-href="/provider/{{ user.uniqueID }}"
+                                                ><i class="fa fa-cogs"></i>
+                                                <span
+                                                    translate="UserProvider.AllPersonalInformation"
+                                                ></span>
+                                            </a>
+                                        </md-menu-item>
+                                        <md-menu-item ng-if="user.profileType == 'Staff'">
+                                            <a ng-href="/staff/{{ user.ID }}"
+                                                ><i class="fa fa-edit"></i>
+                                                <span
+                                                    translate="UserProvider.AllPersonalInformation"
+                                                ></span>
+                                            </a>
+                                        </md-menu-item>
+                                        <md-menu-item
+                                            ng-if="user.profileType =='User' || user_x.profileType =='User'"
+                                        >
+                                            <a ng-href="#!/user/{{ user.uniqueID }}"
+                                                ><i class="fa fa-cogs"></i>
+                                                <span
+                                                    translate="UserProvider.UserPersonalInformation"
+                                                ></span>
+                                            </a>
+                                        </md-menu-item>
+                                        <md-menu-item
+                                            ng-if="user.profileType =='Provider' || user.profileType =='Admin'"
+                                        >
+                                            <a ng-href="/service_details?hospitalID={{ user.ID }}"
+                                                ><i class="fa fa-edit"></i>
+                                                <span translate="UserProvider.viewProfile"></span>
+                                            </a>
+                                        </md-menu-item>
+                                        <md-menu-item>
+                                            <a
+                                                href="#"
+                                                ng-click="logout()"
+                                                class="ho-dr-con-last waves-effect"
+                                                ><i
+                                                    class="fa fa-sign-out fa-fw"
+                                                    aria-hidden="true"
+                                                ></i>
+                                                <span translate="LogOut.Header"></span>
+                                            </a>
+                                        </md-menu-item>
+                                    </md-menu-content>
+                                </md-menu>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--== BODY CONTNAINER ==-->
+
         <div class="container-fluid sb2">
             <div class="row">
                 <div class="sb2-1">
@@ -236,8 +245,25 @@
                             <li></li>
                         </ul>
                     </div>
-                    <!--== LEFT MENU ==-->
                     <div class="sb2-13">
+                        <p>
+                            <button
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#collapseExample"
+                                aria-expanded="false"
+                                aria-controls="collapseExample"
+                            >
+                                Button with data-target
+                            </button>
+                        </p>
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus
+                                terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer
+                                labore wes anderson cred nesciunt sapiente ea proident.
+                            </div>
+                        </div>
                         <ul class="collapsible" data-collapsible="accordion">
                             <li class="index-button-hidden">
                                 <a href="/index">
@@ -252,7 +278,6 @@
                             <li ng-repeat="menuItem in userMenu">
                                 <a
                                     ng-click="makeClick(menuItem)"
-                                    class="collapsible-header"
                                     style="font-size: large;"
                                     ng-show="menuItem.page_Location == null"
                                 >
@@ -330,20 +355,6 @@
                 </div>
             </div>
         </div>
-
-        <script>
-            $(document).ready(function() {
-                $('.dropdown-button').dropdown({
-                    inDuration: 300,
-                    outDuration: 225,
-                    constrain_width: false, // Does not change width of dropdown to that of the activator
-                    hover: true, // Activate on hover
-                    gutter: 0,
-                    belowOrigin: false,
-                    alignment: 'left',
-                })
-            })
-        </script>
     </body>
 </html>
 
