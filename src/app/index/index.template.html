@@ -13,9 +13,6 @@
 
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
-        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
 
         <style>
             html,
@@ -318,7 +315,7 @@
                                         ></div>
                                         <span class="home-list-pop-rat list-mi-pr"
                                             >Average Procedure Price
-                                            ${{featured_clinics_average_price[provider.provider_ID][0].avg_price}}</span
+                                            ${{$ctrl.featured_clinics_average_price[provider.provider_ID][0].avg_price}}</span
                                         >
                                     </div>
                                     <div class="list-mig-lc-con">
@@ -358,7 +355,7 @@
                             </a>
                         </div>
                     </div>
-                    fuck: {{$ctrl.register_and_schedule_consultation_users_url}}
+
                     <!-- Youtube Videos Section -->
                     <div layout="column" layout-xs="column">
                         <div flex="">

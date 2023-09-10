@@ -19,7 +19,11 @@ angular.module('loginModule').component('loginModule', {
             $cookies,
             $location
         ) {
-            const redirect_url = $location.search().redirect_to
+            let redirect_url = $location.search().redirect_to
+            if (redirect_url) {
+                redirect_url = redirect_url.replace('adminMedquest/', 'adminMedquest/#!')
+            }
+
             $scope.user = {}
             $scope.notificationMeesage = {}
             $scope.objLanguageEdit = {}
@@ -28,10 +32,12 @@ angular.module('loginModule').component('loginModule', {
             $scope.URL = ''
             $scope.checked = true
             $scope.traslateType
-
             const showToastMsg = GlobalServices.showToastMsg
 
-            if ($cookies.getObject('MyMedQuestC00Ki3')) {
+            if (
+                $cookies.getObject('MyMedQuestC00Ki3') &&
+                $cookies.getObject('MyMedQuestC00Ki3').token
+            ) {
                 GlobalServices.getCustomer(
                     $cookies.getObject('MyMedQuestC00Ki3').token,
                     redirect_url
@@ -39,24 +45,30 @@ angular.module('loginModule').component('loginModule', {
             }
 
             $scope.processLoginForm = async function() {
-                // const ip = await GlobalServices.customerIPHandler()
-                console.log($scope.user)
+                const ip = await GlobalServices.customerIPHandler()
                 LoginServices.userLogin($scope.user)
-                    .then(function(userData) {
+                    .then(async function(userData) {
                         if (userData.data.status < 0) {
                             showToastMsg(userData.data.message, 'ERROR')
                         } else {
                             if (
-                                userData.data.user_UserName !== undefined ||
-                                userData.data.provider_UserName !== undefined
+                                userData.data.ID !== undefined ||
+                                userData.data.profileType !== undefined
                             ) {
                                 window.dataLayer = window.dataLayer || []
                                 dataLayer.push({
                                     event: 'formSubmission',
                                     formType: 'Sign In',
                                 })
+
                                 const token = userData.data.token
-                                GlobalServices.getCustomer(token, redirect_url)
+                                await GlobalServices.getCustomer(token, redirect_url)
+
+                                $rootScope.trackCustomerAction({
+                                    action: 'login',
+                                    url: $location.absUrl(),
+                                    agent: window.navigator.userAgent,
+                                })
                             } else {
                                 showToastMsg(userData.data.message, 'ERROR')
                             }
@@ -75,13 +87,12 @@ angular.module('loginModule').component('loginModule', {
                 $mdDialog
                     .show({
                         locals: {
-                            $mdDialog,
+                            traslateType: $scope.traslateType,
                         },
-                        controller: ['$mdDialog', dialogSuggestUsernamesController],
-                        templateUrl: 'app/pages/modals/change_password_request.template.html',
+                        controller: dialogSuggestUsernamesController,
+                        templateUrl: '/dialogTemplate/changePasswdRequest.html',
                         parent: angular.element(document.body),
                         targetEvent: ev,
-                        controllerAs: 'vm',
                         clickOutsideToClose: true,
                         fullscreen: false,
                     })
@@ -111,46 +122,44 @@ angular.module('loginModule').component('loginModule', {
                         }
                     )
 
-                function dialogSuggestUsernamesController($mdDialog) {
-                    const ctrl = this
+                function dialogSuggestUsernamesController($scope, $mdDialog, traslateType) {
+                    $scope.userType
 
-                    ctrl.userType
-
-                    ctrl.hide = function() {
+                    $scope.hide = function() {
                         $mdDialog.hide()
                     }
 
-                    ctrl.cancel = function() {
+                    $scope.cancel = function() {
                         $mdDialog.cancel()
                     }
 
-                    ctrl.answer = function(answer) {
-                        if (answer == 'OK' && ctrl.userType != undefined) {
-                            LoginServices.validateUserName(ctrl.userType).then(function(
+                    $scope.answer = function(answer) {
+                        if (answer == 'OK' && $scope.userType != undefined) {
+                            LoginServices.validateUserName($scope.userType).then(function(
                                 validateResponse
                             ) {
                                 if (validateResponse.data.status < 0) {
                                     showToastMsg('MyMedQ_MSG.LogIn.ErrorValidatingUserNE1', 'ERROR')
                                     $mdDialog.cancel()
                                 } else {
-                                    ctrl.userType.id = validateResponse.data.status.split(
+                                    $scope.userType.id = validateResponse.data.status.split(
                                         '*&=&*'
                                     )[0]
-                                    ctrl.userType.email = validateResponse.data.status.split(
+                                    $scope.userType.email = validateResponse.data.status.split(
                                         '*&=&*'
                                     )[1]
-                                    ctrl.userType.username = validateResponse.data.status.split(
+                                    $scope.userType.username = validateResponse.data.status.split(
                                         '*&=&*'
                                     )[2]
                                     if (validateResponse.data.message == 'USER') {
                                         // Usuario
-                                        ctrl.userType.type = 1
+                                        $scope.userType.type = 1
 
-                                        $mdDialog.hide(ctrl.userType)
+                                        $mdDialog.hide($scope.userType)
                                     } else if (validateResponse.data.message == 'PROVIDER') {
                                         // Provider
-                                        ctrl.userType.type = 2
-                                        $mdDialog.hide(ctrl.userType)
+                                        $scope.userType.type = 2
+                                        $mdDialog.hide($scope.userType)
                                     }
                                 }
                             })

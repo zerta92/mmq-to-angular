@@ -30,16 +30,11 @@ angular
 
                 $scope.curentyear = new Date().getFullYear()
                 $scope.curentDate = new Date()
+
+                $scope.noProcedure = false
                 ;(async function parseURL() {
-                    if (window.location.href.includes('procedure-id')) {
-                        var urlParam = window.location.href.substring(
-                            window.location.href.indexOf('procedure-id'),
-                            window.location.href.length
-                        )
-                        const procedure_ID = urlParam.substring(
-                            urlParam.indexOf('=') + 1,
-                            urlParam.length
-                        )
+                    if ($route.current.params && $route.current.params.id) {
+                        const procedure_ID = $route.current.params.id
                         if (procedure_ID != '') {
                             await getCustomerPreferredLanguage()
                             ProcedureContentServices.getProcedureWithCategory(procedure_ID).then(
@@ -64,9 +59,31 @@ angular
                             $scope.procedure.procedure_Name = 'Procedure Not Found'
                         }
                     } else {
-                        $scope.procedure.procedure_Name = 'Procedure Not Found'
+                        $scope.noProcedure = true
                     }
                 })()
+
+                $scope.resultListProcedure = { procedures: [] }
+                $scope.getProceduresMatches = function(resultListProcedure) {
+                    GlobalServices.getProcedures('MMEDQ1_ALLC*#_.').then(function(proceduresList) {
+                        if (proceduresList.data.length != 0) {
+                            $scope.resultListProcedure.procedures = proceduresList.data.map(
+                                function(queryResult) {
+                                    return {
+                                        label: queryResult.procedure_Name,
+                                        value: queryResult.procedure_ID,
+                                    }
+                                }
+                            )
+                        }
+                    })
+                }
+
+                $scope.getProceduresMatches()
+
+                $scope.selectedProcedure = function(procedure) {
+                    $location.path(`/procedure-description/${procedure}`)
+                }
 
                 function setPageAttributes() {
                     const page_title = `${$scope.procedure.procedure_Name} | Find Dentists Online`

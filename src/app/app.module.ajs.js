@@ -346,9 +346,17 @@ export default angular
         '$scope',
         '$rootScope',
         'GlobalServices',
+        'DashboardServices',
         '$translate',
         '$cookies',
-        async function($scope, $rootScope, GlobalServices, $translate, $cookies) {
+        async function(
+            $scope,
+            $rootScope,
+            GlobalServices,
+            DashboardServices,
+            $translate,
+            $cookies
+        ) {
             $scope.user = {}
             $scope.priviliges = {}
 
@@ -439,7 +447,7 @@ export default angular
                                 $scope.user.profileType == 'Admin'
                             ) {
                                 $scope.cardType = 1
-                                GlobalServices.getDataProviderInforDashBoard($scope.user.ID)
+                                DashboardServices.getDataProviderInforDashBoard($scope.user.ID)
                                     .then(function(dataReport) {
                                         $scope.dataProviderObjects = dataReport.data
 
@@ -477,7 +485,7 @@ export default angular
                                         console.log('Unexpected Error : ' + '  ' + err + '  ')
                                     })
 
-                                GlobalServices.getPendingAppoinments($scope.user.ID)
+                                DashboardServices.getPendingAppoinments($scope.user.ID)
                                     .then(function(dataReport) {
                                         $scope.pendingAppoinmentList = dataReport.data
                                     })

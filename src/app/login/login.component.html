@@ -1,83 +1,74 @@
 <!DOCTYPE html>
 
-<html>
+<html ng-app="loginModule" style="color: #213548">
     <head>
         <title>Login</title>
     </head>
 
-    <body>
+    <body ng-controller="loginMainController">
         <section class="tz-login">
             <div class="tz-regi-form">
-                <h4 style="color: #fff;" ng-bind="('Login.login.Title'|translate)"></h4>
-                <p style="color: #fff;" ng-bind="('Login.login.TitleText2'|translate)"></p>
-                <a href="/index"><img src="template/images/MedQuestLogo.svg" alt="" /> </a>
-                <div>
-                    <a
-                        ng-click="changeLanguage('sp')"
-                        style="background-color: transparent; border: none;"
-                        title="{{ 'Languages.Spanish' | translate }}"
-                    >
-                        <span
-                            class="flag-icon flag-icon-mx"
-                            style="width: 52px; height: 52px;"
-                        ></span>
-                    </a>
-                    <a
-                        ng-click="changeLanguage('en')"
-                        style="background-color: transparent; border: none; "
-                        title="{{ 'Languages.English' | translate }}"
-                    >
-                        <span
-                            class="flag-icon flag-icon-us"
-                            style="width: 52px; height: 52px;"
-                        ></span>
-                    </a>
-                </div>
+                <h4 style="" ng-bind="('Login.login.Title'|translate)"></h4>
+                <p style="color: #213548"></p>
+                {{ 'Login.login.TitleText2' | translate
+                }}<a
+                    href="/register"
+                    ng-bind="('Login.login.Register'|translate)"
+                    style="color:#213548; font-size:16px; font-weight: 600; border-radius: 25px; padding: 2px 00px 2px 5px;"
+                ></a>
 
                 <form class="col s12">
                     <div class="row">
-                        <div class="input-field col s12">
-                            <md-input-container>
-                                <label
-                                    class="input-font-size"
-                                    style="color: #fff; background-color: #00000028;"
-                                    >{{ 'Login.login.TitleUsername' | translate }}</label
-                                >
+                        <div class="input-field col-md-12">
+                            <md-input-container class="md-icon-float md-block">
                                 <input
                                     type="text"
                                     id="username_"
-                                    class="validate input-font-size"
+                                    class="input-font-size"
                                     ng-model="user.username"
-                                    style="color: #fff; background-color: #00000028; "
+                                    style="color: #213548; background-color: #F6F8FD; height: 45px !important; border-radius: 5px;"
                                     required="required"
                                 />
+                                <label
+                                    class="input-font-size"
+                                    style=" color: #00000063; bottom: 84%; font-weight: 300; font-size: 24px;"
+                                    >{{ 'Login.login.TitleUsername' | translate }}</label
+                                >
                             </md-input-container>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <md-input-container>
+                            <section>
+                                <a
+                                    href=""
+                                    ng-click="requestPasswordC($event)"
+                                    style=" padding: 0px 0px 0px 0px; float: right; position: relative; z-index: 10; color:#6C7881 ;"
+                                    >{{ 'Login.login.TitleForgotPass' | translate }}</a
+                                >
+                            </section>
+                            <br />
+
+                            <md-input-container class="md-block">
                                 <input
                                     type="password"
-                                    class="validate input-font-size"
                                     ng-model="user.password"
-                                    style="color: #fff; background-color: #00000028; "
+                                    style="color: #213548; background-color: #F6F8FD; height: 45px !important; border-radius: 5px;"
                                     required="required"
+                                    class="input-font-size"
                                 />
 
                                 <label
                                     class="input-font-size"
-                                    style="color: #fff; background-color: #00000028;"
+                                    style=" color: #00000063; bottom: 84%; font-weight: 300; font-size: 24px;"
                                     >{{ 'Login.login.TitlePassword' | translate }}</label
                                 >
                             </md-input-container>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="input-field">
                             <md-button
+                                style="border-radius: 5px; background-color: #213548; color:#FFFFFF; float: right;"
                                 type="submit"
-                                class="md-raised md-primary waves-effect waves-light btn-large waves-input-wrapper"
+                                class=""
                                 ng-click="processLoginForm()"
                                 ng-bind="('Login.login.TitleLogIn'|translate)"
                             >
@@ -89,20 +80,6 @@
                         </div>
                     </div>
                 </form>
-                <p style="color: #fff;">
-                    <a
-                        href=""
-                        ng-bind="('Login.login.TitleForgotPass'|translate)"
-                        ng-click="requestPasswordC($event)"
-                        style="background-color: lightgrey; border-radius: 25px; padding: 2px 10px 2px 10px;"
-                    ></a>
-                    |
-                    <a
-                        href="/register"
-                        ng-bind="('Login.login.Register'|translate)"
-                        style="background-color: lightgrey; border-radius: 25px; padding: 2px 10px 2px 10px;"
-                    ></a>
-                </p>
             </div>
         </section>
 
@@ -111,11 +88,13 @@
         </script>
     </body>
 </html>
-<style>
+<style scoped>
+    body {
+        background-color: rgb(227, 234, 246) !important ;
+    }
     .input-font-size {
         font-size: x-large !important;
         color: #fff;
-        background-color: #00000028;
     }
     @media (max-width: 400px) {
         .input-font-size {

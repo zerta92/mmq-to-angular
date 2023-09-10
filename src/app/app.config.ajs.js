@@ -33,7 +33,7 @@ export default function(appModule) {
                 .when('/pricing', {
                     templateUrl: 'app/pages/pricing.template.html',
                 })
-                .when('/:language?/procedure-description', {
+                .when('/:language?/procedure-description/:id?', {
                     template: '<procedure-content-module></procedure-content-module>',
                 })
                 // .when('/list_procedures', {
