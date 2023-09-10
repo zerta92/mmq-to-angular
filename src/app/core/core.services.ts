@@ -2,11 +2,10 @@
 angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
     '$http',
     '$cookies',
-    // 'servicesManagerManager',
+    'ServiceManagerServices',
     '$translate',
-    '$q',
     '$mdToast',
-    function($http, $cookies, /*servicesManagerManager,*/ $translate, $q, $mdToast) {
+    function($http, $cookies, ServiceManagerServices, $translate, $mdToast) {
         return {
             showToastMsg: async function(msg, type) {
                 if (msg != undefined) {
@@ -29,6 +28,9 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
                     // )
                 }
             },
+            getGlobalEnums: function() {
+                return $http.get('/api/getGlobalEnums')
+            },
             getTranslation: async function(key) {
                 if (key) {
                     const translatedValue = await $translate(key).catch(err => {
@@ -45,11 +47,20 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
             getRegistrationTerms: function() {
                 return $http.get('/api/providers/getRegistrationTerms')
             },
+            requestAppointment: function(service, user) {
+                return $http.post('/api/services-manager/requestAppointment', [service, user])
+            },
             getProcedures: function(search) {
                 return $http.get('/api/AutoCompleteProcedure/' + search)
             },
+            getProviderServicesGroupedByCategory: function(provider_ID) {
+                return $http.post('/api/services/getProviderServicesGroupedByCategory', provider_ID)
+            },
             getLocations: function(search) {
                 return $http.get('/api/AutoCompleteLocation/' + search)
+            },
+            findProvider: function(providerId) {
+                return $http.get('/api/findProvider/' + providerId)
             },
             getCategoriesListSearch: function(search) {
                 return $http.get('/api/AutoCompleteCategories/' + search)
@@ -62,9 +73,6 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
             },
             getMyMedQuestInf0: function() {
                 return $http.get('/api/dashboard/getMyMedQuestInfo')
-            },
-            getPriviligesAll: function(pageUrl) {
-                return $http.get('/api/getPriviligesByUrl/' + pageUrl)
             },
             customerIPHandler: async function() {
                 if ($cookies.getObject('client_ip') === undefined) {
@@ -108,71 +116,74 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
             getMessageByAppointmentId: function(id, profileType) {
                 return $http.get('/api/getMessageByAppointmentId/' + id + '/' + profileType)
             },
-            // userCancelAppointment: async function(appointment_data) {
-            //     await Promise.all([
-            //         servicesManagerManager.userCancelSelected(
-            //             appointment_data.map(a => a.message_ID)
-            //         ),
-            //         servicesManagerManager.cancelAppointment(appointment_data),
-            //         servicesManagerManager.notifyProvidersDecline(appointment_data),
-            //         servicesManagerManager.userDeleteUserOptions(appointment_data),
-            //     ])
-            //     return
-            // },
-            // providerCancelAppointment: async function(appointment_data) {
-            //     await Promise.all([
-            //         servicesManagerManager.cancelAppointment(appointment_data),
-            //         servicesManagerManager.cancelSelected(appointment_data.map(a => a.message_ID)),
-            //         servicesManagerManager.notifyUsersDecline(appointment_data),
-            //     ])
-            //     return
-            // },
-            // userAcceptAppointment: async function(appointment_data) {
-            //     //if confirming re schedule, appointment does not get created
-            //     const created_appointments_result = await servicesManagerManager.createAppointment(
-            //         appointment_data
-            //     )
+            userCancelAppointment: async function(appointment_data) {
+                await Promise.all([
+                    ServiceManagerServices.userCancelSelected(
+                        appointment_data.map(a => a.message_ID)
+                    ),
+                    ServiceManagerServices.cancelAppointment(appointment_data),
+                    ServiceManagerServices.notifyProvidersDecline(appointment_data),
+                    ServiceManagerServices.userDeleteUserOptions(appointment_data),
+                ])
+                return
+            },
+            providerCancelAppointment: async function(appointment_data) {
+                await Promise.all([
+                    ServiceManagerServices.cancelAppointment(appointment_data),
+                    ServiceManagerServices.cancelSelected(appointment_data.map(a => a.message_ID)),
+                    ServiceManagerServices.notifyUsersDecline(appointment_data),
+                ])
+                return
+            },
+            userAcceptAppointment: async function(appointment_data) {
+                //if confirming re schedule, appointment does not get created
+                const created_appointments_result = await ServiceManagerServices.createAppointment(
+                    appointment_data
+                )
 
-            //     const { created_appointments } = created_appointments_result.data
+                const { created_appointments } = created_appointments_result.data
 
-            //     const confirm_reschedule = appointment_data
-            //         .map(a => {
-            //             return {
-            //                 created_appointment: a.related_Appointment,
-            //                 message_id: a.message_ID,
-            //             }
-            //         })
-            //         .filter(a => a.created_appointment)
+                const confirm_reschedule = appointment_data
+                    .map(a => {
+                        return {
+                            created_appointment: a.related_Appointment,
+                            message_id: a.message_ID,
+                        }
+                    })
+                    .filter(a => a.created_appointment)
 
-            //     const to_confirm =
-            //         created_appointments.length > 0 ? created_appointments : confirm_reschedule
+                const to_confirm =
+                    created_appointments.length > 0 ? created_appointments : confirm_reschedule
 
-            //     const is_follow_up = appointment_data[0].message_Action.status == 4
+                const is_follow_up = appointment_data[0].message_Action.status == 4
 
-            //     if (to_confirm.length > 0) {
-            //         const is_reschedule = confirm_reschedule.length > 0
-            //         await servicesManagerManager.userConfirmSelected({
-            //             to_confirm,
-            //             is_reschedule,
-            //             is_follow_up,
-            //         })
-            //     }
-            //     servicesManagerManager.notifyProvidersAccept(appointment_data)
-            // },
-            // providerAcceptAppointment: async function(appointment_data) {
-            //     await Promise.all([
-            //         servicesManagerManager.confirmSelected(appointment_data),
-            //         servicesManagerManager.notifyUsersConfirm(appointment_data),
-            //     ])
-            // },
+                if (to_confirm.length > 0) {
+                    const is_reschedule = confirm_reschedule.length > 0
+                    await ServiceManagerServices.userConfirmSelected({
+                        to_confirm,
+                        is_reschedule,
+                        is_follow_up,
+                    })
+                }
+                ServiceManagerServices.notifyProvidersAccept(appointment_data)
+            },
+            providerAcceptAppointment: async function(appointment_data) {
+                await Promise.all([
+                    ServiceManagerServices.confirmSelected(appointment_data),
+                    ServiceManagerServices.notifyUsersConfirm(appointment_data),
+                ])
+            },
             translateText: function(textObj) {
                 return $http.post('/api/translateText', textObj)
             },
             getUserLocation: function() {
                 return $http.get('/api/getLocation')
             },
-            getUserProfile: function(token) {
+            getUserProfile: async function(token) {
                 return $http.get('/api/getProfile/' + token)
+            },
+            setUserProfile: function(customer) {
+                return $http.post('/api/setProfile', customer)
             },
             getServiceActions: function(status_text) {
                 const service_status = {
@@ -204,6 +215,9 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
             getUserStaffApproval: function(key) {
                 return $http.post('/api/customer/staffUrlApproval', key)
             },
+            increasePageViews: function(provider_id) {
+                return $http.post('/api/customer/increasePageViews', provider_id)
+            },
             getUrlVars: function(redirect_url) {
                 var vars = {}
                 if (redirect_url) {
@@ -214,6 +228,38 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
                     vars[key] = value
                 })
                 return vars
+            },
+            getSupportedTimezones: function() {
+                //https://gist.github.com/diogocapela/12c6617fc87607d11fd62d2a4f42b02a
+                return {
+                    us: {
+                        Pacific: 'US/Pacific',
+                        Central: 'US/Central',
+                        Eastern: 'US/Eastern',
+                        Hawaii: 'US/Hawaii',
+                        Mountain: 'US/Mountain',
+                        Alaska: 'US/Alaska',
+                    },
+                    mx: {
+                        'America/Tijuana': 'America/Tijuana',
+                        'America/Cancun': 'America/Cancun',
+                        'America/Mexico_City': 'America/Mexico_City',
+                        'America/Hermosillo': 'America/Hermosillo',
+                    },
+                    es: {
+                        'Europe/Madrid': 'Europe/Madrid',
+                    },
+                    ca: {
+                        'Canada/Atlantic': 'Canada/Atlantic',
+                        'Canada/Central': 'Canada/Central',
+                        'Canada/Eastern': 'Canada/Eastern',
+                        'Canada/Mountain': 'Canada/Mountain',
+                        'Canada/Newfoundland': 'Canada/Newfoundland',
+                        'Canada/Pacific': 'Canada/Pacific',
+                        'Canada/Saskatchewan': 'Canada/Saskatchewan',
+                        'Canada/Yukon': 'Canada/Yukon',
+                    },
+                }
             },
             getSupportedCountryCodesAndStates: function() {
                 return {
@@ -287,8 +333,8 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
                         'Gro.': 'Guerrero',
                         'Hgo.': 'Hidalgo',
                         'Jal.': 'Jalisco',
-                        'MÃ©x.': 'Mexico',
-                        'Mich.': 'MichoacÃ¡n',
+                        'Méx.': 'Mexico',
+                        'Mich.': 'Michoacán',
                         'Mor.': 'Morelos',
                         'Nay.': 'Nayarit',
                         'N.L.': 'Nuevo Leon',
@@ -303,7 +349,7 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
                         'Tamps.': 'Tamaulipas',
                         'Tlax.': 'Tlaxcala',
                         'Ver.': 'Veracruz',
-                        'Yuc.': 'YucatÃ¡n',
+                        'Yuc.': 'Yucatán',
                         'Zac.': 'Zacatecas',
                     },
                     es: {
@@ -347,95 +393,123 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
             getSupportedCountriesNames: function() {
                 return ['United States', 'Mexico', 'Spain', 'Canada']
             },
-            getCustomer: function(token, redirect_url) {
-                const globalManager = this
-                const objUrl = globalManager.getUrlVars(redirect_url)
-                if (token) {
-                    let signed_services_count
-                    globalManager.getUserProfile(token).then(async function(userData) {
-                        if (userData.data.token) {
-                            $cookies.putObject('MyMedQuestC00Ki3', {
-                                userName: userData.data.username,
-                                email: userData.data.email,
-                                profileType: userData.data.profileType,
-                                token,
-                            })
-                            const providerServicesCheck = await globalManager.checkProviderServices(
-                                userData.data.ID
-                            )
+            goToWithRedirect: function(go_to, redirect_url, clear_cookie = false) {
+                if (clear_cookie) {
+                    $cookies.remove('MyMedQuestC00Ki3', { path: '/' })
+                    $cookies.remove('MyMedQuestC00Ki3', { path: '/adminMedquest' })
+                }
+                location.href = `/${go_to}?redirect_to=adminMedquest/${redirect_url}`
+            },
+            updateCustomerCookie: async function(customer) {
+                const GlobalServices = this
+                if (!customer) {
+                    return
+                }
+                const new_token = await GlobalServices.setUserProfile({ customer: customer })
 
-                            if (providerServicesCheck.data.status < 0) {
-                                signed_services_count = 0
-                            } else {
-                                signed_services_count = +providerServicesCheck.data.count.count
-                            }
-                            if (
-                                userData.data.profileType == 'Provider' &&
-                                signed_services_count == 0
-                            ) {
-                                window.location.href =
-                                    redirect_url || 'adminMedquest/#!/adminServices'
-                            } else {
-                                window.location.href = redirect_url || 'dashboard'
-                            }
-                        }
-                    })
-                } else if (Object.keys(objUrl).length > 0) {
-                    const validateUrl = function(urlParam) {
-                        var q = $q.defer()
-                        globalManager
-                            .getUserStaffApproval(JSON.stringify(urlParam))
-                            .then(function(approvalResponse) {
-                                if (approvalResponse.status == 404) {
-                                    q.resolve(undefined)
-                                } else {
-                                    if (approvalResponse.status == 200) {
-                                        q.resolve(approvalResponse)
-                                    }
-                                }
-                            })
-                            .catch(function(err) {
-                                console.log('Error > ' + err)
-                                q.reject(err.data)
-                            })
-                        return q.promise
-                    }
-
-                    const valdidation_url_promise = validateUrl(objUrl)
-                    valdidation_url_promise
-                        .then(function(response_) {
-                            if (response_ !== undefined) {
-                                globalManager.showToastMsg(
-                                    'MyMedQ_MSG.LogIn.UserCorrectlyVSuccess1',
-                                    'SUCCESS'
-                                )
-                                setTimeout(function() {
-                                    window.location.href = '/login'
-                                }, 2000)
-                            } else {
-                                globalManager.showToastMsg(
-                                    'MyMedQ_MSG.LogIn.ErrorValidatingKeyE1',
-                                    'ERROR'
-                                )
-                            }
-                        })
-                        .catch(function(e) {
-                            globalManager.showToastMsg('MyMedQ_MSG.AccessDenied', 'ERROR')
-                            console.log(e)
-                        })
+                if (!new_token) {
+                    return
+                }
+                const customerData = await GlobalServices.getUserProfile(new_token.data)
+                if (customerData.data.token) {
+                    $cookies.putObject(
+                        'MyMedQuestC00Ki3',
+                        {
+                            userName: customerData.data.username,
+                            email: customerData.data.email,
+                            profileType: customerData.data.profileType,
+                            ID: customerData.data.ID,
+                            token: new_token.data,
+                        },
+                        { path: '/' }
+                    )
                 }
             },
-            getDataProviderInforDashBoard: function(profileId) {
-                return $http.get(
-                    '/api/dashboard/getDataReportProviderServicesForAcceptingByProviderId/' +
-                        profileId
-                )
+            getCustomer: async function(token, redirect_url) {
+                const GlobalServices = this
+                const objUrl = GlobalServices.getUrlVars(redirect_url)
+                if (token) {
+                    let signed_services_count
+                    const userData = await GlobalServices.getUserProfile(token)
+
+                    if (userData.data) {
+                        $cookies.putObject('MyMedQuestC00Ki3', {
+                            userName: userData.data.username,
+                            email: userData.data.email,
+                            profileType: userData.data.profileType,
+                            ID: userData.data.ID,
+                            token,
+                        })
+
+                        const providerServicesCheck = await GlobalServices.checkProviderServices(
+                            userData.data.ID
+                        )
+
+                        if (providerServicesCheck.data.status < 0) {
+                            signed_services_count = 0
+                        } else {
+                            signed_services_count = +providerServicesCheck.data.count.count
+                        }
+                        if (userData.data.profileType == 'Provider' && signed_services_count == 0) {
+                            window.location.href = redirect_url || 'adminMedquest/#!/adminServices'
+                        } else {
+                            window.location.href = redirect_url || 'adminMedquest/#!/adminDashboard'
+                        }
+                    }
+                } else if (Object.keys(objUrl).length > 0) {
+                    //delete this?
+                    // const validateUrl = function(urlParam) {
+                    //     var q = $q.defer()
+                    //     GlobalServices
+                    //         .getUserStaffApproval(JSON.stringify(urlParam))
+                    //         .then(function(approvalResponse) {
+                    //             console.log({ approvalResponse })
+                    //             if (approvalResponse.status == 404) {
+                    //                 q.resolve(undefined)
+                    //             } else {
+                    //                 if (approvalResponse.status == 200) {
+                    //                     q.resolve(approvalResponse)
+                    //                 }
+                    //             }
+                    //         })
+                    //         .catch(function(err) {
+                    //             console.log('Error > ' + err)
+                    //             q.reject(err.data)
+                    //         })
+                    //     return q.promise
+                    // }
+                    // const valdidation_url_promise = validateUrl(objUrl)
+                    // valdidation_url_promise
+                    //     .then(function(response_) {
+                    //         if (response_ !== undefined) {
+                    //             GlobalServices.showToastMsg(
+                    //                 'MyMedQ_MSG.LogIn.UserCorrectlyVSuccess1',
+                    //                 'SUCCESS'
+                    //             )
+                    //             setTimeout(function() {
+                    //                 window.location.href = '/login'
+                    //             }, 2000)
+                    //         } else {
+                    //             GlobalServices.showToastMsg(
+                    //                 'MyMedQ_MSG.LogIn.ErrorValidatingKeyE1',
+                    //                 'ERROR'
+                    //             )
+                    //         }
+                    //     })
+                    //     .catch(function(e) {
+                    //         GlobalServices.showToastMsg('MyMedQ_MSG.AccessDenied', 'ERROR')
+                    //         console.log(e)
+                    //     })
+                }
             },
-            getPendingAppoinments: function(providerId) {
-                return $http.get('/api/dashboard/getPendingAppoinments/' + providerId)
+            getClientNotifications: function(client) {
+                return $http.post('/api/customer/getClientNotifications', client)
             },
-            getUserAppoinments: function(providerId) {
-                return $http.get('/api/dashboard/getUserAppoinments/' + providerId)
+            saveProfilePictureToDB: function(profilePicData) {
+                return $http.post('/api/customer/saveProfilePictureToDB', profilePicData)
+            },
+            getUserAppointmentsDiff: function(userId, type) {
+                return $http.get('/api/dashboard/getUserAppointmentsDiff/' + userId + '/' + type)
             },
             getDataUserInforDashBoard: function(profileId) {
                 return $http.get(
@@ -444,6 +518,9 @@ angular.module('core.services', ['ngCookies']).factory('GlobalServices', [
             },
             getDataUserInforHiredServicesDashBoard: function(userId) {
                 return $http.get('/api/dashboard/getDataReportHiredServicesByUserId/' + userId)
+            },
+            getUserAppoinments: function(providerId) {
+                return $http.get('/api/dashboard/getUserAppoinments/' + providerId)
             },
             getUserMenu: function(profile_id) {
                 return $http.get('/api/customer/getMenuPages/' + profile_id)

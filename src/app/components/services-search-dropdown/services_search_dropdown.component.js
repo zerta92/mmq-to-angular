@@ -4,9 +4,11 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
     templateUrl: './app/components/services-search-dropdown/services_search_dropdown.template.html',
     bindings: {},
     controller: [
-        '$window',
+        '$rootScope',
         'GlobalServices',
-        function ServiceSearchDropdownController($window, GlobalServices) {
+        '$route',
+        '$location',
+        function ServiceSearchDropdownController($rootScope, GlobalServices, $route, $location) {
             var ctrl = this
 
             this.$onInit = function() {}
@@ -14,124 +16,43 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
             ctrl.selectedProcedureItem = { procedures: '' }
             ctrl.selectedLocationItem = { locations: '' }
 
+            ctrl.countrySearch = {}
+            ctrl.countryList = []
+            ctrl.use_set_location = false
+
             function getUrlParams() {
-                if (
-                    window.location.href.includes('procedure') &&
-                    window.location.href.includes('location')
-                ) {
-                    var urlParam = window.location.href.substring(
-                        window.location.href.indexOf('procedure'),
-                        window.location.href.length
-                    )
-                    var urlParamLocation = window.location.href.substring(
-                        window.location.href.indexOf('location'),
-                        window.location.href.length
-                    )
-                    var urlParamCategory = window.location.href.substring(
-                        window.location.href.indexOf('category'),
-                        window.location.href.length
-                    )
-                    var urlParamSpeciality = window.location.href.substring(
-                        window.location.href.indexOf('speciality'),
-                        window.location.href.length
-                    )
-                    var urlParamFreeDrescription = window.location.href.substring(
-                        window.location.href.indexOf('country'),
-                        window.location.href.length
-                    )
-
-                    urlParam = urlParam.substring(urlParam.indexOf('=') + 1, urlParam.indexOf('&')) //procedure
-                    urlParam = urlParam
-                        .replace(/%20/g, ' ')
-                        .replace(/\//g, '')
-                        .replace(/\\/g, '')
-                    // ctrl.procedureSearch = urlParam == '0' ? 0 : urlParam
-
-                    urlParamLocation = urlParamLocation.substring(
-                        urlParamLocation.indexOf('=') + 1,
-                        urlParamLocation.indexOf('&')
-                    ) //location
-                    urlParamLocation = urlParamLocation
-                        .replace(/%20/g, '')
-                        .replace(/\//g, '')
-                        .replace(/\\/g, '')
-
-                    urlParamCategory = urlParamCategory.substring(
-                        urlParamCategory.indexOf('=') + 1,
-                        urlParamCategory.indexOf('&')
-                    ) //category
-                    urlParamCategory = urlParamCategory
-                        .replace(/%20/g, '')
-                        .replace(/\//g, '')
-                        .replace(/\\/g, '')
-
-                    urlParamSpeciality = urlParamSpeciality.substring(
-                        urlParamSpeciality.indexOf('=') + 1,
-                        urlParamSpeciality.indexOf('&')
-                    ) //Speciality
-                    urlParamSpeciality = urlParamSpeciality
-                        .replace(/%20/g, '')
-                        .replace(/\//g, '')
-                        .replace(/\\/g, '')
-
-                    urlParamFreeDrescription = urlParamFreeDrescription.substring(
-                        urlParamFreeDrescription.indexOf('=') + 1,
-                        urlParamFreeDrescription.length
-                    ) //Speciality
-                    urlParamFreeDrescription = urlParamFreeDrescription
-                        .replace(/\//g, '')
-                        .replace(/\\/g, '')
+                if (window.location.href.includes('list_procedures')) {
+                    ctrl.showAllFields = true
+                }
+                const { procedure, location, category, country } = $route.current.params
+                if (procedure && location) {
+                    if (location === 'all') {
+                        ctrl.use_set_location = false
+                    } else {
+                        ctrl.user_search_location = location
+                    }
+                    ctrl.categorySearch = category
+                    ctrl.procedureSearch = procedure == '0' ? 0 : procedure
+                    ctrl.countrySearch = country
 
                     const searchObj = {
-                        procedureId: urlParam,
-                        location: urlParamLocation,
-                        categoryId: urlParamCategory ?? 0,
-                        specialityId: urlParamSpeciality ?? 0,
-                        country:
-                            urlParamFreeDrescription.length == 0
-                                ? 'undefined'
-                                : urlParamFreeDrescription,
+                        procedureId: procedure,
+                        location: location
+                            .replace(/%20/g, '')
+                            .replace(/\//g, '')
+                            .replace(/\\/g, '')
+                            .replace(/\s/g, ''),
+                        categoryId: category,
+                        country: country == 'all' ? 'undefined' : country,
+                        show_test: false,
                     }
 
-                    ctrl.categorySearch = urlParamCategory
-
+                    ctrl.categorySearch = category
                     return searchObj
                 }
             }
 
             ctrl.searchObj = getUrlParams()
-
-            // ctrl.getLocationMatches = function(locationSearch) {
-            //     console.log(locationSearch)
-            //     return new Promise(function(resolve, reject) {
-            //         const resultList = []
-            //         GlobalServices.getLocations(locationSearch).then(function(autocompleteResult) {
-            //             if (autocompleteResult.data[0].length != 0) {
-            //                 resultList.push({
-            //                     label:
-            //                         autocompleteResult.data[0][0].provider_City +
-            //                             ', ' +
-            //                             autocompleteResult.data[0][0].provider_State ||
-            //                         autocompleteResult.data[0][0].provider_Country,
-            //                     value:
-            //                         autocompleteResult.data[0][0].provider_City +
-            //                             ', ' +
-            //                             autocompleteResult.data[0][0].provider_State ||
-            //                         autocompleteResult.data[0][0].provider_Country,
-            //                 })
-            //             }
-            //             // else if (autocompleteResult.data[1].length != 0) {
-            //             //     resultList.push({
-            //             //         label: autocompleteResult.data[1][0].provider_Country,
-            //             //         value: autocompleteResult.data[1][0].provider_Country,
-            //             //     })
-            //             // }
-            //             resolve(resultList)
-            //         })
-            //     }).then(function(resultList1) {
-            //         return resultList1
-            //     })
-            // }
             ;(ctrl.getLocationsAll = function() {
                 return new Promise(function(resolve, reject) {
                     let resultList = []
@@ -149,6 +70,7 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
                                         ', ' +
                                         _.startCase(_.toLower(location.provider_State.trim())),
                                     flag: _.toLower(location.provider_Country),
+                                    country: location.provider_Country,
                                 })
                             })
 
@@ -157,14 +79,23 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
                             })
                         }
 
+                        ctrl.countrySearch = resultList.find(x => {
+                            if (!ctrl.searchObj || x.label == 'All') {
+                                return
+                            }
+
+                            const search_country = x.country.replace(/\s/g, '')
+                            return search_country === decodeURIComponent(ctrl.searchObj.country)
+                        })
+
                         ctrl.selectedLocationItem.locations = resultList.find(x => {
                             if (!ctrl.searchObj) {
                                 return
                             }
                             const search_location = x.label.replace(/\s/g, '')
-
                             return search_location === decodeURIComponent(ctrl.searchObj.location)
                         })
+
                         resolve(
                             resultList.map(location => {
                                 return location
@@ -173,21 +104,26 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
                     })
                 }).then(function(resultList1) {
                     ctrl.locationsList = _.sortBy(resultList1, ['flag', 'label'])
+                    ctrl.countryList = _.uniqBy(ctrl.locationsList, 'flag').filter(
+                        c => c.label != 'All'
+                    )
                 })
             })()
 
             ctrl.querySearchLocations = function(query) {
-                var results = query
-                    ? ctrl.locationsList.filter(createFilterForLocations(query))
-                    : ctrl.locationsList
-                return results
+                return ctrl.locationsList.filter(createFilterForLocations(query))
             }
 
             function createFilterForLocations(query) {
                 var lowercaseQuery = query.toLowerCase()
                 return function filterFn(location) {
                     const lower_case_location_name = location.label.toLowerCase()
-                    return lower_case_location_name.includes(lowercaseQuery)
+                    const filter_by_country =
+                        ctrl.countrySearch && ctrl.countrySearch.country
+                            ? location.country === ctrl.countrySearch.country
+                            : true
+
+                    return lower_case_location_name.includes(lowercaseQuery) && filter_by_country
                 }
             }
 
@@ -260,7 +196,7 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
             }
 
             ctrl.processSearch = function() {
-                ctrl.countrySearch = ctrl.searchObj && ctrl.searchObj.country
+                // ctrl.countrySearch = ctrl.searchObj && ctrl.searchObj.country
 
                 const procedureSearch = !ctrl.selectedProcedureItem.procedures
                     ? 0
@@ -269,25 +205,35 @@ angular.module('servicesSearchDropdownModule').component('servicesSearchDropdown
                     : ctrl.selectedProcedureItem.procedures.value
 
                 const locationSearch = !ctrl.selectedLocationItem.locations
-                    ? 'undefined'
+                    ? 'all'
                     : ctrl.selectedLocationItem.locations == -1 ||
                       ctrl.selectedLocationItem.locations.value == -1
-                    ? 'undefined'
+                    ? 'all'
                     : ctrl.selectedLocationItem.locations.value
 
                 const categorySearch = ctrl.categorySearch || 0
 
-                const countrySearch = ctrl.countrySearch || undefined
+                const countrySearch = ctrl.countrySearch
+                    ? ctrl.countrySearch.country || 'all'
+                    : 'all'
 
-                $window.location.href =
-                    '/list_procedures?procedure=' +
-                    procedureSearch +
-                    '&location=' +
-                    locationSearch +
-                    '&category=' +
-                    categorySearch +
-                    '&speciality=0&country=' +
-                    countrySearch
+                // $rootScope.trackCustomerAction({
+                //     action: 'service_search',
+                //     url: $location.absUrl(),
+                //     agent: window.navigator.userAgent,
+                //     miscellaneous: `${procedureSearch}-${locationSearch}`,
+                // })
+
+                window.dataLayer = window.dataLayer || []
+                dataLayer.push({
+                    event: 'formSubmission',
+                    formType: 'Service Search',
+                    service: `${procedureSearch}-${locationSearch}`,
+                })
+
+                $location.path(
+                    `/list_procedures/procedure/${procedureSearch}/location/${locationSearch}/category/${categorySearch}/country/${countrySearch}`
+                )
             }
 
             function getMainCategoryMatchesAll() {

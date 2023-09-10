@@ -201,13 +201,27 @@ export default angular
     .run([
         'ngMeta',
         '$location',
-        function(ngMeta, $location) {
+        '$rootScope',
+        function(ngMeta, $location, $rootScope) {
             // const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
             // if (timezone == 'America/Guayaquil' && $location.url() !== '/page_down') {
             //     location.href = '/page_down'
             //     return
             // }
             ngMeta.init()
+            $rootScope.$on('$routeChangeStart', async function(event, next, current) {
+                // trackingManager.trackCustomerAction({
+                //     action: 'page_view',
+                //     url: $location.absUrl(),
+                //     agent: window.navigator.userAgent,
+                // })
+                $rootScope.show_find_procedures_bubble = ![
+                    '/list_procedures',
+                    '/service_details',
+                ].find(url => {
+                    return $location.url().includes(url)
+                })
+            })
         },
     ])
     .run([
@@ -373,7 +387,9 @@ export default angular
                     if (lang.length != 0) {
                         $translate.use(lang)
                         GlobalServices.setCustomerPreferredLanguage(lang)
-                            .then(function(lang) {})
+                            .then(function(lang) {
+                                loadYoutubeVideos()
+                            })
                             .catch(angular.noop)
                     }
                 }

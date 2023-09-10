@@ -1,322 +1,295 @@
-<!DOCTYPE html>
-<html>
-    <body>
-        <section class="bottomMenu dir-il-top-fix" style="height: auto; z-index: 10">
-            <div class="container top-search-main">
-                <div class="row">
-                    <div class="ts-menu">
-                        <div class="ts-menu-1">
-                            <a href="/index">
-                                <!-- <img src="template/images/aff-logo.png" alt="">  -->
-                            </a>
-                        </div>
-                        <div class="ts-menu-2" style="">
-                            <div layout="row" style="width : fit-content;">
-                                <div>
-                                    <a href="/index" class="logo">
-                                        <img
-                                            src="template/images/MedQuestLogo.svg"
-                                            alt=""
-                                            style="width: 66px; padding-right: 12px;"
-                                        />
-                                    </a>
-                                </div>
-                                <div style="padding-top: 17px;">
-                                    <a class="t-bb">
-                                        <div layout="row">
-                                            <div>
-                                                {{'Index.Home.MenuText1'|translate}}
-                                            </div>
-                                            <div>
-                                                <i
-                                                    class="fa fa-angle-down"
-                                                    target="_self"
-                                                    aria-hidden="true"
-                                                ></i>
-                                            </div></div
-                                    ></a>
-                                </div>
-                            </div>
+<!-- uncomment for font -->
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css" /> -->
 
-                            <div class="cat-menu cat-menu-1">
-                                <div class="dz-menu">
-                                    <div class="dz-menu-inn">
-                                        <h4>{{'Index.Home.MenuText2'|translate}}</h4>
-                                        <ul>
-                                            <li>
-                                                <a href="/index" target="_self"
-                                                    >{{'Index.Home.MenuText3'|translate}}</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a
-                                                    href="/list_procedures?procedure=0&location=undefined&category=0&speciality=0&country=undefined"
-                                                    target="_self"
-                                                    >{{'Index.Home.MenuText4'|translate}}</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="dashboard" target="_self"
-                                                    >{{'Login.login.Header.Dashboard'|translate}}</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="dz-menu-inn">
-                                        <h4>{{'Index.Home.MenuText2.2'|translate}}</h4>
-                                        <ul>
-                                            <li>
-                                                <a href="/pricing" target="_self"
-                                                    >{{'Index.Home.OurPrices'|translate}}</a
-                                                >
-                                            </li>
-                                            <li>
-                                                <a href="what-is-medical-tourism"
-                                                    >{{'Index.Home.WhatIsMedicalTourism'|translate}}</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="dir-home-nav-bot">
-                                    <ul>
-                                        <li>
-                                            {{mymedQuestInfo.data.MyMedQUrl}}
-                                            <span
-                                                >{{'Index.Home.MenuText5'|translate}}:
-                                                {{'Index.Home.PhoneNumber'|translate}}</span
-                                            >
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="/contact_us"
-                                                target="_self"
-                                                class="waves-effect waves-light btn-large"
-                                                style="background: linear-gradient(to right, #15629e, #15629e); color: #ffffff;"
-                                                ><i class="fa fa-bullhorn"></i>
-                                                {{'Index.Home.MenuText6'|translate}}</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a
-                                                href="/about-us"
-                                                target="_self"
-                                                class="waves-effect btn-large"
-                                                style="background: linear-gradient(to right, #15629e, #15629e); color: #ffffff;"
-                                                ><i class="fa fa-bookmark"></i>
-                                                {{'Index.Home.MenuText7'|translate}}</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+<style scoped>
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        /* font-family: 'Roboto', sans-serif; */
+    }
+    .w3-sidebar {
+        z-index: 3;
+        width: 250px;
+        top: 43px;
+        bottom: 0;
+        height: inherit;
+    }
+</style>
 
-                        <div class="ts-menu-3">
-                            <div class="">
-                                <form class="tourz-search-form " style="margin: -25px 0px;">
-                                    <div class="input-field" style="height: 85px;">
-                                        <md-select
-                                            placeholder="{{'List.SearchBar.SearchProcedureInfo'|translate}}"
-                                            ng-model="$ctrl.procedure"
-                                            id="select-search"
-                                            md-on-open="$ctrl.getProceduresMatches($ctrl.resultListProcedure)"
-                                            style="margin: 29px !important;"
-                                        >
-                                            <md-optgroup
-                                                label="{{'Index.Home.SearchProcedure'|translate}}"
-                                                style="max-width: 710px; min-width: 550px; max-height: 250px; "
-                                            >
-                                                <md-option
-                                                    ng-repeat="item in $ctrl.resultListProcedure.procedures"
-                                                    ng-value="item.value"
-                                                    style="padding: 10px 0px 10px 5px;"
-                                                    ng-click="$ctrl.processInfoSearch(item)"
-                                                >
-                                                    <md-list-item class="md-1-line">
-                                                        <p ng-bind="item.label"></p>
-                                                    </md-list-item>
-                                                </md-option>
-                                            </md-optgroup>
-                                        </md-select>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+<div class="w3-top" style="position: absolute;" ng-app="mainDropdownModule">
+    <!-- Mobile Sidebar -->
+    <nav
+        class="w3-sidebar w3-bar-block w3-collapse  w3-animate-left "
+        style="display:none !important; top:0px ; width: 200px !important;"
+        id="mySidebar"
+    >
+        <button
+            ng-click="$ctrl.w3_close()"
+            class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large"
+            style="display: block;"
+            title="Close Menu"
+        >
+            <i class="fa fa-remove"></i>
+        </button>
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px; display: block !important;"
+            ng-if="!$ctrl.is_logged_in"
+            ng-click="$ctrl.w3_close()"
+            href="/login"
+            >{{'Login.login.Header.TitleLogIn'|translate}}</a
+        >
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px; display: block !important;"
+            ng-if="!$ctrl.is_logged_in"
+            ng-click="$ctrl.w3_close()"
+            href="/register"
+            >{{'Login.login.Header.TitleAccount'|translate}}</a
+        >
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px; display: block !important;"
+            ng-if="$ctrl.is_logged_in"
+            target="_self"
+            href="adminMedquest/#!/adminDashboard"
+        >
+            {{'Login.login.Header.Dashboard'|translate}}</a
+        >
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px; display: block !important;"
+            ng-if="$ctrl.is_logged_in"
+            ng-click="$ctrl.logout(); $ctrl.w3_close()"
+            href="/login"
+            >{{'LogOut.Header'|translate}}</a
+        >
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px; display: block !important;"
+            href="what-is-medical-tourism"
+            ng-click="$ctrl.w3_close()"
+            >{{'Index.Home.WhatIsMedicalTourism'|translate}}</a
+        >
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px;  display: block !important;"
+            href="/list_procedures/procedure/0/location/all/category/0/country/all"
+            ng-click="$ctrl.w3_close()"
+            >{{'Index.Home.MenuText4'|translate}}</a
+        >
 
-                        <div class="ts-menu-4" style=" width: 45% !important">
-                            <div class="center">
-                                <div
-                                    flex
-                                    style="display: flex; justify-content: space-evenly; max-width: 25%;"
-                                >
-                                    <a
-                                        ng-click="$ctrl.changeLanguage('sp');$ctrl.parseUrl()"
-                                        style="background-color: transparent; border: none;"
-                                        title="{{'Languages.Spanish'|translate}}"
-                                    >
-                                        <span
-                                            class="flag-icon flag-icon-mx"
-                                            style="width: 45px; height: 45px;"
-                                        ></span>
-                                    </a>
-                                    <a
-                                        ng-click="$ctrl.changeLanguage('en');$ctrl.parseUrl()"
-                                        style="background-color: transparent; border: none; "
-                                        title="{{'Languages.English'|translate}}"
-                                    >
-                                        <span
-                                            class="flag-icon flag-icon-us"
-                                            style="width: 45px; height: 45px;"
-                                        ></span>
-                                    </a>
-                                </div>
-                                <div
-                                    flex
-                                    class="v3-top-ri"
-                                    style="display: flex;justify-content: space-evenly; "
-                                >
-                                    <ul>
-                                        <li>
-                                            <a
-                                                ng-if="!$ctrl.is_logged_in"
-                                                href="/login"
-                                                target="_self"
-                                                class="v3-menu-sign"
-                                                style="font-size: large;"
-                                                ><i class="fa fa-sign-in"></i>
-                                                {{'Login.login.Header.TitleLogIn'|translate}}</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a
-                                                ng-if="$ctrl.is_logged_in"
-                                                href="dashboard"
-                                                target="_self"
-                                                class="v3-menu-sign"
-                                                style="font-size: large;"
-                                                ><i class="fa fa-sign-in"></i
-                                                >{{'Login.login.Header.Dashboard'|translate}}</a
-                                            >
-                                        </li>
-                                        <li>
-                                            <a
-                                                ng-if="!$ctrl.is_logged_in"
-                                                href="/register"
-                                                target="_self"
-                                                class="v3-add-bus"
-                                                style="font-size: large;"
-                                                ><i class="fa fa-plus" aria-hidden="true"></i>
-                                                {{'Login.login.Header.TitleAccount'|translate}}</a
-                                            >
-                                            <a
-                                                ng-if="$ctrl.is_logged_in"
-                                                ng-click="$ctrl.logout()"
-                                                href="/login"
-                                                target="_self"
-                                                class="v3-add-bus"
-                                                style="font-size: large;"
-                                                ><i class="fa fa-plus" aria-hidden="true"></i>
-                                                {{'LogOut.Header'|translate}}</a
-                                            >
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px; display: block !important;"
+            ng-if="!$ctrl.is_logged_in"
+            href="/procedure-description"
+            ng-click="$ctrl.w3_close()"
+            >{{'Index.Home.MenuText9'|translate}}</a
+        >
 
-                        <!--MOBILE MENU ICON:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
-                        <div class="ts-menu-5">
-                            <span><i class="fa fa-bars" aria-hidden="true"></i></span>
-                        </div>
-                        <!--MOBILE MENU CONTAINER:IT'S ONLY SHOW ON MOBILE & TABLET VIEW-->
-                        <div class="mob-right-nav" data-wow-duration="0.5s">
-                            <div class="mob-right-nav-close">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                            </div>
-                            <h5>{{'Index.Home.MenuResponsive.Account'|translate}}</h5>
-                            <ul class="mob-menu-icon">
-                                <li>
-                                    <a ng-if="$ctrl.is_logged_in" href="dashboard" target="_self"
-                                        >{{'Login.login.Header.Dashboard'|translate}}</a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        ng-if="$ctrl.is_logged_in"
-                                        ng-click="$ctrl.logout()"
-                                        href="/login"
-                                        target="_self"
-                                        >{{'LogOut.Header'|translate}}</a
-                                    >
-                                </li>
-                                <li>
-                                    <a ng-if="!$ctrl.is_logged_in" href="/register" target="_self"
-                                        >{{'Index.Home.MenuResponsive.Register'|translate}}</a
-                                    >
-                                </li>
-                                <li>
-                                    <a ng-if="!$ctrl.is_logged_in" href="/login" target="_self"
-                                        >{{'Index.Home.MenuResponsive.SignIn'|translate}}</a
-                                    >
-                                </li>
-                            </ul>
-                            <h5>{{'Translate.Header'|translate}}</h5>
-                            <ul>
-                                <li>
-                                    <a
-                                        ng-click="$ctrl.changeLanguage('sp');$ctrl.parseUrl()"
-                                        class="waves-effect"
-                                        title="{{'Languages.Spanish'|translate}}"
-                                    >
-                                        <span class="flag-icon flag-icon-mx"></span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        ng-click="$ctrl.changeLanguage('en-US');$ctrl.parseUrl()"
-                                        class="waves-effect"
-                                        title="{{'Languages.English'|translate}}"
-                                    >
-                                        <span class="flag-icon flag-icon-us"></span>
-                                    </a>
-                                </li>
-                            </ul>
-                            <h5>{{'Index.Home.MenuText2'|translate}}</h5>
-                            <ul>
-                                <li>
-                                    <a href="/index" target="_self"
-                                        >{{'Index.Home.MenuText3'|translate}}</a
-                                    >
-                                </li>
-                                <li>
-                                    <a
-                                        href="/list_procedures?procedure=0&location=undefined&category=0&speciality=0&country=undefined"
-                                        target="_self"
-                                        >{{'Index.Home.MenuText4'|translate}}</a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="pricing" target="_self"
-                                        >{{'Index.Home.OurPrices'|translate}}</a
-                                    >
-                                </li>
-                                <li>
-                                    <a href="what-is-medical-tourism"
-                                        >{{'Index.Home.WhatIsMedicalTourism'|translate}}</a
-                                    >
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px; display:block"
+            href="/pricing"
+            ng-click="$ctrl.w3_close()"
+            >{{'Index.Home.OurPrices'|translate}}</a
+        >
+
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style="line-height: 40px  !important; display: block;"
+            href="/contact_us"
+            ng-click="$ctrl.w3_close()"
+            >{{'Index.Home.MenuText6'|translate}}</a
+        >
+        <a
+            class="w3-bar-item w3-button w3-hover-black"
+            style=" line-height: 40px ;display: block;"
+            href="/about_us"
+            ng-click="$ctrl.w3_close()"
+            >{{'Index.Home.MenuText7'|translate}}</a
+        >
+    </nav>
+
+    <!-- Menu  -->
+    <div
+        class="w3-bar w3-top w3-left-align w3-large"
+        style="background-color: transparent!important; position: absolute !important; "
+    >
+        <button
+            class="w3-bar-item w3-button w3-right w3-hide-large w3-hover-white w3-large"
+            ng-click="$ctrl.w3_open()"
+        >
+            <i class="fa fa-bars fa-2x"></i>
+        </button>
+        <a href="/index" class="w3-bar-item w3-button">
+            <img
+                src="template/images/MedQuestLogo.svg"
+                alt="mymedquest logo"
+                style="width: 40px; padding-right: 0px;"
+        /></a>
+        <div style="margin-top: 8px !important;">
+            <a
+                href="/list_procedures/procedure/0/location/all/category/0/country/all"
+                class="w3-bar-item w3-button w3-hide-small w3-hover-white"
+                >{{'Index.Home.MenuText4'|translate}}</a
+            >
+
+            <a
+                href="/procedure-description"
+                class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white"
+                >{{'Index.Home.MenuText9'|translate}}</a
+            >
+
+            <a
+                href="/pricing"
+                class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white"
+                >{{'Index.Home.OurPrices'|translate}}</a
+            >
+
+            <a href="/contact_us" class="w3-bar-item w3-button w3-hide-small w3-hover-white"
+                >{{'Index.Home.MenuText6'|translate}}</a
+            >
+            <a
+                href="what-is-medical-tourism"
+                class="w3-bar-item w3-button w3-hide-small w3-hover-white "
+                >{{'Index.Home.WhatIsMedicalTourism'|translate}}</a
+            >
+            <a
+                href="/about_us"
+                class="w3-bar-item w3-button w3-hide-small w3-hide-medium w3-hover-white"
+                >{{'Index.Home.MenuText7'|translate}}</a
+            >
+        </div>
+
+        <div class="button-border" style="float:right; margin-right: 5%;">
+            <!-- Dashboard -->
+            <a
+                ng-if="$ctrl.is_logged_in"
+                href="adminMedquest/#!/adminDashboard"
+                target="_self"
+                class="w3-bar-item w3-button w3-hide-small w3-hover-white"
+                ><i class="fa fa-table"></i> {{'Login.login.Header.Dashboard'|translate}}
+
+                <i
+                    ng-if="$ctrl.has_notifications"
+                    class="fa fa-exclamation info-icon"
+                    style="color: rgb(178, 25, 25);"
+                    aria-hidden="true"
+                >
+                    <md-tooltip
+                        >{{ 'Index.Home.MenuClientHasNotificationsTooltip' | translate
+                        }}</md-tooltip
+                    ></i
+                >
+            </a>
+
+            <!-- Logout -->
+            <a
+                class="w3-bar-item w3-button w3-hide-small w3-hover-white"
+                ng-if="$ctrl.is_logged_in"
+                ng-click="$ctrl.logout()"
+                href="/login"
+                ><i class="fa fa-sign-out" aria-hidden="true"></i> {{'LogOut.Header'|translate}}</a
+            >
+
+            <!-- Login -->
+            <a
+                ng-if="!$ctrl.is_logged_in"
+                href="/login"
+                class="w3-bar-item w3-button w3-hide-small w3-hover-white"
+                ><i class="fa fa-sign-in" aria-hidden="true"></i>
+                {{'Login.login.Header.TitleLogIn'|translate}}</a
+            >
+
+            <!-- Signup -->
+            <a
+                ng-if="!$ctrl.is_logged_in"
+                href="/register"
+                class="w3-bar-item w3-button w3-hide-small w3-hover-white"
+                ><i class="fa fa-plus" aria-hidden="true"></i>
+                {{'Login.login.Header.TitleAccount'|translate}}</a
+            >
+
+            <!-- Language  -->
+            <!--    class="w3-bar-item w3-button w3-hide-small w3-hover-white " -->
+            <div class="dropdown">
+                <button flex="" class="dropbtn w3-button">
+                    <i class="fa fa-regular fa-globe"></i> {{'Index.Home.Language'|translate}}
+                    <i class="fa fa-sort-down"></i>
+                </button>
+                <div class="dropdown-content w3-center" style="margin-left: 100px !important;">
+                    <button
+                        ng-click="$ctrl.changeLanguage('sp');$ctrl.parseUrl()"
+                        class="flag-icon flag-icon-mx"
+                        style="width: 40px; height: 30px; border:none !important; margin-top: 5px !important; cursor: pointer;"
+                    ></button>
+                    <br />
+                    <md-divider
+                        style="background-color:white !important; margin-top: 5px; margin-bottom: 5px; "
+                    ></md-divider>
+
+                    <button
+                        ng-click="$ctrl.changeLanguage('en');$ctrl.parseUrl()"
+                        class="flag-icon flag-icon-us"
+                        style="width: 40px; height: 30px; border:none !important; margin-bottom: 5px !important; cursor: pointer;"
+                    ></button>
                 </div>
             </div>
-        </section>
-    </body>
-    <style>
-        .center {
-            display: flex;
-            justify-content: space-between;
+        </div>
+    </div>
+</div>
+
+<style scoped>
+    .button-border a {
+        box-sizing: border-box;
+        border: 1px solid !important;
+        margin: 0px 10px 0px 0px !important;
+    }
+
+    .dropbtn {
+        background-color: transparent;
+        font-size: 16px;
+        margin-left: 100px !important;
+        box-sizing: border-box;
+        border: 1px solid !important;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: fixed;
+        /* background-color: #2c6199; */
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        width: 110px;
+    }
+
+    .dropdown-content button {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        width: 150px;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    @media (max-width: 400px) {
+        .dropbtn {
+            margin-left: 0px !important;
         }
-    </style>
-</html>
+    }
+</style>

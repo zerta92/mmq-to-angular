@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <title>
-            MyMedQuest | Find affordable dental clinics at home or abroad
+            MyMedQuest | Quality dental treatment and easy access to trusted dentists abroad
         </title>
 
         <meta
@@ -38,325 +38,427 @@
         </style>
     </head>
     <body>
-        <!-- Sidebar -->
-        <nav
-            class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left"
-            id="mySidebar"
-            style="top:70px"
-        >
-            <a
-                href="javascript:void(0)"
-                onclick="w3_close()"
-                class="w3-right w3-xlarge w3-padding-large w3-hover-black w3-hide-large"
-                title="Close Menu"
-            >
-                <i class="fa fa-remove"></i>
-            </a>
-
-            <a class="w3-bar-item w3-button w3-hover-black" href="#heading1"
-                >{{'Index.Home.HowItWorks'|translate}}</a
-            >
-            <a class="w3-bar-item w3-button w3-hover-black" href="#heading2"
-                >{{"HowItWork.VisitorsTitle1"|translate}}</a
-            >
-            <a class="w3-bar-item w3-button w3-hover-black" href="#heading3"
-                >{{"HowItWork.BusinessTitle1"|translate}}</a
-            >
-            <a class="w3-bar-item w3-button w3-hover-black" href="/pricing"
-                >{{'Index.Home.OurPrices'|translate}}</a
-            >
-        </nav>
-
-        <section id="background" class="dir1-home-head w3-main" style="margin-left:100px">
-            <div class="container">
-                <div layout="row" layout-align="center center">
-                    <div>
-                        <div class="dir-ho-tl" style=" margin-top: 80px !important">
-                            <ul>
-                                <li>
-                                    <!-- <a href="/index">
-                                        <img
-                                            src="template/images/MedQuestLogo.svg"
-                                            alt=""
-                                            ng-bind="('Tags.Index'|translate)"
-                                        />
-                                    </a> -->
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+        <!-- Large Screen Header -->
+        <section hide-xs="" class="dir1-home-head w3-main" style="height: 600px;">
+            <div layout="row">
+                <div flex="35">
+                    <img
+                        class="tooth-island-size"
+                        alt="header image"
+                        src="/template/art/tooth_island_transparent.webp"
+                        style="width: 600px; height: 600px;"
+                    />
                 </div>
-            </div>
 
-            <div class="container dir-ho-t-sp">
-                <div class="dir-hr1">
-                    <div class="dir-ho-t-tit">
-                        <h1 ng-bind="('Index.Home.BannerMain'|translate)"></h1>
-                        <p ng-bind="('Index.Home.BannerSecondary'|translate)"></p>
+                <div class=" dir-ho-t-sp" style="margin-top: 10%;" flex="">
+                    <div class="dir-hr1">
+                        <div class="dir-ho-t-tit" style="margin-top: 5%;">
+                            <h2
+                                style="color:#3C4C53
+                            "
+                                ng-bind="('Index.Home.BannerMain'|translate)"
+                            ></h2>
+                            <!-- <h2
+                                style="color:#3C4C53
+                            "
+                                id="dynamic-header"
+                            >
+                                {{base_text}}
+                            </h2> -->
+
+                            <h4
+                                style="margin-top:20px; margin-left: 5%; color:#474e54"
+                                ng-bind="('Index.Home.BannerSecondary'|translate)"
+                            ></h4>
+                            <div style="margin-left: 14%;">
+                                <services-search-dropdown></services-search-dropdown>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Overlay effect when opening sidebar on small screens -->
-        <div
-            class="w3-overlay w3-hide-large"
-            onclick="w3_close()"
-            style="cursor:pointer"
-            title="close side menu"
-            id="myOverlay"
-        ></div>
+        <!-- Mobile Header -->
+        <section hide-gt-xs="" show-xs="" id="background" class="dir1-home-head w3-main" style="">
+            <div layout="column">
+                <div style="margin-top: 100px;" flex="">
+                    <div class="dir-hr1">
+                        <div class="dir-ho-t-tit" style="">
+                            <h2
+                                style="color:#3C4C53"
+                                ng-bind="('Index.Home.BannerMain'|translate)"
+                            ></h2>
+                            <!-- <h1 id="dynamic-header">{{base_text}}</h1> -->
 
-        <!-- Main content: shift it to the right by 250 pixels when the sidebar is visible -->
-        <div
-            class="w3-main"
-            style="margin-left:250px; border:1px solid black; background-color: #15629e;"
-        >
-            <services-search-dropdown></services-search-dropdown>
-        </div>
-        <div id="heading1" class="w3-main" style="margin-left:250px">
-            <div class="w3-row w3-padding-64">
+                            <div style="margin-top: 10px;">
+                                <h4
+                                    style="color:#6C7881
+                                "
+                                    ng-bind="('Index.Home.BannerSecondary'|translate)"
+                                ></h4>
+                                <services-search-dropdown></services-search-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="heading1" style="">
+            <div class="w3-row" style="position: relative">
                 <div class="w3-twothird w3-container">
-                    <h1 style="color: #15629e; margin-bottom: 13px;">
-                        {{'Index.Home.HowItWorks'|translate}}
-                    </h1>
-                    <p style="font-size: 18px !important;">
-                        {{"AboutUs.Description1"|translate}}
-                    </p>
+                    <div class="w3-container " style="">
+                        <div class="w3-twothird" style="padding-top: 50px;">
+                            <h3 style="margin-bottom: 20px;">
+                                {{"Index.Home.InfoSectionTitle"|translate}}
+                            </h3>
+                            <span>
+                                {{"Index.Home.InfoSectionParagraph1"|translate}}
+                            </span>
+                        </div>
+                        <div class="w3-third w3-center" style=" background: none; ">
+                            <img
+                                flex="100"
+                                src="template/images/yellow_suitcase.webp"
+                                alt="yellow suitcase"
+                                style="border-radius: 10px; box-shadow:1px 1px 9px rgb(0 0 0 / 25%);"
+                            />
+                        </div>
+                    </div>
+                    <md-divider style="margin-top: 20px; margin-bottom: 20px;"></md-divider>
+                    <!-- How to  -->
+                    <div class=" w3-center steps-height how-to-section how-to-section-orientation">
+                        <!-- For Patients  -->
+                        <div
+                            layout="column"
+                            layout-gt-xs="column"
+                            style="justify-content:space-evenly; padding-right: 5%;"
+                        >
+                            <h1 style="margin-bottom: 13px;">
+                                {{"HowItWork.VisitorsTitle1"|translate}}
+                            </h1>
+                            <div flex="40" flex-gt-xs="25" class="">
+                                <img
+                                    alt="providers step two icon"
+                                    class="w3-hide-small how-to-numbers"
+                                    src="template/img/point_number_one_circle.svg"
+                                />
+                                <p style="font-size: 20px;" translate="HowItWork.UserStep1"></p>
+                            </div>
+                            <div flex="40" flex-gt-xs="25" class="">
+                                <img
+                                    alt="providers step two icon"
+                                    class="w3-hide-small how-to-numbers"
+                                    src="template/img/point_number_two_circle.svg"
+                                />
+                                <p style="font-size: 20px;" translate="HowItWork.UserStep3"></p>
+                            </div>
+
+                            <div flex="40" flex-gt-xs="25" class="">
+                                <img
+                                    alt="providers step two icon"
+                                    class="w3-hide-small how-to-numbers"
+                                    src="template/img/point_number_three_circle.svg"
+                                />
+                                <p style="font-size: 20px;" translate="HowItWork.UserStep4"></p>
+                            </div>
+                        </div>
+                        <!-- For Providers  -->
+                        <div
+                            layout="column"
+                            layout-gt-xs="column"
+                            style="justify-content:space-evenly; "
+                        >
+                            <h1 style="margin-bottom: 13px;">
+                                {{"HowItWork.BusinessTitle1"|translate}}
+                            </h1>
+                            <div flex="40" flex-gt-xs="25" class="">
+                                <img
+                                    alt="providers step two icon"
+                                    class="w3-hide-small how-to-numbers"
+                                    src="template/img/point_number_one_circle.svg"
+                                />
+                                <p style="font-size: 20px;" translate="HowItWork.ProviderStep1"></p>
+                            </div>
+                            <div flex="40" flex-gt-xs="25" class="">
+                                <div>
+                                    <img
+                                        alt="providers step two icon"
+                                        class="w3-hide-small how-to-numbers"
+                                        src="template/img/point_number_two_circle.svg"
+                                    />
+                                    <p
+                                        style="font-size: 20px;"
+                                        translate="HowItWork.ProviderStep2"
+                                    ></p>
+                                </div>
+                            </div>
+                            <div flex="40" flex-gt-xs="25" class="">
+                                <img
+                                    alt="providers step two icon"
+                                    class="w3-hide-small how-to-numbers"
+                                    src="template/img/point_number_three_circle.svg"
+                                />
+                                <p style="font-size: 20px;" translate="HowItWork.ProviderStep3"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <md-divider style="margin-top: 20px;"></md-divider>
+
+                    <div class="faq-section">
+                        <h2>Get Informed: Dental Tourism Essentials</h2>
+                        <div class="faq-question">
+                            <h3>
+                                What is dental tourism?
+                            </h3>
+                            <span>
+                                Dental tourism refers to traveling to another country to receive
+                                dental care. It allows you to access high-quality dental services at
+                                a more affordable cost compared to your home country.
+                            </span>
+                        </div>
+                        <div class="faq-question">
+                            <h3>Why is dental treatment cheaper abroad?</h3>
+                            <span>
+                                Dental care in some countries is less expensive due to lower
+                                overhead costs, such as lower rent and utility bills. Our dental
+                                professionals provide the same quality care you receive in the
+                                United States, but at a fraction of the cost.
+                            </span>
+                        </div>
+                        <div class="faq-question">
+                            <h3>
+                                Is dental tourism safe?
+                            </h3>
+                            <span>
+                                Yes, dental tourism can be safe when you choose reputable dental
+                                service providers. We thoroughly vet and partner with trusted
+                                dentists and clinics worldwide to ensure your safety and provide
+                                quality care.
+                            </span>
+                        </div>
+                        <div class="faq-question">
+                            <h3>
+                                How can I trust the quality of dental care in another country?
+                            </h3>
+                            <span>
+                                We understand the importance of quality care. We carefully select
+                                dental providers based on their qualifications, expertise, and
+                                patient reviews. Additionally, many international dentists have
+                                received training and certifications from reputable institutions.
+                            </span>
+                        </div>
+                        <div class="faq-question">
+                            <h3>
+                                Will language be a barrier during dental treatments abroad?
+                            </h3>
+                            <span>
+                                Language barriers are minimized as many dental providers we work
+                                with have multilingual staff or provide translation services. They
+                                strive to ensure effective communication and provide a comfortable
+                                experience for international patients.
+                            </span>
+                        </div>
+                        <div class="faq-question">
+                            <h3>
+                                How much can I save through dental tourism?
+                            </h3>
+                            <span>
+                                The savings can vary depending on the specific procedure and
+                                destination. On average, patients can save between 30% to 70%
+                                compared to prices in the United States. We provide transparent
+                                pricing information, allowing you to compare and make informed
+                                decisions.
+                            </span>
+                        </div>
+                        <div class="faq-question">
+                            <h3>
+                                Can I combine dental treatment with travel and explore the
+                                destination?
+                            </h3>
+                            <span>
+                                Absolutely! Many patients enjoy combining their dental treatment
+                                with exploring new places. Our dental providers are located in
+                                attractive destinations, allowing you to enjoy a vacation while
+                                receiving quality dental care.
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="w3-third w3-container">
-                    <div class="hom-pro">
+                    <!-- Featured Clinics  -->
+                    <div>
+                        <h1 style=" margin-bottom: 13px;">
+                            {{'WhoUses.Title'|translate}}
+                        </h1>
+
+                        <div ng-repeat="provider in $ctrl.featured_clinics" class="row-md-4">
+                            <a ng-href="/service_details/provider/{{provider.provider_ID}}">
+                                <div class="list-mig-like-com com-mar-bot-30">
+                                    <div
+                                        class="list-mig-lc-img"
+                                        style="box-shadow: 0.625rem 0.625rem 1.875rem rgb(0 0 0 / 25%);"
+                                    >
+                                        <div
+                                            ng-if="provider.provider_City == 'Acapulco'"
+                                            style="height: 250px; background-color: red; border-radius: 10px;  opacity: 1"
+                                        ></div>
+                                        <div
+                                            ng-if="provider.provider_City == 'Tijuana'"
+                                            style="height: 250px; background-color: blue; border-radius: 10px; opacity: 1"
+                                        ></div>
+                                        <div
+                                            ng-if="provider.provider_City == 'Guadalajara'"
+                                            style="height: 250px; background-color: purple; border-radius: 10px; opacity: 1"
+                                        ></div>
+                                        <div
+                                            ng-if="provider.provider_City == 'Mexicali'"
+                                            style="height: 250px; background-color: green; border-radius: 10px; opacity: 1"
+                                        ></div>
+                                        <span class="home-list-pop-rat list-mi-pr"
+                                            >Average Procedure Price
+                                            ${{featured_clinics_average_price[provider.provider_ID][0].avg_price}}</span
+                                        >
+                                    </div>
+                                    <div class="list-mig-lc-con">
+                                        <div
+                                            ng-if="provider.provider_review_score"
+                                            class="list-rat-ch list-room-rati"
+                                        >
+                                            <span>{{provider.provider_review_score}}</span>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i
+                                                ng-if="provider.provider_review_score >= 2"
+                                                class="fa fa-star"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <i
+                                                ng-if="provider.provider_review_score >= 3"
+                                                class="fa fa-star"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <i
+                                                ng-if="provider.provider_review_score >= 4"
+                                                class="fa fa-star"
+                                                aria-hidden="true"
+                                            ></i>
+                                            <i
+                                                ng-if="provider.provider_review_score >= 5"
+                                                class="fa fa-star-o"
+                                                aria-hidden="true"
+                                            ></i>
+                                        </div>
+                                        <h5>{{provider.provider_Name}}</h5>
+                                        <h6>
+                                            {{provider.provider_City}},{{provider.provider_Country}}
+                                        </h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    fuck: {{$ctrl.register_and_schedule_consultation_users_url}}
+                    <!-- Youtube Videos Section -->
+                    <div layout="column" layout-xs="column">
+                        <div flex="">
+                            <md-card style="height: 93%;">
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">
+                                            <a
+                                                style="font-size: x-large; "
+                                                ng-href="{{$ctrl.register_and_schedule_consultation_users_url}}"
+                                                target="_blank"
+                                            >
+                                                <i
+                                                    class="fa fa-brands fa-youtube fa-lg"
+                                                    aria-hidden="true"
+                                                ></i>
+                                                {{"Index.Home.MenuVideoTitle3"|translate}}
+                                            </a>
+                                        </span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-content>
+                                    <ul>
+                                        <li>
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <span
+                                                ng-bind="('Index.Home.HowToSeccionDesc6'|translate)"
+                                            ></span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <span
+                                                ng-bind="('Index.Home.HowToSeccionDesc7'|translate)"
+                                            ></span>
+                                        </li>
+                                    </ul>
+                                </md-card-content>
+                            </md-card>
+                        </div>
+                        <div flex="">
+                            <md-card style="height: 93%;">
+                                <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">
+                                            <a
+                                                style="font-size: x-large; "
+                                                ng-href="{{$ctrl.adding_procedures_provider_url}}"
+                                                target="_blank"
+                                            >
+                                                <i
+                                                    class="fa fa-brands fa-youtube fa-lg"
+                                                    aria-hidden="true"
+                                                ></i>
+                                                {{"Index.Home.MenuVideoTitle1"|translate}}
+                                            </a>
+                                        </span>
+                                    </md-card-title-text>
+                                </md-card-title>
+                                <md-card-content>
+                                    <ul>
+                                        <li>
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <span
+                                                ng-bind="('Index.Home.HowToSeccionDesc2'|translate)"
+                                            ></span>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <span
+                                                ng-bind="('Index.Home.HowToSeccionDesc3'|translate)"
+                                            ></span>
+                                        </li>
+                                    </ul>
+                                </md-card-content>
+                            </md-card>
+                        </div>
+                    </div>
+                    <!-- <div class="hom-pro">
                         <img
                             src="template/img/dental_icons/iconfinder_Dental_-_Tooth_-_Dentist_-_Dentistry_47_2185047.svg"
                             alt=""
                         />
                         <h4 ng-bind="('Index.Home.HowItWorks'|translate)"></h4>
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                        <a href="/about-us" ng-bind="('Index.Home.MoreInfo'|translate)"></a>
-                    </div>
-                    <!-- <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-                    <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p> -->
-                </div>
-            </div>
-
-            <div id="heading2" class="w3-row">
-                <div class="w3-twothird w3-container">
-                    <h1 style="color: #15629e; margin-bottom: 13px;">
-                        {{"HowItWork.VisitorsTitle1"|translate}}
-                    </h1>
-                    <div class="">
-                        <div class="how-com">
-                            <ul>
-                                <li>
-                                    <img src="template/img/baseline-filter_1-24px.svg" alt="stp1" />
-                                    <h4>
-                                        <ins
-                                            ><i><b>{{"HowItWork.LabelStep1"|translate}}</b></i></ins
-                                        >
-                                    </h4>
-                                    <p align="justify">
-                                        {{"HowItWork.VisitorsStep1"|translate}}
-                                    </p>
-                                </li>
-                                <li>
-                                    <img src="template/img/baseline-filter_2-24px.svg" alt="stp2" />
-                                    <h4>
-                                        <ins
-                                            ><i><b>{{"HowItWork.LabelStep2"|translate}}</b></i></ins
-                                        >
-                                    </h4>
-                                    <p align="justify">
-                                        {{"HowItWork.VisitorsStep2"|translate}}
-                                    </p>
-                                </li>
-                                <li>
-                                    <img src="template/img/baseline-filter_3-24px.svg" alt="stp3" />
-                                    <h4>
-                                        <ins
-                                            ><i><b>{{"HowItWork.LabelStep3"|translate}}</b></i></ins
-                                        >
-                                    </h4>
-                                    <p align="justify">
-                                        {{"HowItWork.VisitorsStep3"|translate}}
-                                    </p>
-                                </li>
-                                <li>
-                                    <img src="template/img/baseline-filter_4-24px.svg" alt="stp4" />
-                                    <h4>
-                                        <ins
-                                            ><i><b>{{"HowItWork.LabelStep4"|translate}}</b></i></ins
-                                        >
-                                    </h4>
-                                    <p align="justify">
-                                        {{"HowItWork.VisitorsStep4"|translate}}
-                                    </p>
-                                </li>
-                                <li>
-                                    <img src="template/img/baseline-filter_5-24px.svg" alt="stp5" />
-                                    <h4>
-                                        <ins
-                                            ><i><b>{{"HowItWork.LabelStep5"|translate}}</b></i></ins
-                                        >
-                                    </h4>
-                                    <p align="justify">
-                                        {{"HowItWork.VisitorsStep5"|translate}}
-                                    </p>
-                                </li>
-                                <li>
-                                    <img src="template/img/baseline-filter_6-24px.svg" alt="stp6" />
-                                    <h4>
-                                        <ins
-                                            ><i><b>{{"HowItWork.LabelStep6"|translate}}</b></i></ins
-                                        >
-                                    </h4>
-                                    <p align="justify">
-                                        {{"HowItWork.VisitorsStep6"|translate}}
-                                    </p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w3-third w3-container">
-                    <md-card>
-                        <iframe
-                            ng-src="{{$ctrl.register_and_schedule_consultation_users_url|trustAsResourceUrl}}"
-                            frameborder="1"
-                            allowfullscreen
-                            style="height:400px"
-                        ></iframe>
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">
-                                    <p
-                                        ng-bind="('Index.Home.MenuVideoTitle3'|translate)"
-                                        style="font-size: x-large; color: black;"
-                                    ></p>
-                                </span>
-                            </md-card-title-text>
-                        </md-card-title>
-                        <md-card-content>
-                            <ul>
-                                <li>
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                    <span
-                                        ng-bind="('Index.Home.HowToSeccionDesc6'|translate)"
-                                    ></span>
-                                </li>
-                                <li>
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                    <span
-                                        ng-bind="('Index.Home.HowToSeccionDesc7'|translate)"
-                                    ></span>
-                                </li>
-                            </ul>
-                        </md-card-content>
-                    </md-card>
-                    <!-- <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-                    <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p> -->
-                </div>
-            </div>
-
-            <div id="heading3" class="w3-row w3-padding-64">
-                <div class="w3-twothird w3-container">
-                    <h1 style="color: #15629e; margin-bottom: 13px;">
-                        {{"HowItWork.BusinessTitle1"|translate}}
-                    </h1>
-                    <div class="how-com">
-                        <ul>
-                            <li>
-                                <img src="template/img/baseline-looks_one-24px.svg" alt="_stp1" />
-                                <h4>
-                                    <ins
-                                        ><i><b>{{"HowItWork.LabelStep1"|translate}}</b></i></ins
-                                    >
-                                </h4>
-                                <p align="justify">
-                                    {{"HowItWork.BusinessStep1"|translate}}
-                                </p>
-                            </li>
-                            <li>
-                                <img src="template/img/baseline-looks_two-24px.svg" alt="_stp2" />
-                                <h4>
-                                    <ins
-                                        ><i><b>{{"HowItWork.LabelStep2"|translate}}</b></i></ins
-                                    >
-                                </h4>
-                                <p align="justify">
-                                    {{"HowItWork.BusinessStep2"|translate}}
-                                </p>
-                            </li>
-                            <li>
-                                <img src="template/img/baseline-looks_3-24px.svg" alt="_stp3" />
-                                <h4>
-                                    <ins
-                                        ><i><b>{{"HowItWork.LabelStep3"|translate}}</b></i></ins
-                                    >
-                                </h4>
-                                <p align="justify">
-                                    {{"HowItWork.BusinessStep3"|translate}}
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="w3-third w3-container">
-                    <md-card>
-                        <iframe
-                            ng-src="{{$ctrl.adding_procedures_provider_url|trustAsResourceUrl}}"
-                            frameborder="1"
-                            allowfullscreen
-                            style="height:400px"
-                        ></iframe>
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">
-                                    <p
-                                        ng-bind="('Index.Home.MenuVideoTitle1'|translate)"
-                                        style="font-size: x-large; color: black;"
-                                    ></p>
-                                </span>
-                            </md-card-title-text>
-                        </md-card-title>
-                        <md-card-content>
-                            <ul>
-                                <li>
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                    <span
-                                        ng-bind="('Index.Home.HowToSeccionDesc1'|translate)"
-                                    ></span>
-                                </li>
-                                <li>
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                    <span
-                                        ng-bind="('Index.Home.HowToSeccionDesc2'|translate)"
-                                    ></span>
-                                </li>
-                                <li>
-                                    <i class="fa fa-check" aria-hidden="true"></i>
-                                    <span
-                                        ng-bind="('Index.Home.HowToSeccionDesc3'|translate)"
-                                    ></span>
-                                </li>
-                            </ul>
-                        </md-card-content>
-                    </md-card>
-                    <!-- <p class="w3-border w3-padding-large w3-padding-32 w3-center">AD</p>
-                    <p class="w3-border w3-padding-large w3-padding-64 w3-center">AD</p> -->
+                        <a href="/about_us" ng-bind="('Index.Home.MoreInfo'|translate)"></a>
+                    </div> -->
                 </div>
             </div>
 
             <section class="com-padd home-dis">
                 <div class="container">
                     <h2>
-                        <span ng-bind="('Index.Home.Discount100P'|translate)"></span>
                         {{"Index.Home.RegisterFF"|translate}}
-                        <a href="/register" ng-bind="('Index.Home.Signup_'|translate)"></a>
+                        <a
+                            style="color:#253d52"
+                            href="/register"
+                            ng-bind="('Index.Home.Signup_'|translate)"
+                        ></a>
                     </h2>
                 </div>
             </section>
-            <!-- END MAIN -->
         </div>
 
         <script>
@@ -390,12 +492,92 @@
         scroll-behavior: smooth;
     }
 
+    a {
+        color: #337ab7;
+    }
+
+    .stepsxxx p {
+        font-size: 21px !important;
+    }
+
     .dynamic-videos-height {
         height: 1430px !important;
     }
-    @media only screen and (max-width: 400px) {
+    .steps-height {
+        height: 70% !important;
+    }
+    .tooth-island-size {
+        height: 50%;
+    }
+    @media only screen and (max-width: 600px) {
         .dynamic-videos-height {
             height: 2070px !important;
         }
+
+        .tooth-island-size {
+            height: 20% !important;
+        }
+
+        .steps-height {
+            height: max-content !important;
+        }
+
+        .how-to-section-orientation {
+            flex-direction: column !important;
+        }
+    }
+
+    .stepsxxx p {
+        font-size: 21px !important;
+    }
+
+    .step-bubble-content {
+        height: 120px;
+        border-radius: 30px;
+        background-color: #ffffff;
+        margin-bottom: 5px;
+        height: max-content;
+        box-shadow: 0.625rem 0.625rem 1.875rem rgb(0 0 0 / 25%);
+        padding: 10px 10px 10px 10px;
+    }
+
+    body {
+        background-color: rgb(227, 234, 246) !important ;
+        font-family: Quicksand !important;
+    }
+
+    .faq-section {
+        max-width: 800px;
+        margin: 50;
+    }
+
+    .faq-question {
+        margin-top: 20px;
+    }
+
+    .faq-question h3 {
+        margin-bottom: 10px;
+    }
+
+    .faq-question span {
+        margin: 0;
+        /* font-style: italic; */
+    }
+
+    .how-to-numbers {
+        float: left;
+        width: 65px;
+        height: 65px;
+        margin-right: 2%;
+    }
+
+    .how-to-section {
+        background: white no-repeat;
+        height: 100%;
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
     }
 </style>
