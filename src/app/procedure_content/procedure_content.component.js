@@ -16,13 +16,15 @@ angular
             '$translate',
             '$route',
             'ngMeta',
+            '$location',
             function ProcedureContentController(
                 $scope,
                 ProcedureContentServices,
                 GlobalServices,
                 $translate,
                 $route,
-                ngMeta
+                ngMeta,
+                $location
             ) {
                 $scope.procedure = {}
                 $scope.submit = {}
