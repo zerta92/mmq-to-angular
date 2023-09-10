@@ -58,7 +58,7 @@
             style="line-height: 40px; display: block !important;"
             ng-if="$ctrl.is_logged_in"
             target="_self"
-            href="adminMedquest/#!/adminDashboard"
+            href="/dashboard"
         >
             {{'Login.login.Header.Dashboard'|translate}}</a
         >
@@ -173,7 +173,7 @@
             <!-- Dashboard -->
             <a
                 ng-if="$ctrl.is_logged_in"
-                href="adminMedquest/#!/adminDashboard"
+                href="/dashboard"
                 target="_self"
                 class="w3-bar-item w3-button w3-hide-small w3-hover-white"
                 ><i class="fa fa-table"></i> {{'Login.login.Header.Dashboard'|translate}}

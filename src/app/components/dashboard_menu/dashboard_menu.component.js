@@ -22,7 +22,7 @@ angular.module('dashboardMenuModule', []).component('dashboardMenu', {
                 Admin: [
                     {
                         page_ID: 377,
-                        page_Url: '#!/adminDashboard',
+                        page_Url: '/dashboard',
                         page_CRemove: 1,
                         page_CUpdate: 1,
                         page_CCreate: 1,
@@ -585,7 +585,7 @@ angular.module('dashboardMenuModule', []).component('dashboardMenu', {
                 Provider: [
                     {
                         page_ID: 406,
-                        page_Url: '#!/adminDashboard',
+                        page_Url: '/dashboard',
                         page_CRemove: 1,
                         page_CUpdate: 1,
                         page_CCreate: 1,
@@ -906,7 +906,7 @@ angular.module('dashboardMenuModule', []).component('dashboardMenu', {
                 User: [
                     {
                         page_ID: 419,
-                        page_Url: '#!/adminDashboard',
+                        page_Url: '/dashboard',
                         page_CRemove: 1,
                         page_CUpdate: 1,
                         page_CCreate: 1,

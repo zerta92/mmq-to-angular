@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
     <head>
         <title>MyMedQuest - Dashboard</title>
@@ -33,7 +34,11 @@
                         ng-if="video.show"
                     ></twilio-video>
 
-                    <div class="tz-2 tz-2-admin" ng-show="user.profileType == 'Admin'">
+                    <div
+                        ng-if="false"
+                        class="tz-2 tz-2-admin"
+                        ng-show="user.profileType == 'Admin'"
+                    >
                         <div class="tz-2-com tz-2-main">
                             <div class="tz-2-main-com bot-sp-20">
                                 <div class="tz-2-main-1 tz-2-main-admin col-md-6">
@@ -131,78 +136,6 @@
                         </div>
                     </div>
 
-                    <!-- <div class="tz-2 tz-2-admin" ng-show="cardType == 1" >
-						<div class="tz-2-com tz-2-main">							
-							<div class="tz-2-main-com bot-sp-20">							
-								<div class="tz-2-main-1 tz-2-main-admin col-md-12">
-									<div class="tz-2-main-2"> 
-										<span style="color: black;">{{"Dashboard.ReportInfo.AcceptedAppointments"|translate}}</span>
-										<canvas class="chart chart-pie" chart-colors="colorsGrapicPYB" 
-											  	chart-data="acceptedServicesData" chart-labels="acceptedServicesLabels" >
-									    </canvas> <div >&nbsp;</div>
-										<div flex-xs layout="column">
-											<md-card md-theme-watch ng-show="showUsrInfoGrid">
-										        <md-card-title>
-										          <md-card-title-text>
-										            <span class="md-headline"><b>{{'Dashboard.InformationAB'|translate}}</b> </span><br/>
-										            <span class="md-subhead">
-										            	<md-icon md-svg-icon="/template/img/baseline-contacts-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick.user_Name"></span><br/>
-													    <md-icon md-svg-icon="/template/img/baseline-contact_mail-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick.user_Email"></span><br/>
-													    <md-icon md-svg-icon="/template/img/baseline-location_on-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick.user_Country"></span><br/>
-													    <md-icon md-svg-icon="/template/img/baseline-call-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick.user_Phone"></span><br/>
-										            </span>
-										          </md-card-title-text>
-										          <md-card-title-media>
-										            <div class="md-media-sm card-media">
-										            	<img ng-src="{{ imagePath }}" >
-										            </div>
-										          </md-card-title-media>
-										        </md-card-title>
-										        <md-card-actions layout="row" layout-align="end center">
-										          <md-button>{{'Dashboard.ShowCompletePInfo'|translate}}</md-button>
-										        </md-card-actions>
-										    </md-card>
-										</div> 
-									</div>
-								</div>
-								
-								
-								<div class="tz-2-main-1 tz-2-main-admin col-md-6">
-									<div class="tz-2-main-2"> 
-										<span style="color: black;">{{"Dashboard.ReportInfo.AwaitingConfirmation"|translate}}</span>
-										<canvas class="chart chart-pie" chart-click="loadUserInfoData4Accepting" chart-colors="colorsGrapicPYB" 
-											  	chart-data="servicesForAcceptingData" chart-labels="servicesForAcceptingLabels" >
-									    </canvas> <div >&nbsp;</div>
-										<div flex-xs layout="column">
-											<md-card md-theme-watch ng-show="showUsrInfoGrid4Accepting">
-										        <md-card-title>
-										          <md-card-title-text>
-										            <span class="md-headline"><b>{{'Dashboard.InformationAB'|translate}}</b> </span><br/>
-										            <span class="md-subhead">
-										            	<md-icon md-svg-icon="/template/img/baseline-contacts-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick4Accepting.user_Name"></span> <br/>
-													    <md-icon md-svg-icon="/template/img/baseline-contact_mail-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick4Accepting.user_Email"></span><br/>
-													    <md-icon md-svg-icon="/template/img/baseline-location_on-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick4Accepting.user_Country"></span><br/>
-													    <md-icon md-svg-icon="/template/img/baseline-call-24px.svg"></md-icon> <span style="font-size: 18px" ng-bind="userInfoClick4Accepting.user_Phone"></span><br/>
-										            </span>
-										          </md-card-title-text>
-										          <md-card-title-media>
-										            <div class="md-media-sm card-media">
-										            	<img ng-src="{{ imagePath }}" >
-										            </div>
-										          </md-card-title-media>
-										        </md-card-title>
-										        <md-card-actions layout="row" layout-align="end center">
-										          <md-button>{{'Dashboard.ShowCompletePInfo'|translate}}</md-button>
-										        </md-card-actions>
-										    </md-card> 
-									   	</div>
-									</div>
-								</div>
-															
-							</div>
-						</div>
-					</div>          	 -->
-
                     <md-divider></md-divider>
                     <!-- ng-show="cardType == 1" -->
                     <div ng-show='user.profileType!="Admin"'>
@@ -214,12 +147,43 @@
                                 <div class="box-inn-sp ad-inn-page">
                                     <md-card-content>
                                         <div class="tab-inn ad-tab-inn">
-                                            <div ng-show="pendingAppoinmentList.length ==0">
-                                                <h1 align="center">
+                                            <div
+                                                ng-show="pendingAppoinmentList.length ==0"
+                                                align="center"
+                                                style="margin-bottom: 25px"
+                                            >
+                                                <img
+                                                    src="../template/images/noUpcomingAppointments.svg"
+                                                    alt=""
+                                                    style="display: block; width: 20%;"
+                                                />
+                                                <h3
+                                                    style="font-size: large; color:#213548; font-weight:400; margin-bottom: 25px;
+                                                "
+                                                >
                                                     {{
                                                         'Dashboard.Table.NoAppointments' | translate
                                                     }}
-                                                </h1>
+                                                </h3>
+
+                                                <a
+                                                    ng-if="user.profileType=='User'"
+                                                    href="/list_procedures/procedure/0/location/all/category/0/country/all"
+                                                    style="
+                                                
+                                                padding: 5px 10px;
+                                                font-style:normal;
+                                                font-weight: 700;
+                                                font-size: 12px;
+                                                line-height: 25px;
+                                                background: #213548;
+                                                border-radius: 300px;
+                                                color: #F5F5F5;"
+                                                >
+                                                    {{
+                                                        'Dashboard.Table.FindDentists' | translate
+                                                    }}</a
+                                                >
                                             </div>
                                             <div class="container-grid">
                                                 <appointment-card
@@ -270,170 +234,22 @@
                     </div>
                     <div class="tz-2 tz-2-admin">
                         <div class="tz-2-com tz-2-main">
-                            <h4 align="center">
-                                {{ 'Dashboard.Table.Calendar' | translate }}
-                            </h4>
-
-                            <calendar-component
+                            <calendar-test
                                 ng-show='user.profileType!="Admin"'
                                 appointments="pendingAppoinmentList"
                                 highlighted-card="highlightedCard"
-                            ></calendar-component>
+                            ></calendar-test>
                         </div>
                     </div>
 
-                    <section></section>
-                    <div ng-show="user.profileType == 'Admin'">
-                        <div class="tz-2 tz-2-admin">
-                            <h4 align="center">{{ 'Dashboard.UsersTitleValue_' | translate }}</h4>
-                            <div class="split-row">
-                                <div class="col-md-12">
-                                    <div class="box-inn-sp ad-inn-page">
-                                        <md-card-content>
-                                            <div class="table-responsive">
-                                                <table
-                                                    datatable="ng"
-                                                    dt-instance="dtInstance"
-                                                    class="table table-hover"
-                                                    dt-options="dtOptions"
-                                                >
-                                                    <thead>
-                                                        <tr>
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.UserNameTitleRow'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.EmailTitleRow'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.JoinDateRow'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.CountryRow'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ng-repeat="user in allUsers">
-                                                            <td>
-                                                                {{ user.user_UserName }}
-                                                            </td>
-                                                            <td>
-                                                                {{ user.user_Email }}
-                                                            </td>
-                                                            <td>
-                                                                {{ user.user_CreationDate }}
-                                                            </td>
-                                                            <td>
-                                                                {{ user.user_Country }}
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </md-card-content>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <h4 align="center">
-                                {{ 'Dashboard.ProvidersTitleValue_' | translate }}
-                            </h4>
-                            <div class="split-row">
-                                <div class="col-md-12">
-                                    <div class="box-inn-sp ad-inn-page">
-                                        <md-card-content>
-                                            <div class="table-responsive">
-                                                <table
-                                                    datatable="ng"
-                                                    dt-instance="dtInstance"
-                                                    class="table table-hover"
-                                                    dt-options="dtOptions"
-                                                >
-                                                    <thead>
-                                                        <tr>
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.UserNameTitleRow'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.EmailTitleRow'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.JoinDateRow'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.CountryRow'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-
-                                                            <th>
-                                                                {{
-                                                                    'Dashboard.Table.Provider.Action'
-                                                                        | translate
-                                                                }}
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr ng-repeat="provider in allProviders">
-                                                            <td>
-                                                                {{ provider.provider_UserName }}
-                                                            </td>
-                                                            <td>
-                                                                {{ provider.provider_Email }}
-                                                            </td>
-                                                            <td>
-                                                                {{ provider.provider_CreationDate }}
-                                                            </td>
-                                                            <td>
-                                                                {{ provider.provider_Country }}
-                                                            </td>
-                                                            <td>
-                                                                <md-button
-                                                                    ng-href="/service_details?hospitalID={{
-                                                                        provider.provider_ID
-                                                                    }}"
-                                                                    class="md-accent"
-                                                                >
-                                                                    {{
-                                                                        'Dashboard.ViewProfileValue_'
-                                                                            | translate
-                                                                    }}
-                                                                </md-button>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </md-card-content>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <section>
+                        <admin-dashboard
+                            ng-if="user.profileType == 'Admin'"
+                            user="user"
+                            users="allUsers"
+                            providers="allProviders"
+                        ></admin-dashboard>
+                    </section>
                 </div>
             </div>
         </div>

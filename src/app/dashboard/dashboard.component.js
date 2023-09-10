@@ -16,6 +16,8 @@ angular
             'DTOptionsBuilder',
             '$location',
             '$anchorScroll',
+            'GlobalServices',
+
             function DashboardController(
                 $scope,
                 $mdDialog,
@@ -25,14 +27,15 @@ angular
                 $rootScope,
                 DTOptionsBuilder,
                 $location,
-                $anchorScroll
+                $anchorScroll,
+                GlobalServices
             ) {
                 $scope.video = { show: false }
 
-                $scope.user = $rootScope.user
-                $scope.priviliges = $rootScope.priviliges
-                $scope.dtInstance = []
+                $scope.user = {}
+                $scope.priviliges = {}
                 $scope.procedure = {}
+                const showToastMsg = GlobalServices.showToastMsg
                 getUser()
 
                 $scope.procedureSearchList = []
@@ -41,47 +44,10 @@ angular
                 $scope.allUsers = []
                 $scope.allProviders = []
 
-                $scope.colorsGrapicPYB = [
-                    '#FFEA00',
-                    '#FF3D00',
-                    '#F06292',
-                    '#4DD0E1',
-                    '#9CCC65',
-                    '#FFD54F',
-                    '#A1887F',
-                    '#607D8B',
-                    '#BA68C8',
-                    '#009688',
-                    '#E65100',
-                    '#FF1744',
-                    '#651FFF',
-                    '#00B0FF',
-                    '#00E676',
-                ]
-                $scope.colorsGrapicPYS = [
-                    '#3F51B5',
-                    '#FFC400',
-                    '#6D4C41',
-                    '#607D8B',
-                    '#7B1FA2',
-                    '#827717',
-                    '#BF360C',
-                    '#D500F9',
-                    '#2979FF',
-                    '#1DE9B6',
-                    '#C6FF00',
-                    '#FF9100',
-                    '#BDBDBD',
-                    '#18FFFF',
-                    '#B2FF59',
-                ]
-
-                $scope.proceduresChartLabels = []
                 $scope.proceduresGroupedByCategory = []
-                $scope.proceduresChartData = []
                 $scope.selectedAppointment = {}
                 $scope.highlightedCard = {}
-
+                //-------------------------------- Data for Provider
                 $scope.dataProviderObjects = []
                 $scope.acceptedServicesData = []
                 $scope.acceptedServicesLabels = []
@@ -89,18 +55,13 @@ angular
                 $scope.servicesForAcceptingLabels = []
                 $scope.pendingAppoinmentList = []
 
+                //-------------------------------- Data for User
                 $scope.dataUserObjects = []
                 $scope.notificationOfConsultationData = []
                 $scope.notificationOfConsultationLabels = []
                 $scope.hiredServicesData = []
                 $scope.hiredServicesLabels = []
                 $scope.hiredServicesObjs = []
-
-                $scope.servicesChartLabel = []
-                $scope.servicesChartData = []
-                $scope.series = ['Number of services', 'Average price in thousands']
-                $scope.servicesChartDataSerieA = []
-                $scope.servicesChartDataSerieB = []
 
                 $scope.userInfoClick = {}
 
@@ -113,14 +74,9 @@ angular
                 $scope.languageSelected = ''
 
                 $scope.isOpen = false
-                $scope.selectedMode = 'md-scale'
-
                 $scope.isOpenAction = false
-                $scope.selectedModeAction = 'md-scale'
 
-                $scope.imagePath = '.app/template/img/userImgageCard.png'
-
-                $scope.dtOptions = DTOptionsBuilder.newOptions().withDisplayLength(20)
+                $scope.imagePath = '/template/img/userImgageCard.png'
 
                 if ($location.hash()) {
                     setTimeout(() => {
@@ -132,13 +88,6 @@ angular
                 setInterval(() => {
                     getAppointments($scope.user.profileType)
                 }, 60000)
-
-                $scope.changeLanguage = function(lang) {
-                    console.log('DashBoard Lenguaje a :: ' + lang)
-                    $scope.languageSelected = lang
-                    $translate.use(lang)
-                    getUser()
-                }
 
                 $scope.load_demo_appointments = window.location.href.includes('load_demo')
 
@@ -187,41 +136,39 @@ angular
                     )
                 }
 
-                async function loadProcedureData() {
-                    const {
-                        data: procedures_by_category,
-                    } = await procedureManager.getProceduresByCategory()
-                    $scope.proceduresChartLabels = Object.keys(procedures_by_category)
-                    $scope.proceduresChartData = Object.values(procedures_by_category).map(
-                        x => x.length
-                    )
-                    $scope.proceduresGroupedByCategory = procedures_by_category
-                }
+                // async function loadProcedureData() {
+                //     const {
+                //         data: procedures_by_category,
+                //     } = await procedureManager.getProceduresByCategory()
+                //     $scope.proceduresChartLabels = Object.keys(procedures_by_category)
+                //     $scope.proceduresChartData = Object.values(procedures_by_category).map(
+                //         x => x.length
+                //     )
+                //     $scope.proceduresGroupedByCategory = procedures_by_category
+                // }
 
-                /**
-                 * @author jorgemedinabernal
-                 */
-                async function loadAllUserProcedures() {
-                    const {
-                        data: services_by_category,
-                    } = await DashboardServices.getAllServicesByCategory()
+                // async function loadAllUserProcedures() {
+                //     const {
+                //         data: services_by_category,
+                //     } = await dashboardManager.getAllServicesByCategory()
 
-                    $scope.servicesChartDataSerieA = Object.values(services_by_category).map(
-                        x => x.length
-                    )
-                    $scope.servicesChartLabel = Object.keys(services_by_category)
-                    $scope.servicesChartDataSerieB = Object.values(services_by_category).map(
-                        x => _.sumBy(x, 'price') / x.length / 1000
-                    )
+                //     $scope.servicesChartDataSerieA = Object.values(services_by_category).map(
+                //         x => x.length
+                //     )
+                //     $scope.servicesChartLabel = Object.keys(services_by_category)
+                //     $scope.servicesChartDataSerieB = Object.values(services_by_category).map(
+                //         x => sumBy(x, 'price') / x.length / 1000
+                //     )
 
-                    $scope.servicesChartData.push(
-                        $scope.servicesChartDataSerieA,
-                        $scope.servicesChartDataSerieB
-                    )
-                }
+                //     $scope.servicesChartData.push(
+                //         $scope.servicesChartDataSerieA,
+                //         $scope.servicesChartDataSerieB
+                //     )
+                // }
 
                 function loadProceduresTop10() {
-                    DashboardServices.getProceduresTop10()
+                    dashboardManager
+                        .getProceduresTop10()
                         .then(function(procedureData) {
                             $scope.procedureTop10 = procedureData.data
                         })
@@ -427,9 +374,9 @@ angular
                                 console.log('Unexpected Error : ' + '  ' + err)
                             })
                     } else if ($scope.user.profileType == GlobalEnums.AccountType.Admin) {
-                        loadProcedureData()
-                        loadAllUserProcedures()
-                        loadProceduresTop10()
+                        // loadProcedureData()
+                        // loadAllUserProcedures()
+                        // loadProceduresTop10()
                         loadAllUsers()
                         loadAllProviders()
                     }
