@@ -15,6 +15,7 @@ angular.module('core', [
     'core.contactUs',
     'core.profile',
     'core.dashboard',
+    'core.adminDashboard',
     'core.serviceManager',
     'core.followUp',
     'core.documents',

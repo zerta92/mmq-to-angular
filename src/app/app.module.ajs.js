@@ -23,6 +23,12 @@ import './core/dashboard/dashboard.service'
 import './dashboard/dashboard.module'
 import './dashboard/dashboard.component'
 
+/* Admin Dashboard */
+import './core/admin-dashboard/admin_dashboard.module'
+import './core/admin-dashboard/admin_dashboard.service'
+import './dashboard/admin-dashboard/admin_dashboard.module'
+import './dashboard/admin-dashboard/admin_dashboard.component'
+
 /* Profile */
 import './core/profile/profile.module'
 import './core/profile/profile.service'
@@ -136,7 +142,6 @@ export default angular
         'ngRoute',
         'ngAnimate',
         'ngMaterial',
-        'ngMeta',
         'ui.knob',
         'ngIntlTelInput',
         'vcRecaptcha',
@@ -146,6 +151,7 @@ export default angular
         'core',
         'ngCookies',
         'ngMap',
+        'ngMeta',
         'angular-loading-bar',
         'ngMessages',
         'indexModule',
@@ -169,6 +175,7 @@ export default angular
         'footerModule',
         'profileModule',
         'dashboardModule',
+        'adminDashboardModule',
         'dashboardMenuModule',
     ])
     .constant('_', window._)
@@ -404,160 +411,22 @@ export default angular
             }
 
             async function getUser() {
+                const userData = await GlobalServices.getUserProfile(
+                    $cookies.getObject('MyMedQuestC00Ki3') &&
+                        $cookies.getObject('MyMedQuestC00Ki3').token
+                )
+
                 try {
-                    const userData = await GlobalServices.getUserProfile(
-                        $cookies.getObject('MyMedQuestC00Ki3')?.token
-                    )
-                    if (userData.data.username !== undefined) {
-                        $scope.user.username = userData.data.username
-                        $scope.user.profileId = userData.data.profileId
-                        $scope.user.ID = userData.data.ID
-                        $scope.user.uniqueID = userData.data.uniqueID
-                        $scope.user.profileType = userData.data.profileType
-                        $scope.user.email = userData.data.email
-                        $scope.user.Skype = userData.data.Skype
-                        $scope.user.WhatsApp = userData.data.WhatsApp
-                        $scope.user.phone = userData.data.phone
-                        $scope.user.dateOfJoin = userData.data.dateOfJoin
-                        $scope.user.address = userData.data.addres
-                        $scope.user.status = userData.data.status
-                        $scope.user.street = userData.data.street
-                        $scope.user.country = userData.data.country
-                        $scope.user.city = userData.data.city
-                        $scope.user.state = userData.data.state
-                        $scope.user.postalCode = userData.data.postalCode
-                        $scope.user.timezone = userData.data.timezone
-                        $rootScope.user = $scope.user
-
-                        $rootScope.$emit('user-set')
-                        if (
-                            $scope.user.profileType != 'Admin' &&
-                            $scope.user.profileType != GlobalEnums.AccountType.User &&
-                            $scope.user.profileType != GlobalEnums.AccountType.Provider
-                        ) {
-                            location.href = '/index'
-                        } else {
-                            $scope.priviliges.remove = 1
-                            // $scope.priviliges.update = 1
-                            $scope.priviliges.create = 1
-                            $rootScope.priviliges = $scope.priviliges
-                            $rootScope.$emit('priviliges-set')
-                            if (
-                                $scope.user.profileType == GlobalEnums.AccountType.Provider ||
-                                $scope.user.profileType == 'Admin'
-                            ) {
-                                $scope.cardType = 1
-                                DashboardServices.getDataProviderInforDashBoard($scope.user.ID)
-                                    .then(function(dataReport) {
-                                        $scope.dataProviderObjects = dataReport.data
-
-                                        if (dataReport.data != undefined) {
-                                            if (dataReport.data.length != 0) {
-                                                dataReport.data.forEach(function(data_) {
-                                                    if (data_.CountToAccept !== 0) {
-                                                        $scope.servicesForAcceptingData.push(
-                                                            data_.CountToAccept
-                                                        )
-                                                        $scope.servicesForAcceptingLabels.push(
-                                                            '(' +
-                                                                data_.userId +
-                                                                ')' +
-                                                                data_.ServiceProcedureName
-                                                        )
-                                                    }
-
-                                                    if (data_.CountAccepted !== 0) {
-                                                        $scope.acceptedServicesData.push(
-                                                            data_.CountAccepted
-                                                        )
-                                                        $scope.acceptedServicesLabels.push(
-                                                            '(' +
-                                                                data_.userId +
-                                                                ')' +
-                                                                data_.ServiceProcedureName
-                                                        )
-                                                    }
-                                                })
-                                            }
-                                        }
-                                    })
-                                    .catch(function(err) {
-                                        console.log('Unexpected Error : ' + '  ' + err + '  ')
-                                    })
-
-                                DashboardServices.getPendingAppoinments($scope.user.ID)
-                                    .then(function(dataReport) {
-                                        $scope.pendingAppoinmentList = dataReport.data
-                                    })
-                                    .catch(function(err) {
-                                        GlobalServices.showToastMsg(
-                                            'MyMedQ_MSG.PleaseContactTheAdministrator',
-                                            'ERROR'
-                                        )
-                                        console.log('Unexpected Error : ' + '  ' + err + '  ')
-                                    })
-                            } else if ($scope.user.profileType == GlobalEnums.AccountType.User) {
-                                $scope.cardType = 2
-
-                                GlobalServices.getDataUserInforDashBoard($scope.user.ID)
-                                    .then(function(dataReport1) {
-                                        dataReport1.data.forEach(function(dataReport) {
-                                            $scope.notificationOfConsultationLabels.push(
-                                                '(' +
-                                                    dataReport.ProviderId +
-                                                    ')' +
-                                                    dataReport.ServiceProcedureName
-                                            )
-                                            $scope.notificationOfConsultationData.push(1)
-                                        })
-                                    })
-                                    .catch(function(err) {
-                                        GlobalServices.showToastMsg(
-                                            'MyMedQ_MSG.PleaseContactTheAdministrator',
-                                            'ERROR'
-                                        )
-                                        console.log('Unexpected Error : ' + '  ' + err + '  ')
-                                    })
-
-                                GlobalServices.getDataUserInforHiredServicesDashBoard(
-                                    $scope.user.ID
-                                )
-                                    .then(function(dataReport2) {
-                                        dataReport2.data.forEach(function(dataReport) {
-                                            $scope.notificationOfConsultationLabels.push(
-                                                dataReport.ServiceProcedureName
-                                            )
-                                            $scope.notificationOfConsultationData.push(1)
-                                        })
-                                    })
-                                    .catch(function(err) {
-                                        GlobalServices.showToastMsg(
-                                            'MyMedQ_MSG.PleaseContactTheAdministrator',
-                                            'ERROR'
-                                        )
-                                        console.log('Unexpected Error : ' + '  ' + err + '  ')
-                                    })
-
-                                GlobalServices.getUserAppoinments($scope.user.ID)
-                                    .then(function(dataReport) {
-                                        $scope.pendingAppoinmentList = dataReport.data
-                                    })
-                                    .catch(function(err) {
-                                        GlobalServices.showToastMsg(
-                                            'MyMedQ_MSG.PleaseContactTheAdministrator',
-                                            'ERROR'
-                                        )
-                                        console.log('Unexpected Error : ' + '  ' + err + '  ')
-                                    })
-                            } else if ($scope.user.profileType == 'Admin') {
-                                $scope.cardType = 3
-                            }
-                        }
+                    if (userData.data.username) {
+                        $scope.user = userData.data
+                        $scope.user.loggedIn = true
+                    } else {
+                        $scope.user.loggedIn = false
                     }
+                    $rootScope.user = $scope.user
                 } catch (err) {
-                    console.log(err)
-                    GlobalServices.showToastMsg('MyMedQ_MSG.PleaseContactTheAdministrator', 'ERROR')
-                    // location.href = '/login'
+                    $scope.user.loggedIn = false
+                    $rootScope.user = $scope.user
                 }
             }
 

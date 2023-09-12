@@ -16,6 +16,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
         '$rootScope',
         'ngMeta',
         '$route',
+        '$location',
         function ListDetailsController(
             $scope,
             ListServices,
@@ -29,7 +30,8 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             $cookies,
             $rootScope,
             ngMeta,
-            $route
+            $route,
+            $location
         ) {
             $scope.page_title = ''
             $scope.page_description = ''
@@ -55,8 +57,6 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             $scope.show_other_info = false
             $scope.submit = {}
             $scope.message = {}
-            $scope.isModalOpen = false
-            $scope.isContactProviderModalOpen = false
             $scope.providerInfo = {}
             $scope.user = {}
             $scope.headImage = {}
@@ -66,8 +66,8 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             $scope.ContentPDF = null
             $scope.isOpen = 'CLOSED'
 
-            $scope.hospitalId
-            $scope.reviewsObj = undefined
+            $scope.providerId
+            $scope.reviewsObj = {}
             $scope.averageData = {}
             $scope.showServiceOptionsData = false
 
@@ -75,6 +75,16 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             $scope.max = 5
             $scope.isReadonly = false
 
+            $scope.curentyear = new Date().getFullYear()
+            $scope.curentDate = new Date()
+
+            $scope.isModalOpen = false
+            $scope.isContactProviderModalOpen = false
+            const showToastMsg = GlobalServices.showToastMsg
+
+            $scope.has_url_language = $route.current.params.language
+                ? `/${$route.current.params.language}`
+                : ''
             $rootScope.$on('schedule-appointment-dialog-closed', function(event, args) {
                 $scope.isModalOpen = false
             })
@@ -83,7 +93,9 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 $scope.isContactProviderModalOpen = false
             })
 
-            const showToastMsg = GlobalServices.showToastMsg
+            function increasePageViews(provider_ID) {
+                GlobalServices.increasePageViews({ provider_ID })
+            }
 
             $scope.toggleBounce = function() {
                 if (this.getAnimation() != null) {
@@ -101,12 +113,8 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 }
             })()
 
-            $scope.openModal = function(params) {
+            $scope.openModal = function() {
                 $scope.isModalOpen = true
-            }
-
-            $scope.openContactProviderModal = function() {
-                $scope.isContactProviderModalOpen = true
             }
 
             $scope.ratingStates = [
@@ -121,7 +129,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 GlobalServices.getUserProfile(token).then(function(userData) {
                     if (userData.data.username !== undefined) {
                         $scope.user.username = userData.data.username
-                        $scope.user.name = userData.data.user_UserName
+                        $scope.user.name = userData.data.name
                         $scope.user.profileId = userData.data.profileId
                         $scope.user.ID = userData.data.ID
                         $scope.user.uniqueID = userData.data.uniqueID
@@ -131,7 +139,6 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         $scope.user.WhatsApp = userData.data.WhatsApp
                         $scope.user.phone = userData.data.phone
                         $scope.user.dateOfJoin = userData.data.dateOfJoin
-                        $scope.user.address = userData.data.addres
                         $scope.user.status = userData.data.status
                         $scope.user.street = userData.data.street
                         $scope.user.country = userData.data.country
@@ -139,6 +146,9 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         $scope.user.state = userData.data.state
                         $scope.user.postalCode = userData.data.postalCode
                         $scope.user.timezone = userData.data.timezone
+                        $scope.user.profilePic = userData.data.profilePic
+                        $scope.user.stripe_customer_id = userData.data.stripe_customer_id
+                        $scope.user.pageViews = userData.data.pageViews
                     } else {
                     }
                 })
@@ -187,8 +197,9 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 ListServices.getHospitalAttachments({ provider_ID: hospitalId }).then(function(
                     providerImages
                 ) {
-                    let header =
-                        'linear-gradient(to top, rgb(19, 21, 25) 14%, rgba(0, 0, 0, 0.55) 66%), url(/template/img/background/noPhotoYet.png)'
+                    // let header =
+                    //     'linear-gradient(to top, rgb(19, 21, 25) 14%, rgba(0, 0, 0, 0.55) 66%), url(/template/img/background/noPhotoYet.png)'
+                    let header = 'linear-gradient(to bottom, #263a78, #686565)'
                     if (providerImages.data.length != 0) {
                         providerImages.data.forEach(function(file_) {
                             if (!$scope.providerImages[file_.attachments_type]) {
@@ -215,25 +226,30 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                             }
                         })
                         if ($scope.providerImages[0]) {
-                            header = `linear-gradient(to top, rgb(19, 21, 25) 14%, rgba(0, 0, 0, 0.55) 66%), url(https://mymedquest.s3.us-east-2.amazonaws.com/providers/provider_${hospitalId}/${$scope.providerImages[
-                                '0'
-                            ][0].replace('MedQIMG_', '')}`
+                            const coverImageName = encodeURIComponent(
+                                $scope.providerImages['0'][0].replace('MedQIMG_', '')
+                            )
+                            //try putting the image in a img tag instead of as a background. maybe resize with multer?
+                            header = `linear-gradient(to top, rgb(19, 21, 25) 14%, rgba(0, 0, 0, 0.55) 66%), url(https://mymedquest.s3.us-east-2.amazonaws.com/providers/provider_${hospitalId}/${coverImageName})`
                         }
 
                         $scope.servicesImageList = $scope.providerImages['1']
                         $scope.carruselImageList = $scope.providerImages['2']
                     } else {
                     }
+
                     $scope.headImage = {
                         'margin-top': '60px',
                         background: header,
-                        'background-size': 'cover',
+                        'background-size': 'auto 500px',
+                        // 'background-repeat': 'no-repeat',
+                        // 'background-size': 'cover',
                         position: 'relative',
-                        padding: '250px 0px 70px 0px',
+                        padding: '150px 0px 70px 0px',
                         width: '100%',
                         'box-sizing': 'content-box',
                         content: '',
-                        top: '0px',
+                        top: '10px',
                         bottom: '0px',
                         left: '0px',
                     }
@@ -342,7 +358,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
 
             function getAllProviderServices(hospitalID) {
                 return new Promise(function(resolve) {
-                    ListServices.getProviderServicesGroupedByCategory({
+                    GlobalServices.getProviderServicesGroupedByCategory({
                         provider_ID: hospitalID,
                     }).then(function(procedureData) {
                         resolve(procedureData.data)
@@ -351,28 +367,31 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             }
 
             function setPageAttributes() {
+                /* Canonical tag */
+                const linkTag = document.createElement('link')
+                linkTag.setAttribute('rel', 'canonical')
+                linkTag.href = `https://mymedquest.com/service_details/provider/${$scope.provider.provider_ID}`
+                document.head.appendChild(linkTag)
+
                 const is_service_title = $scope.service
                     ? `${$scope.service.procedure_Name}`
-                    : `Dentist`
+                    : `Dentist | ${$scope.provider.provider_Name}`
 
-                const page_title = $sce.trustAsHtml(
-                    `${is_service_title} | ${$scope.provider.provider_City} (${$scope.provider.provider_Country}) | ${$scope.provider.provider_Name}`
-                )
+                const page_title = `${is_service_title} | ${$scope.provider.provider_City}, ${$scope.provider.provider_Country}`
                 ngMeta.setTitle(page_title)
                 const page_description = `Book an online or in-person consultation now. ${$scope
                     .provider.provider_Description &&
                     $scope.provider.provider_Description.slice(0, 150)}`
-                // const page_description =
-                // ($scope.provider.provider_Description &&
-                //     $scope.provider.provider_Description.slice(0, 150)) ||
-                //     $scope.service.procedure_DescriptionFull.slice(0, 150) + '...'
 
                 ngMeta.setTag('description', page_description)
+
+                // const script = angular.element(document.getElementById('structured-data'))[0]
                 const script = document.createElement('script')
                 script.setAttribute('type', 'application/ld+json')
-                script.textContent = JSON.stringify({
+
+                script.textContent = angular.toJson({
                     '@context': 'https://schema.org',
-                    '@type': 'Dental Clinic',
+                    '@type': 'Dentist',
                     name: $scope.provider.provider_Name,
                     address: {
                         '@type': 'PostalAddress',
@@ -401,9 +420,10 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         },
                     ],
                 })
-                if ($scope.service) {
-                    script.priceRange = `$${$scope.service.priceRange || $scope.service.price}`
-                }
+
+                // if ($scope.service) {
+                //     script.priceRange = `$${$scope.service.priceRange || $scope.service.price}`
+                // }
                 document.head.appendChild(script)
             }
 
@@ -416,19 +436,19 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                     unique_languages || $scope.provider.provider_yearsOfExperience
             }
 
+            $scope.openContactProviderModal = function() {
+                $scope.isContactProviderModalOpen = true
+            }
+
             async function getProviderData(provider_ID) {
                 const [provider] = await Promise.all([
-                    ListServices.findProvider(provider_ID),
+                    GlobalServices.findProvider(provider_ID),
                     $scope.getStaffList(provider_ID),
                 ])
                 $scope.providerInfo = provider.data[0]
                 $scope.provider = $scope.providerInfo
+                increasePageViews($scope.provider.provider_ID)
                 showOtherInfo()
-                createDynamicProviderDescription()
-
-                if ($scope.user.ID == $scope.provider.provider_ID && !$scope.has_services) {
-                    $scope.showProviderBanner = true
-                }
 
                 $scope.geoPoints = {
                     lat: $scope.provider.provider_latitude,
@@ -476,18 +496,27 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 $scope.reviewsInfoData = []
                 $scope.airbnbInfoData = []
                 $scope.serviceOptions = []
-                const language = $route.current.params.language
 
-                if (window.location.href.includes('hospitalID')) {
-                    $scope.hospitalId = $route.current.params.hospitalID
-                    const all_provider_services_list = await getAllProviderServices(
-                        $scope.hospitalId
-                    )
+                const { providerId, procedureId, language } = $route.current.params
+
+                if (providerId) {
+                    $scope.providerId = providerId
+
+                    const [all_provider_services_list] = await Promise.all([
+                        getAllProviderServices($scope.providerId),
+                        getProviderData($scope.providerId),
+                    ])
+                    $scope.has_services = Object.keys(all_provider_services_list).length
+
+                    if ($scope.user.ID == $scope.provider.provider_ID && !$scope.has_services) {
+                        $scope.showProviderBanner = true
+                    }
+                    setPageAttributes()
                     const all_services = Object.values(all_provider_services_list).flat()
 
                     $scope.procedure_price_by_provider = all_services.map(p => {
                         return {
-                            provider_ID: +$scope.hospitalId,
+                            provider_ID: +$scope.providerId,
                             procedure_ID: p.procedure_ID,
                             procedure_Name: p.procedure_Name,
                             price: p.servicePrice,
@@ -498,7 +527,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                     })
 
                     $scope.servicesList = all_provider_services_list
-                    $scope.has_services = Object.keys(all_provider_services_list).length
+
                     if ($scope.has_services) {
                         $scope.categories_by_provider = _.uniq(
                             Object.keys(all_provider_services_list)
@@ -510,38 +539,28 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                                     return service.category_Name
                                 })
                         )
+                        createDynamicProviderDescription()
                     }
-                    getServicesImageCSS($scope.hospitalId)
+                    getServicesImageCSS($scope.providerId)
 
-                    await getProviderData($scope.hospitalId)
+                    getReviewsAverage($scope.providerId)
+                    getAllReviewsData($scope.providerId)
 
-                    getReviewsAverage($scope.hospitalId)
-                    getAllReviewsData($scope.hospitalId)
-
-                    if (window.location.href.includes('procedure')) {
-                        var urlParamProcedure = $route.current.params.procedure
-                    }
-                    if (urlParamProcedure !== undefined) {
-                        // $scope.servicesList = all_provider_services_list.filter(
-                        //     s => s.procedure_ID != urlParamProcedure
-                        // )
-
+                    if (procedureId) {
                         ListServices.findServiceByProvider(
-                            $scope.hospitalId,
-                            urlParamProcedure,
+                            $scope.providerId,
+                            procedureId,
                             language
                         ).then(async function(service) {
                             if (service.data.length == 0) {
                                 showToastMsg(
                                     $scope.setLanguage == 'SP'
-                                        ? 'Servicio no encontrado. IntÃ©ntalo de nuevo'
+                                        ? 'Servicio no encontrado. Inténtalo de nuevo'
                                         : 'Service not found. please try again',
                                     'ERROR'
                                 )
                             } else {
                                 $scope.service = service.data[0]
-
-                                setPageAttributes()
 
                                 const {
                                     data: documentsData,
@@ -549,7 +568,6 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                                     service.data[0].service_ID
                                 )
                                 $scope.requiredDocuments = documentsData
-
                                 const {
                                     data: brandList,
                                 } = await BrandServices.getSelectedProcedureBrands({
@@ -559,7 +577,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                             }
                         })
                     } else {
-                        setPageAttributes()
+                        // setPageAttributes()
                     }
                 } else {
                     var confirm = $mdDialog
@@ -571,7 +589,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         )
                         .textContent(
                             $scope.setLanguage == 'SP'
-                                ? 'Servicio no encontrado. IntÃ©ntalo de nuevo'
+                                ? 'Servicio no encontrado. Inténtalo de nuevo'
                                 : 'Service not found. please try again'
                         )
                         .ariaLabel(
@@ -593,35 +611,6 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 }
             }
             $scope.loadUrlData()
-
-            $scope.sendMessage = function(selectedService, user) {
-                selectedService.messageType = 'Message'
-                if (!$scope.user.ID) {
-                    showToastMsg('MyMedQ_MSG.List.NeedLogIngE1', 'ERROR')
-                } else if (user.ID == selectedService.provider_ID) {
-                    showToastMsg('MyMedQ_MSG.List.NeedLogIngE2', 'ERROR')
-                } else if (user.profileType == 'Provider') {
-                    showToastMsg('MyMedQ_MSG.List.NeedLogIngE3', 'ERROR')
-                } else {
-                    ListServices.contactProvider(selectedService, user).then(function(message) {
-                        if (message.data.status < 0) {
-                            $scope.submit.confirmation = message.data.message
-                            showToastMsg('MyMedQ_MSG.List.RequestErrorE2', 'ERROR')
-                        } else {
-                            $scope.message.confirmation =
-                                'Your message has been sent, please wait for the hospital to reply'
-                            showToastMsg('MyMedQ_MSG.List.AppSuccessMsg1', 'SUCCESS')
-                        }
-                    })
-                }
-            }
-
-            $scope.goToService = function(provider_ID, procedure_ID) {
-                const has_url_language = $route.current.params.language
-                    ? `/${$route.current.params.language}`
-                    : ''
-                window.location = `${has_url_language}/service_details?hospitalID=${provider_ID}&procedure=${procedure_ID}`
-            }
 
             /**
              * @author Jorge Medina
@@ -652,6 +641,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         ($scope.currentPage + 1) * $scope.pageSize
                     )
                 } else {
+                    //showToastMsg( 'MyMedQ_MSG.List.ServicesNFE1',"INFO")
                     $scope.reviewsInfoDataShown = []
                 }
             }
@@ -672,55 +662,38 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 )
             }
 
-            /**
-             * @author Jorge Medina
-             */
             $scope.showMenu = function(ev, data_, indice) {
                 $scope.ContentPDF = true
                 const name = data_.attachments_name.replace('MedQIMG_', '')
                 $scope.shown_document = `https://mymedquest.s3.us-east-2.amazonaws.com/staff/provider_${$scope.provider.provider_ID}/${name}`
+                $scope.ContentPDF = $sce.trustAsResourceUrl($scope.shown_document)
                 $mdDialog.show({
-                    contentElement: '#myDialog',
+                    contentElement: '#documentViewer',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true,
                 })
-                return
-                if (data_ != null) {
-                    var currentBlob = new Blob([base64ToUint8Array(data_)], {
-                        type: 'application/pdf',
-                    })
-                    var documentViwerData = URL.createObjectURL(currentBlob)
-                    $scope.ContentPDF = $sce.trustAsResourceUrl(documentViwerData)
-
-                    $mdDialog.show({
-                        contentElement: '#myDialog',
-                        parent: angular.element(document.body),
-                        targetEvent: ev,
-                        clickOutsideToClose: true,
-                    })
-                }
             }
 
             /**
              * @author Jorge Medina
              */
             $scope.writeReview = async function() {
-                if ($scope.reviewsObj == undefined) {
-                    showToastMsg('MyMedQ_MSG.ListDetail.TypeTheRequeE1', 'INFO')
+                if (Object.keys($scope.reviewsObj) == 0) {
+                    showToastMsg('MyMedQ_MSG.ListDetail.TypeTheRequeE1', 'ERROR')
                     return
                 } else if ($scope.reviewsObj.provider_review_userWhoWrite.trim() == '') {
-                    showToastMsg('MyMedQ_MSG.ListDetail.TypeTheRequeE2', 'INFO')
+                    showToastMsg('MyMedQ_MSG.ListDetail.TypeTheRequeE2', 'ERROR')
                     return
                 } else if ($scope.reviewsObj.provider_review_description == undefined) {
-                    showToastMsg('MyMedQ_MSG.ListDetail.TypeTheRequeE6', 'INFO')
+                    showToastMsg('MyMedQ_MSG.ListDetail.TypeTheRequeE6', 'ERROR')
                     return
                 } else if ($scope.reviewsObj.provider_review_score == undefined) {
-                    showToastMsg('MyMedQ_MSG.ListDetail.TypeTheRequeE7', 'INFO')
+                    showToastMsg('MyMedQ_MSG.ListDetail.TypeTheRequeE7', 'ERROR')
                     return
                 }
 
-                $scope.reviewsObj.provider_ID = $scope.hospitalId
+                $scope.reviewsObj.provider_ID = $scope.providerId
                 $scope.reviewsObj.providers_staff_ID = null
                 $scope.reviewsObj.provider_review_status = 1
 
@@ -736,8 +709,8 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         if (reviewSavedId.data.status > 0) {
                             showToastMsg('Review Successfully Saved', 'SUCCESS')
                             $scope.reviewsObj = {}
-                            getReviewsAverage($scope.hospitalId)
-                            getAllReviewsData($scope.hospitalId)
+                            getReviewsAverage($scope.providerId)
+                            getAllReviewsData($scope.providerId)
                         } else {
                             showToastMsg('MyMedQ_MSG.ListDetail.ErrorSavindRDataE1', 'ERROR')
                             return false
@@ -758,7 +731,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 new Promise(function(resolve, reject) {
                     $scope.reviewsObj = {}
                     $scope.reviewsObj.provider_review_score = $scope.overStar
-                    $scope.reviewsObj.provider_ID = $scope.hospitalId
+                    $scope.reviewsObj.provider_ID = $scope.providerId
                     $scope.reviewsObj.providers_staff_ID = staffId
                     $scope.reviewsObj.provider_review_status = 1
 
@@ -801,6 +774,22 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                 return view
             }
 
+            $scope.parseOpenTime = function(open_time, close_time) {
+                const open_hour = +open_time.split(':')[0]
+                const close_hour = +close_time.split(':')[0]
+
+                const open_am_or_pm = open_hour >= 12 ? 'PM' : 'AM'
+                const close_am_or_pm = close_hour >= 12 ? 'PM' : 'AM'
+
+                return `${open_time} ${open_am_or_pm} - ${close_time} ${close_am_or_pm}`
+            }
+
+            $scope.parseDaysOpen = function(days_string) {
+                const days_array = days_string.split(',')
+
+                return `${days_array[0]} - ${days_array[days_array.length - 1]}`
+            }
+
             $scope.openConsultationInformationModal = async function(ev) {
                 const consultation_information = await GlobalServices.getConsultationInformation()
                 $mdDialog
@@ -808,12 +797,8 @@ angular.module('listDetailsModule').component('listDetailsModule', {
                         locals: {
                             consultationInformation: consultation_information.data.htmlTerms,
                         },
-                        controller: [
-                            '$scope',
-                            'consultationInformation',
-                            consultationInfoDialogController,
-                        ],
-                        templateUrl: 'app/pages/modals/consultation_information.template.html',
+                        controller: consultationInfoDialogController,
+                        templateUrl: '/dialogTemplate/ConsultationInformation.html',
                         parent: angular.element(document.body),
                         targetEvent: ev,
                         clickOutsideToClose: true,
@@ -828,7 +813,7 @@ angular.module('listDetailsModule').component('listDetailsModule', {
             }
 
             function consultationInfoDialogController($scope, consultationInformation) {
-                $scope.consultationInformation = $sce.trustAsHtml(consultationInformation)
+                $scope.consultationInformation = consultationInformation
 
                 $scope.cancel = function() {
                     $mdDialog.cancel()

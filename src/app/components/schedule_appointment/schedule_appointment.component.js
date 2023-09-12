@@ -26,54 +26,73 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
         ) {
             var ctrl = this
             const showToastMsg = GlobalServices.showToastMsg
-
             let modalIsOpened = false
+
             this.$onChanges = function(vars) {
                 if (angular.isDefined(vars)) {
                     ctrl.user.method = 'Video' //default consultation method
-                    if (ctrl.service) {
-                        ctrl.selectedService = ctrl.service //default service loaded to populate dropdown
 
-                        if (ctrl.isModalOpen && !modalIsOpened) {
-                            modalIsOpened = true
-                            $mdDialog
-                                .show({
-                                    locals: {
-                                        service: ctrl.service,
-                                        user: ctrl.user,
-                                        provider: ctrl.provider,
-                                        servicesList: ctrl.servicesList,
-                                        documents: ctrl.documents,
-                                    },
-                                    controller: [
-                                        'service',
-                                        'user',
-                                        'provider',
-                                        'servicesList',
-                                        'documents',
-                                        ScheduleAppointmentControllerModal,
-                                    ],
-                                    controllerAs: 'vm',
-                                    templateUrl:
-                                        './app/components/schedule_appointment/schedule_appointment.component.html',
-                                    parent: angular.element(document.body),
-                                    // targetEvent: ev,
-                                    clickOutsideToClose: false,
-                                    fullscreen: false,
-                                })
-                                .then(function() {
-                                    $rootScope.$broadcast('schedule-appointment-dialog-closed')
-                                    modalIsOpened = false
-                                    return
-                                })
-                                .catch(function() {
-                                    return
-                                })
-                        }
+                    ctrl.selectedService = ctrl.service //default service loaded to populate dropdown
+                    if (ctrl.isModalOpen && !modalIsOpened) {
+                        modalIsOpened = true
+                        // $rootScope.trackCustomerAction({
+                        //     action: 'opened_schedule_consultation_window',
+                        //     url: $location.absUrl(),
+                        //     agent: window.navigator.userAgent,
+                        // })
+
+                        window.dataLayer = window.dataLayer || []
+                        dataLayer.push({
+                            event: 'formSubmission',
+                            formType: 'Open Consultation Modal',
+                        })
+
+                        $mdDialog
+                            .show({
+                                locals: {
+                                    service: ctrl.service,
+                                    user: ctrl.user,
+                                    provider: ctrl.provider,
+                                    servicesList: ctrl.servicesList,
+                                    documents: ctrl.documents,
+                                },
+                                controller: [
+                                    'service',
+                                    'user',
+                                    'provider',
+                                    'servicesList',
+                                    'documents',
+                                    ScheduleAppointmentControllerModal,
+                                ],
+                                controllerAs: 'vm',
+                                templateUrl:
+                                    './app/components/schedule_appointment/schedule_appointment.component.html',
+                                parent: angular.element(document.body),
+                                // targetEvent: ev,
+                                clickOutsideToClose: false,
+                                fullscreen: false,
+                            })
+                            .then(function() {
+                                $rootScope.$broadcast('schedule-appointment-dialog-closed')
+                                modalIsOpened = false
+                                return
+                            })
+                            .catch(function() {
+                                return
+                            })
                     }
                 }
             }
+            ctrl.submit = {}
+            ctrl.optionItems = {}
+            ctrl.selectedService = {}
 
+            let OptionsSelected = []
+            let firstOption = ''
+            let addedOptions = []
+            let noOptions = true
+
+            var shoppingCartAmount = 0
             function ScheduleAppointmentControllerModal(
                 service,
                 user,
@@ -88,6 +107,9 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
                 ctrl.user = user
                 ctrl.provider = provider
                 ctrl.documents = documents
+                ctrl.submit = {}
+                ctrl.optionItems = {}
+
                 ctrl.goTo = function(redirect_to) {
                     ctrl.closeModal()
                     /* Allows for the modal to be dismissed */
@@ -98,7 +120,7 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
                         $location.url(`/${redirect_to}`)
                         $location.search(
                             'redirect_to',
-                            `/service_details?hospitalID=${hospitalID}&procedure=${procedure}`
+                            `/service_details/provider/${hospitalID}/service/${procedure}`
                         )
                     }, 1000)
                 }
@@ -111,12 +133,13 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
                     if (invalid) {
                         return
                     }
+
                     ctrl.closeModal()
 
                     if (!ctrl.user.ID) {
                         showToastMsg('MyMedQ_MSG.List.NeedLogIngE1', 'ERROR')
                     } else if (
-                        ctrl.user.ID == ctrl.service.provider_ID &&
+                        ctrl.user.ID == service.provider_ID &&
                         ctrl.user.profileType == 'Provider'
                     ) {
                         showToastMsg('MyMedQ_MSG.List.SingOwnPE1', 'ERROR')
@@ -124,17 +147,16 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
                         showToastMsg('MyMedQ_MSG.List.NeedLogIngE3', 'ERROR')
                     } else {
                         const serviceToSchedule = angular.copy(service)
-                        serviceToSchedule.messageType = 'Consultation'
+                        serviceToSchedule.messageType =
+                            ctrl.selectedService.messageType || 'Consultation'
                         serviceToSchedule.service_ID = ctrl.selectedService.service_ID
                         serviceToSchedule.procedure_Name = ctrl.selectedService.procedure_Name
                         serviceToSchedule.price = ctrl.selectedService.price
                         serviceToSchedule.service_consultationCost =
                             ctrl.selectedService.service_consultationCost
                         serviceToSchedule.procedure_ID = ctrl.selectedService.procedure_ID
-                        serviceToSchedule.service_PriceFactor =
-                            ctrl.selectedService.service_PriceFactor
 
-                        ListServices.requestAppointment(serviceToSchedule, user).then(function(
+                        GlobalServices.requestAppointment(serviceToSchedule, user).then(function(
                             appointment
                         ) {
                             if (appointment.data.status == -2) {
@@ -151,6 +173,11 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
                                 ctrl.submit.confirmation =
                                     'Your request has been submitted, please wait for the hospital to confirm'
                                 showToastMsg('MyMedQ_MSG.List.RequestOkSuccessMsg1', 'SUCCESS')
+                                window.dataLayer = window.dataLayer || []
+                                dataLayer.push({
+                                    event: 'formSubmission',
+                                    formType: 'Schedule Consultation',
+                                })
                                 //recursive function to add option items to cart
                                 var addServiceWithoutOptions = true
                                 Object.keys(optionItems).forEach(function(key) {
@@ -204,18 +231,6 @@ angular.module('scheduleAppointmentModule').component('scheduleAppointment', {
                     }
                 }
             }
-
-            ctrl.submit = {}
-            ctrl.serviceOptions = []
-            ctrl.optionItems = {}
-            ctrl.selectedService = {}
-
-            const OptionsSelected = []
-            let firstOption = ''
-            let addedOptions = []
-            let noOptions = true
-
-            var shoppingCartAmount = 0
 
             function prepareService(
                 globalCartID,

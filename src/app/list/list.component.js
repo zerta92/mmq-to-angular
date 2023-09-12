@@ -16,6 +16,11 @@ angular.module('listModule').component('listModule', {
         '$mdSidenav',
         '$location',
         '$cookies',
+        '$sce',
+        '$route',
+        'ngMeta',
+        // 'title',
+
         function ListController(
             $rootScope,
             $scope,
@@ -29,26 +34,29 @@ angular.module('listModule').component('listModule', {
             $window,
             $mdSidenav,
             $location,
-            $cookies
+            $cookies,
+            $sce,
+            $route,
+            ngMeta
+            // title
         ) {
-            const showToastMsg = GlobalServices.showToastMsg
+            // ngMeta.setTitle(title)
+            // $scope.pageTitle = title
             $scope.displayedListLength = 0
             $scope.servicesList = []
+            $scope.filteredServicesList = []
             $scope.servicesListAll = []
-
+            $scope.isModalOpen = false
             $scope.procedure_price_by_provider = {}
             $scope.procedure_price_by_provider_first = {}
             $scope.procedure_price_by_provider_extra = {}
 
             $scope.allServicesList = []
             $scope.selectedService = {}
-            $scope.isModalOpen = false
-            $scope.isContactProviderModalOpen = false
             $scope.requiredDocuments = []
             $scope.submit = {}
-            // $scope.serviceOptions = []
-            // $scope.optionItems = {}
-            // $scope.selectedItems = {}
+            $scope.locationDescription = ''
+
             $scope.message = {}
             $scope.breadcrumbsList = {}
             $scope.user = {}
@@ -64,33 +72,45 @@ angular.module('listModule').component('listModule', {
             $scope.user_search_location = undefined
             let distance_filter_used = false
             $scope.disable_distance_filtering = false
-
-            $scope.globalCartID = ''
+            // const geoCodedServices = []
+            // globalCartID = null
+            // $scope.globalCartID = ''
 
             $scope.categoryList = []
-            $scope.countryList = []
+            $scope.countryList = [
+                {
+                    label: 'Mexico',
+                    value: 'Mexico',
+                },
+                {
+                    label: 'United States',
+                    value: 'United States',
+                },
+            ]
 
             $scope.zoomVar = 5
-            $scope.numResultPerPages = 0
-            $scope.actResultPerPages = 1
 
             $scope.categorySearch
             $scope.countrySearch
             $scope.show_provider_only = false
-            $scope.centeredLocationMap = 'current-location'
+            $scope.centeredLocationMap
 
             $scope.showServiceOptionsData = false
 
             //pagination
             $scope.currentPage = 0
-            $scope.pageSize = 15
-            $scope.resulPerPage = 15
+            $scope.numResultPerPages = 0
+            $scope.pageSize = 5
+            $scope.resulPerPage = 5
             $scope.showGridMap = false
             $scope.coordinatesList = []
 
             $scope.searchObj = {}
 
             $scope.scroller = { defaultDistance: 100 }
+            $scope.consultation_price_scroller = {
+                defaultPrice: 10,
+            }
             $scope.distance_scroll_options = {
                 size: 205,
                 unit: ' KM',
@@ -108,19 +128,23 @@ angular.module('listModule').component('listModule', {
                 displayPrevious: true,
             }
             $scope.star_filter = { provider_review_score: 0 }
+            $scope.isContactProviderModalOpen = false
+
+            $rootScope.$on('contact-provider-dialog-closed', function(event, args) {
+                $scope.isContactProviderModalOpen = false
+            })
 
             $rootScope.$on('schedule-appointment-dialog-closed', function(event, args) {
                 $scope.isModalOpen = false
             })
-            $rootScope.$on('contact-provider-dialog-closed', function(event, args) {
-                $scope.isContactProviderModalOpen = false
-            })
+
+            const showToastMsg = GlobalServices.showToastMsg
 
             function getUser(token) {
                 GlobalServices.getUserProfile(token).then(function(userData) {
                     if (userData.data.username !== undefined) {
                         $scope.user.username = userData.data.username
-                        $scope.user.name = userData.data.user_UserName
+                        $scope.user.name = userData.data.name
                         $scope.user.profileId = userData.data.profileId
                         $scope.user.ID = userData.data.ID
                         $scope.user.uniqueID = userData.data.uniqueID
@@ -130,7 +154,6 @@ angular.module('listModule').component('listModule', {
                         $scope.user.WhatsApp = userData.data.WhatsApp
                         $scope.user.phone = userData.data.phone
                         $scope.user.dateOfJoin = userData.data.dateOfJoin
-                        $scope.user.address = userData.data.addres
                         $scope.user.status = userData.data.status
                         $scope.user.street = userData.data.street
                         $scope.user.country = userData.data.country
@@ -138,6 +161,9 @@ angular.module('listModule').component('listModule', {
                         $scope.user.state = userData.data.state
                         $scope.user.postalCode = userData.data.postalCode
                         $scope.user.timezone = userData.data.timezone
+                        $scope.user.profilePic = userData.data.profilePic
+                        $scope.user.stripe_customer_id = userData.data.stripe_customer_id
+                        $scope.user.pageViews = userData.data.pageViews
                     } else {
                     }
                 })
@@ -145,19 +171,25 @@ angular.module('listModule').component('listModule', {
 
             $scope.filterByStars = async function(value, star_review) {
                 let services_to_filter = []
+
                 if (distance_filter_used) {
                     services_to_filter = await $scope.changeOptionsDistanceScroll()
                 } else {
                     services_to_filter = $scope.servicesListAll
                 }
-                const filtered_services_list = services_to_filter.filter(service => {
+                let filtered_services_list = services_to_filter.filter(service => {
                     if (!value && service.provider_review_score >= star_review) {
                         return service
                     } else if (value) {
                         return service
                     }
                 })
-                setPagination(filtered_services_list)
+
+                if ($scope.show_provider_only) {
+                    filtered_services_list = _.uniqBy(filtered_services_list, 'provider_ID')
+                }
+                setPagination(filtered_services_list, false)
+                return filtered_services_list
             }
 
             /**
@@ -199,17 +231,15 @@ angular.module('listModule').component('listModule', {
                 return q.promise
             }
 
-            /**
-             * @author Jorge Medina
-             */
             $scope.parseUrl = function() {
                 $scope.servicesList = []
                 async function makeSearchPromise() {
                     await GlobalServices.customerIPHandler()
                     var q = $q.defer()
-                    $scope.countryList = getMainCountryMatchesAll()
+
                     var paramSearch = getUrlParams()
 
+                    getLocationDescription(paramSearch.location)
                     if (paramSearch != null) {
                         $scope.countrySearch = $scope.countrySearch.replace(/%20/g, ' ')
                         ListServices.findServicesBySearchTerms(JSON.stringify(paramSearch))
@@ -217,7 +247,7 @@ angular.module('listModule').component('listModule', {
                                 $scope.servicesListAll = serviceResultAll_.data.services
                                 let filteredServicesList = serviceResultAll_.data.services
                                 $scope.user_actual_location.city = serviceResultAll_.data.location
-
+                                $scope.centeredLocationMap = serviceResultAll_.data.location
                                 if (serviceResultAll_.data.services) {
                                     if (serviceResultAll_.data.services.length) {
                                         $scope.procedure_price_by_provider = _.groupBy(
@@ -235,6 +265,7 @@ angular.module('listModule').component('listModule', {
                                             }),
                                             'provider_ID'
                                         )
+
                                         $scope.procedure_price_by_provider_first = _.groupBy(
                                             Object.values($scope.procedure_price_by_provider)
                                                 .map(v => v.slice(0, 10))
@@ -249,22 +280,10 @@ angular.module('listModule').component('listModule', {
                                             i => i.provider_ID
                                         )
 
-                                        if ($scope.searchObj.procedureId !== '0') {
-                                            const prefix = await GlobalServices.getTranslation(
-                                                'List.TitleDentistsFor'
-                                            )
-                                            $scope.pageTitle = `${prefix} ${serviceResultAll_.data.services[0].procedure_Name}`
-                                            if (
-                                                $scope.searchObj.location &&
-                                                $scope.searchObj.location != 'undefined'
-                                            ) {
-                                                $scope.pageTitle = `${prefix} ${serviceResultAll_.data.services[0].procedure_Name} In ${$scope.searchObj.location}`
-                                            }
-                                        } else if ($scope.searchObj.location != 'undefined') {
-                                            const prefix = await GlobalServices.getTranslation(
-                                                'List.TitleDentistsIn'
-                                            )
-                                            $scope.pageTitle = `${prefix} ${$scope.searchObj.location}`
+                                        if (
+                                            $scope.searchObj.location != 'undefined' &&
+                                            $scope.searchObj.location != 'all'
+                                        ) {
                                             /* if only searching by location, show single instance of clinic */
                                             $scope.show_provider_only = true
                                             filteredServicesList = _.uniqBy(
@@ -275,19 +294,16 @@ angular.module('listModule').component('listModule', {
                                             $scope.searchObj.categoryId &&
                                             $scope.searchObj.categoryId != '0'
                                         ) {
-                                            $scope.pageTitle = `Top ${serviceResultAll_.data.services[0].category_Name} Dentists and Clinics`
-
                                             /* if only searching by location, show single instance of clinic */
                                             $scope.show_provider_only = true
                                             filteredServicesList = _.uniqBy(
                                                 $scope.servicesListAll,
                                                 'provider_ID'
                                             )
-                                        } else {
-                                            $scope.pageTitle = `Top Dentists and Clinics`
                                         }
                                     }
 
+                                    $scope.filteredServicesList = filteredServicesList
                                     q.resolve(filteredServicesList)
                                 } else {
                                     q.reject('SERVICE_LIST_NOT_FOUND')
@@ -295,7 +311,6 @@ angular.module('listModule').component('listModule', {
                             })
                             .catch(function(err) {
                                 showToastMsg('MyMedQ_MSG.PleaseContactTheAdministrator', 'ERROR')
-                                console.log('Unexpected Error : ' + '  ' + err)
                                 q.reject('Error making the search..')
                             })
                     } else {
@@ -306,6 +321,7 @@ angular.module('listModule').component('listModule', {
                 }
 
                 $scope.promise = makeSearchPromise()
+
                 $scope.promise
                     .then(function(services) {
                         return getRelativeLocationForServices(services)
@@ -364,31 +380,43 @@ angular.module('listModule').component('listModule', {
             $scope.parseUrl()
 
             $scope.goToService = function(service) {
-                $window.location.href = `/service_details?hospitalID=${service.provider_ID}&procedure=${service.procedure_ID}`
+                $window.location.href = `/service_details/provider/${service.provider_ID}/service/${service.procedure_ID}`
+            }
+
+            async function getLocationDescription(location) {
+                if (!location) {
+                    return
+                }
+                const { data: locationDescription } = await ListServices.getLocationDescription({
+                    location: location.split(',')[0],
+                })
+
+                $scope.locationDescription = $sce.trustAsHtml(locationDescription)
+            }
+
+            $scope.encodeUrl = url => {
+                return encodeURIComponent(url)
             }
 
             function getUrlParams() {
-                if (
-                    window.location.href.includes('procedure') &&
-                    window.location.href.includes('location')
-                ) {
-                    const search = $location.search()
-                    if (search.location === 'undefined') {
+                const { procedure, location, category, country } = $route.current.params
+                if (procedure && location) {
+                    if (location === 'all') {
                         use_set_location = false
                     } else {
-                        $scope.user_search_location = search.location
+                        $scope.user_search_location = location
                     }
-                    $scope.categorySearch = search.category
-                    $scope.procedureSearch = search.procedure == '0' ? 0 : search.procedure
-                    $scope.countrySearch = search.country
+                    $scope.categorySearch = category
+                    $scope.procedureSearch = procedure == '0' ? 0 : procedure
+                    $scope.countrySearch = country
+                    $scope.locationSearch = location
 
                     $scope.searchObj = {
-                        procedureId: search.procedure,
-                        location: search.location,
-                        categoryId: search.category == 0 ? '0' : search.category,
-                        specialityId: !search.specialty ? 'undefined' : search.specialty,
-                        country: search.country == 0 ? 'undefined' : search.country,
-                        show_test: search.show_test,
+                        procedureId: procedure,
+                        location: location,
+                        categoryId: category,
+                        country: country == 'all' ? 'undefined' : country,
+                        show_test: false,
                     }
                 } else {
                     $scope.searchObj = null
@@ -402,7 +430,7 @@ angular.module('listModule').component('listModule', {
                         )
                         .textContent(
                             $scope.setLanguage == 'SP'
-                                ? 'Servicio no encontrado. IntÃ©ntalo de nuevo'
+                                ? 'Servicio no encontrado. Inténtalo de nuevo'
                                 : 'Service not found. please try again'
                         )
                         .ariaLabel(
@@ -426,7 +454,7 @@ angular.module('listModule').component('listModule', {
                 return $scope.searchObj
             }
 
-            function setPagination(service_list) {
+            function setPagination(service_list, digest = true) {
                 $scope.currentPage = 0
                 if (service_list.length > 0) {
                     $scope.numResultPerPages = service_list.length
@@ -435,7 +463,11 @@ angular.module('listModule').component('listModule', {
                         $scope.currentPage * $scope.pageSize,
                         ($scope.currentPage + 1) * $scope.pageSize
                     )
-                    $scope.$digest()
+
+                    $scope.filteredServicesList = service_list
+                    if (digest) {
+                        $scope.$digest()
+                    }
                 } else {
                     showToastMsg('MyMedQ_MSG.List.ServicesNFE1', 'INFO')
                     $scope.numResultPerPages = 0
@@ -499,40 +531,34 @@ angular.module('listModule').component('listModule', {
                 return set_location_coordinates
             }
 
-            /**
-             * @author Jorge Medina
-             */
             function filterByDistanceScroll(data_, position) {
                 var q = $q.defer()
-                var count_ = 0
-                var servicesList_ = []
 
-                data_.forEach(function(result_, i) {
-                    var totalDistance
-                    totalDistance = Math.round(
+                let servicesList_ = data_.filter(service => {
+                    const totalDistance = Math.round(
                         getDistanceBetween2Points(position, {
-                            latitude: result_.provider_latitude,
-                            longitude: result_.provider_longitude,
+                            latitude: service.provider_latitude,
+                            longitude: service.provider_longitude,
                         }) / 1000
                     )
+
                     if (!isNaN(totalDistance)) {
                         if (totalDistance <= $scope.scroller.defaultDistance) {
-                            result_.distance_FromSearch = totalDistance
-                            servicesList_.push(result_)
+                            service.distance_FromSearch = totalDistance
+                            return true
                         }
                     }
-
-                    if (count_ == data_.length - 1) {
-                        q.resolve(servicesList_)
-                    }
-                    count_++
                 })
+
+                if ($scope.show_provider_only) {
+                    servicesList_ = _.uniqBy(servicesList_, 'provider_ID')
+                }
+
+                q.resolve(servicesList_)
+
                 return q.promise
             }
 
-            /**
-             * @author Jorge Medina
-             */
             $scope.changeOptionsDistanceScroll = async function() {
                 distance_filter_used = true
                 let services_to_paginate = {}
@@ -558,6 +584,34 @@ angular.module('listModule').component('listModule', {
                 return services_to_paginate
             }
 
+            function filterByConsultationPrice(services) {
+                var q = $q.defer()
+
+                let servicesList_ = services.filter(service => {
+                    const service_consultation_price = service.service_consultationCost || 0
+
+                    return (
+                        service_consultation_price <=
+                        $scope.consultation_price_scroller.defaultPrice
+                    )
+                })
+
+                if ($scope.show_provider_only) {
+                    servicesList_ = _.uniqBy(servicesList_, 'provider_ID')
+                }
+
+                q.resolve(servicesList_)
+
+                return q.promise
+            }
+
+            $scope.changeConsultationPriceSlider = async function() {
+                const services_to_paginate = await filterByConsultationPrice($scope.servicesListAll)
+
+                setPagination(services_to_paginate)
+                return services_to_paginate
+            }
+
             $scope.toggleLeft = buildTogglerLeft('left')
 
             async function getSetLocationCoordinates() {
@@ -565,7 +619,6 @@ angular.module('listModule').component('listModule', {
                 const set_user_location_coordinates = await getSetLocation(
                     set_user_location.location
                 )
-
                 return {
                     latitude: set_user_location_coordinates.lat,
                     longitude: set_user_location_coordinates.long,
@@ -588,33 +641,6 @@ angular.module('listModule').component('listModule', {
             /**
              * @author Jorge Medina
              */
-            $scope.searchByCategory = function(categoryId) {
-                $scope.procedureSearch =
-                    $scope.procedureSearch == undefined
-                        ? 0
-                        : $scope.procedureSearch == -1
-                        ? 0
-                        : $scope.procedureSearch
-                $scope.locationSearch = $scope.locationSearch || 'undefined'
-                $scope.categorySearch = categoryId || 0
-                $window.location.href =
-                    '/list_procedures?procedure=' +
-                    $scope.procedureSearch +
-                    '&location=' +
-                    $scope.locationSearch +
-                    '&category=' +
-                    ($scope.categorySearch == undefined
-                        ? 0
-                        : $scope.categorySearch == -1
-                        ? 0
-                        : $scope.categorySearch) +
-                    '&speciality=0&country=' +
-                    $scope.countrySearch
-            }
-
-            /**
-             * @author Jorge Medina
-             */
             $scope.searchByCountry = function(country) {
                 $scope.procedureSearch =
                     $scope.procedureSearch == undefined
@@ -622,25 +648,24 @@ angular.module('listModule').component('listModule', {
                         : $scope.procedureSearch == -1
                         ? 0
                         : $scope.procedureSearch
-                $scope.locationSearch = $scope.locationSearch || 'undefined'
+
+                $scope.locationSearch = $scope.locationSearch || 'all'
                 $scope.countrySearch = country
-                var urlR =
-                    '/list_procedures?procedure=' +
-                    $scope.procedureSearch +
-                    '&location=' +
-                    $scope.locationSearch +
-                    '&category=' +
-                    ($scope.categorySearch == undefined
+                const countrySearchParamFormatted =
+                    $scope.countrySearch == undefined
+                        ? 'all'
+                        : $scope.countrySearch == -1
+                        ? 'all'
+                        : $scope.countrySearch
+
+                const categorySearchParamFormatted =
+                    $scope.categorySearch == undefined
                         ? 0
                         : $scope.categorySearch == -1
                         ? 0
-                        : $scope.categorySearch) +
-                    '&speciality=0&country=' +
-                    ($scope.countrySearch == undefined
-                        ? 0
-                        : $scope.countrySearch == -1
-                        ? 0
-                        : $scope.countrySearch)
+                        : $scope.categorySearch
+                var urlR = `/list_procedures/procedure/${$scope.procedureSearch}/location/${$scope.locationSearch}/category/${categorySearchParamFormatted}/country/${countrySearchParamFormatted}`
+
                 $window.location.href = urlR
             }
 
@@ -692,34 +717,22 @@ angular.module('listModule').component('listModule', {
                 )
             }
 
-            /**
-             * @author Jorge Medina
-             */
-            function getMainCountryMatchesAll() {
-                new Promise(function(resolve, reject) {
-                    ListServices.getCountriesListSearch().then(function(autocompleteResult) {
-                        if (autocompleteResult.data.length != 0) {
-                            $scope.countryList = []
-                            $scope.countryList.push({ label: 'All', value: -1 })
-                            autocompleteResult.data.forEach(function(queryResult) {
-                                $scope.countryList.push({
-                                    label: queryResult.provider_Country,
-                                    value: queryResult.provider_Country,
-                                })
-                            })
-                        }
-                        resolve($scope.countryList)
-                    })
-                }).then(function(resultListCategories) {
-                    return resultListCategories
-                })
+            $scope.parseOpenTime = function(open_time, close_time) {
+                const open_hour = +open_time.split(':')[0]
+                const close_hour = +close_time.split(':')[0]
+
+                const open_am_or_pm = open_hour >= 12 ? 'PM' : 'AM'
+                const close_am_or_pm = close_hour >= 12 ? 'PM' : 'AM'
+
+                return `${open_time} ${open_am_or_pm} - ${close_time} ${close_am_or_pm}`
             }
 
-            /**
-             * @author Jorge Medina
-             */
+            $scope.parseDaysOpen = function(days_string) {
+                const days_array = days_string.split(',')
+                return `${days_array[0]} - ${days_array[days_array.length - 1]}`
+            }
+
             $scope.showPacesListMaps = function(showVarGridMap) {
-                var arrayLocations = []
                 $scope.showGridMap = !$scope.showGridMap
 
                 $scope.fillArrayLocations = function() {
@@ -806,6 +819,7 @@ angular.module('listModule').component('listModule', {
                         var lat = result.lat
                         var lng = result.long
                         $scope.centeredLocationMap = lat + ', ' + lng
+                        $scope.zoomVar = 15
                     })
                 }
             }
@@ -867,12 +881,9 @@ angular.module('listModule').component('listModule', {
                 )
             }
 
-            /**
-             * @author Jorge Medina
-             */
             $scope.selectNextBack = function(option) {
                 if (option == 'N') {
-                    if ($scope.servicesListAll.length > $scope.resulPerPage) {
+                    if ($scope.filteredServicesList.length > $scope.resulPerPage) {
                         $scope.currentPage++
                     }
                 } else {
@@ -880,7 +891,7 @@ angular.module('listModule').component('listModule', {
                         $scope.currentPage--
                     }
                 }
-                $scope.servicesList = $scope.servicesListAll.slice(
+                $scope.servicesList = $scope.filteredServicesList.slice(
                     $scope.currentPage * $scope.pageSize,
                     ($scope.currentPage + 1) * $scope.pageSize
                 )
@@ -890,15 +901,8 @@ angular.module('listModule').component('listModule', {
                 $scope.servicesFilteredByName = $scope.getData()
             }
 
-            $scope.seeService = function(id, procedure) {
-                location.href = '/listingDetails.html?hospitalID=' + id + '&procedure=' + procedure
-            }
-
             $scope.openModal = function() {
                 $scope.isModalOpen = true
-            }
-            $scope.openContactProviderModal = function() {
-                $scope.isContactProviderModalOpen = true
             }
 
             $scope.selectService = async function(service) {
@@ -911,11 +915,15 @@ angular.module('listModule').component('listModule', {
                 $scope.selectedService.email = service.provider_Email
                 $scope.selectedService.price = service.price
                 $scope.selectedService.procedure_ID = service.procedure_ID
-
+                // $scope.openModal()
                 const {
                     data: documentsData,
                 } = await ServiceServices.getAllDocumentsRequiredByServiceId(service.service_ID)
                 $scope.requiredDocuments = documentsData
+            }
+
+            $scope.openContactProviderModal = function() {
+                $scope.isContactProviderModalOpen = true
             }
 
             $scope.openConsultationInformationModal = async function(ev) {
@@ -941,46 +949,18 @@ angular.module('listModule').component('listModule', {
             }
 
             function consultationInfoDialogController($scope, consultationInformation) {
-                $scope.consultationInformation = consultationInformation
+                $scope.consultationInformation = $sce.trustAsHtml(consultationInformation)
 
                 $scope.cancel = function() {
                     $mdDialog.cancel()
                 }
             }
 
-            // $scope.sendMessage = function(selectedService, user, e) {
-            //     console.log(selectedService)
-            //     selectedService.messageType = 'Message'
-
-            //     if (!$scope.user.ID) {
-            //         console.log('you need to log in')
-            //         showToastMsg('MyMedQ_MSG.List.NeedLogIngE1', 'ERROR')
-            //     } else if (user.ID == selectedService.provider_ID) {
-            //         console.log('you cant message yourself')
-            //         showToastMsg('MyMedQ_MSG.List.NeedLogIngE2', 'ERROR')
-            //     } else if (user.profileType == 'Provider') {
-            //         console.log('you cant sign up with a Provider account')
-            //         showToastMsg('MyMedQ_MSG.List.NeedLogIngE3', 'ERROR')
-            //     } else {
-            //         ListServices.contactProvider(selectedService, user).then(function(message) {
-            //             if (message.data.status < 0) {
-            //                 $scope.submit.confirmation = message.data.message
-            //                 showToastMsg('MyMedQ_MSG.List.RequestErrorE2', 'ERROR')
-            //             } else {
-            //                 $scope.message.confirmation =
-            //                     'Your message has been sent, please wait for the hospital to reply'
-            //                 showToastMsg('MyMedQ_MSG.List.AppSuccessMsg1', 'SUCCESS')
-            //             }
-            //         })
-            //     }
-            // }
-
             function getLatitudeLongitudeByAddress(address) {
                 return new Promise(function(resolveMain, reject) {
                     return new Promise(function(resolve, reject) {
                         address = address || $scope.placeToCenterByDefault
                         geocoder = new google.maps.Geocoder()
-                        console.log(geocoder)
                         if (geocoder) {
                             geocoder.geocode(
                                 {
@@ -1007,7 +987,6 @@ angular.module('listModule').component('listModule', {
                             resolveMain(enteredLocation)
                         })
                         .catch(function(err) {
-                            console.log('Error type: ' + err)
                             showToastMsg('MyMedQ_MSG.PleaseContactTheAdministrator', 'ERROR')
                             resolveMain(null)
                         })

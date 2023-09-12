@@ -38,7 +38,7 @@ angular.module('contactProviderModule').component('contactProvider', {
                                     controller: ['service', 'user', ContactProviderControllerModal],
                                     controllerAs: 'vm',
                                     templateUrl:
-                                        './app/components/contact_provider/contact_provider.component.html',
+                                        '../components/contact_provider/contact_provider.html',
                                     parent: angular.element(document.body),
                                     clickOutsideToClose: false,
                                     fullscreen: false,
@@ -46,6 +46,7 @@ angular.module('contactProviderModule').component('contactProvider', {
                                 .then(function() {
                                     $rootScope.$broadcast('contact-provider-dialog-closed')
                                     modalIsOpened = false
+
                                     return
                                 })
                                 .catch(function() {
@@ -72,7 +73,7 @@ angular.module('contactProviderModule').component('contactProvider', {
                         $location.url(`/${redirect_to}`)
                         $location.search(
                             'redirect_to',
-                            `/service_details?hospitalID=${hospitalID}&procedure=${procedure}`
+                            `/service_details/provider/${hospitalID}/service/${procedure}`
                         )
                     }, 1000)
                 }

@@ -1,0 +1,220 @@
+<div ng-show="$ctrl.user.profileType == 'Admin'">
+    <div class="tz-2 tz-2-admin">
+        <h4 align="center">
+            {{ 'Dashboard.TrackingTableTitleValue_' | translate }}
+        </h4>
+        <div class="split-row">
+            <div class="col-md-12">
+                <div class="box-inn-sp ad-inn-page">
+                    <md-card-content>
+                        <div class="table-responsive">
+                            <table
+                                datatable="ng"
+                                dt-instance="$ctrl.dtInstance"
+                                class="table table-hover"
+                                dt-options="$ctrl.dtOptions"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            Type
+                                        </th>
+                                        <th>
+                                            Date
+                                        </th>
+                                        <th>
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        ng-repeat="customer in $ctrl.customers"
+                                        class="table-row-not-expanded"
+                                    >
+                                        <td>
+                                            {{ customer.customer_id }}
+
+                                            <div ng-if="customer.isExpanded" class="expanded-panel">
+                                                <div class="table-container">
+                                                    <table class="table">
+                                                        <tr class="header-row">
+                                                            <th class="header">action</th>
+                                                            <th class="header">url</th>
+                                                            <th class="header">date</th>
+                                                        </tr>
+                                                        <tr
+                                                            class="table-row"
+                                                            ng-repeat="customerAction in $ctrl.groupedByCustomer[customer.customer_id]"
+                                                        >
+                                                            <td class="cell">
+                                                                {{ customerAction.action }}
+                                                            </td>
+                                                            <td class="cell">
+                                                                {{ customerAction.url }}
+                                                            </td>
+                                                            <td class="cell">
+                                                                <span
+                                                                    format-date-span="{{
+                                                                        customerAction.timestamp
+                                                                    }}"
+                                                                ></span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{ customer.customer_type }}
+                                        </td>
+                                        <td>
+                                            <!-- <input ng-model="customer.timestamp" format-date /> -->
+                                            {{ customer.timestamp }}
+                                        </td>
+                                        <td>
+                                            <md-button
+                                                ng-click="customer.isExpanded = !customer.isExpanded"
+                                                class="md-accent"
+                                            >
+                                                <span ng-if="!customer.isExpanded">Expand</span>
+                                                <span ng-if="customer.isExpanded">Collapse</span>
+                                            </md-button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </md-card-content>
+                </div>
+            </div>
+        </div>
+        <h4 align="center">{{ 'Dashboard.UsersTitleValue_' | translate }}</h4>
+        <div class="split-row">
+            <div class="col-md-12">
+                <div class="box-inn-sp ad-inn-page">
+                    <md-card-content>
+                        <div class="table-responsive">
+                            <table
+                                datatable="ng"
+                                dt-instance="$ctrl.dtInstance"
+                                class="table table-hover"
+                                dt-options="$ctrl.dtOptions"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            {{ 'Dashboard.UserNameTitleRow' | translate }}
+                                        </th>
+                                        <th>
+                                            {{ 'Dashboard.EmailTitleRow' | translate }}
+                                        </th>
+                                        <th>
+                                            {{ 'Dashboard.JoinDateRow' | translate }}
+                                        </th>
+                                        <th>
+                                            {{ 'Dashboard.CountryRow' | translate }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="user in $ctrl.users">
+                                        <td>
+                                            {{ user.user_UserName }}
+                                        </td>
+                                        <td>
+                                            {{ user.user_Email }}
+                                        </td>
+                                        <td>
+                                            {{ user.user_CreationDate | date }}
+                                        </td>
+                                        <td>
+                                            {{ user.user_Country }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </md-card-content>
+                </div>
+            </div>
+        </div>
+
+        <h4 align="center">
+            {{ 'Dashboard.ProvidersTitleValue_' | translate }}
+        </h4>
+        <div class="split-row">
+            <div class="col-md-12">
+                <div class="box-inn-sp ad-inn-page">
+                    <md-card-content>
+                        <div class="table-responsive">
+                            <table
+                                datatable="ng"
+                                dt-instance="$ctrl.dtInstance"
+                                class="table table-hover"
+                                dt-options="$ctrl.dtOptions"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            ID
+                                        </th>
+                                        <th>
+                                            {{ 'Dashboard.UserNameTitleRow' | translate }}
+                                        </th>
+                                        <th>
+                                            {{ 'Dashboard.JoinDateRow' | translate }}
+                                        </th>
+                                        <th>
+                                            {{ 'Dashboard.EmailTitleRow' | translate }}
+                                        </th>
+                                        <th>
+                                            {{ 'Dashboard.CountryRow' | translate }}
+                                        </th>
+
+                                        <th>
+                                            {{ 'Dashboard.Table.Provider.Action' | translate }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="provider in $ctrl.providers">
+                                        <td>
+                                            {{ provider.provider_ID }}
+                                        </td>
+                                        <td>
+                                            {{ provider.provider_UserName }}
+                                        </td>
+                                        <td>
+                                            {{ provider.provider_CreationDate | date }}
+                                        </td>
+                                        <td>
+                                            {{ provider.provider_Email }}
+                                        </td>
+
+                                        <td>
+                                            {{ provider.provider_Country }}
+                                        </td>
+                                        <td>
+                                            <md-button
+                                                ng-href="/service_details/provider/{{
+                                                    provider.provider_ID
+                                                }}"
+                                                class="md-accent"
+                                            >
+                                                {{ 'Dashboard.ViewProfileValue_' | translate }}
+                                            </md-button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </md-card-content>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

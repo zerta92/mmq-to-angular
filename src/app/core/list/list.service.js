@@ -13,8 +13,8 @@ angular.module(`core.list`, []).factory(`ListServices`, [
             getServicesByCategory: function(id) {
                 return $http.get('/api/services/getServicesByCategory/' + id)
             },
-            getProviderServicesGroupedByCategory: function(provider_ID) {
-                return $http.post('/api/services/getProviderServicesGroupedByCategory', provider_ID)
+            getLocationDescription: function(location) {
+                return $http.post('/api/getLocationDescription', location)
             },
             findServicesByCategory: function(category) {
                 return $http.get('/api/findServicesByCategory/' + category)
@@ -28,9 +28,7 @@ angular.module(`core.list`, []).factory(`ListServices`, [
             getCountriesListSearch: function() {
                 return $http.get('/api/AutoCompleteCountries')
             },
-            findProvider: function(providerId) {
-                return $http.get('/api/findProvider/' + providerId)
-            },
+
             findServiceByProvider: function(providerId, procedure, language) {
                 return $http.get(
                     '/api/findServiceByProvider/' + providerId + '/' + procedure + '/' + language
@@ -47,9 +45,6 @@ angular.module(`core.list`, []).factory(`ListServices`, [
             },
             getUserLocation: function() {
                 return $http.get('/api/getLocation')
-            },
-            requestAppointment: function(service, user) {
-                return $http.post('/api/services-manager/requestAppointment', [service, user])
             },
             contactProvider: function(service, user) {
                 return $http.post('/api/contactProvider', [service, user])
@@ -72,20 +67,15 @@ angular.module(`core.list`, []).factory(`ListServices`, [
             getHospitalAttachments: function(hospitalId) {
                 return $http.post('/api/providers/getAttachmentsByProviderId', hospitalId)
             },
-            getAttImgData: function(attId) {
-                return $http.get('/api/providers/getAttDataById/' + attId)
-            },
-            getAttDefaultImgData: function() {
-                return $http.get('/api/providers/getDefaultAttData/')
-            },
-            getAttServicesImgData: function(attId) {
-                return $http.get('/api/services/getAttServicesDataById/' + attId)
-            },
+
             getProviderByProviderId: function(provider_ID) {
                 return $http.get('/api/providers/providerById/' + provider_ID)
             },
             getStaffByProviderId: function(provider_ID) {
-                return $http.get('/api/providers/staffInfoByProviderId/' + provider_ID)
+                return $http.post('/api/providers/getAllStaffByProviderId', {
+                    provider_ID,
+                    get_enabled: true,
+                })
             },
             getAirbnbInfo: function(providerAdd) {
                 return $http.get('/api/getAirbnbServices/' + providerAdd)
@@ -126,6 +116,9 @@ angular.module(`core.list`, []).factory(`ListServices`, [
             // setCustomerPreferredLanguage: function(lang) {
             //     return $http.get('/api/setCustomerPreferredLanguage/' + lang)
             // },
+            getMyMedQuestInf0: function() {
+                return $http.get('/api/dashboard/getMyMedQuestInfo')
+            },
         }
     },
 ])

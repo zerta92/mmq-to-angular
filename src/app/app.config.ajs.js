@@ -49,7 +49,6 @@ export default function(appModule) {
                                 '$http',
                                 'GlobalServices',
                                 async function($route, $http, GlobalServices) {
-                                    console
                                     const params = $route.current.params
                                     let pageTitle = ''
                                     let procedureName = ''

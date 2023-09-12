@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  >
+<html ng-app="listDetailModule" >
 
 <head>
      <title ng-bind="ngMeta.title">Dental Service Provider</title>
@@ -7,11 +7,11 @@
 
 </head>	
 	
-<body ng-cloak>
+<body ng-controller="listingDetailsMainController">
 
-	<!-- <main-dropdown parse-url="loadUrlData()"></main-dropdown>	 -->
+	<main-dropdown parse-url="loadUrlData()"></main-dropdown>	
 	<section>
-		<div class="v3-list-ql">
+		<div ng-show="false" class="v3-list-ql">
 			<div class="container">
 				<div class="row">
 					<div class="v3-list-ql-inn">
@@ -61,7 +61,7 @@
 	<!--LISTING DETAILS-->	
 	<div ng-if="showProviderBanner" class="providerNoServicesHeader" >
 			{{"ListDetailProvider.ProviderBannerNoServices"|translate}} <a style="font-size: 20px !important; color: white;" href="adminMedquest/#!/adminServices" target="_self">[{{"ListDetailProvider.ClickHere"|translate}}]</a>
-		</div>
+	</div>
 	<section  ng-style="headImage" ng-class="{'headerNoMarginTop': showProviderBanner}">
 		<div class="container">
 			<div class="row">
@@ -69,13 +69,15 @@
 				<h1 style="color: rgb(244, 241, 241);" ng-if="service"><u>{{service.procedure_Name}} </u> </h1>
 					<h3 ng-if="service" style="color: rgb(244, 241, 241);" >{{"ListDetailProvider.FromPrice"|translate}}: ${{service.price}} (usd)</h3>
 					<br/>
+					<h2 style="color: rgb(244, 241, 241);">{{provider.provider_City}}, {{provider.provider_Country}}.</h2>
 					<h3 style="color: rgb(244, 241, 241);" > {{provider.provider_Name}}</h3>
-					<p style="color: rgb(244, 241, 241);">{{provider.provider_City}}, {{provider.provider_Country}}.</p>
+
+				
 					
 
 				<div class="pg-list-1-left" >
 					
-					<div class="list-rat-ch"> 
+					<div  ng-if="review_stars > 0" class="list-rat-ch"> 
 						<span ng-if="review_stars > 0" style="background: #15629e;">{{ review_stars}}</span> 
 						<i ng-if="review_stars > 0" class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
 						<i ng-if="review_stars >= 2" class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
@@ -84,7 +86,10 @@
 						<i ng-if="review_stars >= 5" class="fa fa-star" aria-hidden="true" style="background: #15629e;"></i> 
 					</div>
 					<!-- <h4 style="font-size: large;">{{provider.provider_Name}}, {{provider.provider_City}}</h4> -->
-					<p><b>{{"ListDetailProvider.Address"|translate}}:</b> {{provider.provider_Street}}, {{provider.provider_City}}, {{provider.provider_Country}}.</p>
+					<p><md-icon
+						md-svg-src="/template/img/ic_location_on_black_24px.svg"
+						class="name"
+					></md-icon>{{provider.provider_Street}}, {{provider.provider_City}},{{provider.provider_State}}, {{provider.provider_PostalCode}} {{provider.provider_Country}}. </p>
 					<div class="list-number pag-p1-phone">
 						<ul>
 							<!-- <li><i class="fa fa-phone" aria-hidden="true" style="font-size: large;"></i> {{provider.provider_Phone}}</li> -->
@@ -102,9 +107,10 @@
 				<div class="pg-list">
 					<div class="list-enqu-btn pg-list-1-right-p1" style="padding-top: 30px !important;">
 						<ul>
-							<li><a ng-if="service" ng-href="#" id="schedule-consultation-info" ng-click="openModal()" style="font-size: large; background: #15629e; color: rgb(244, 241, 241); overflow: visible;" >{{"ListDetailProvider.ScheduleAnAppointment"|translate}} <md-icon ng-click=' $event.preventDefault(); $event.stopPropagation(); openConsultationInformationModal()' md-svg-src="/template/img/info_black_24dp.svg"><md-tooltip md-direction="Bottom">{{"List.Consultation.Description1"|translate}}.</md-tooltip> </md-icon></a> </li>
-							<li><a ng-href="#ld-rew" style="font-size: large;"><i class="fa fa-star-o" aria-hidden="true"></i> {{'ListDetailProvider.WriteReview'|translate}}</a> </li>
+							<li><a ng-href="#" id="schedule-consultation-info" ng-click="openModal()" style="font-size: large; background: #15629e; color: rgb(244, 241, 241); overflow: visible;" >{{"ListDetailProvider.ScheduleAnAppointment"|translate}} <md-icon ng-click=' $event.preventDefault(); $event.stopPropagation(); openConsultationInformationModal()' md-svg-src="/template/img/info_black_24dp.svg"><md-tooltip md-direction="Bottom">{{"List.Consultation.Description1"|translate}}.</md-tooltip> </md-icon></a> </li>
 							<li><a ng-href="#" ng-if="service" ng-click="openContactProviderModal()" style="font-size: large;"><i class="fa fa-commenting-o" aria-hidden="true"></i> {{"ListDetailProvider.Message"|translate}}</a> </li>
+							<li><a ng-href={{provider.facebook_page_url}} ng-if="provider.facebook_page_url" target="_blank" style="font-size: large;"><i class="fa fa-facebook fb1 facebook-logo" aria-hidden="true"></i> {{"ListDetailProvider.LinkToFacebookPage"|translate}}</a> </li>
+							<li><a ng-href="#ld-rew" style="font-size: large;"><i class="fa fa-star-o" aria-hidden="true"></i> {{'ListDetailProvider.WriteReview'|translate}}</a> </li>
 							<li><a ng-show="false" ><i class="fa fa-usd" aria-hidden="true" style="font-size: large;"></i> {{validateValue(service.price)}}</a> </li>
 						</ul>
 					</div>
@@ -114,6 +120,18 @@
 		</div>
 	</section>
 	<section class="list-pg-bg">
+		<section class="center ">
+			<div
+				style="margin: 10px auto 0;
+					border-radius: 100px;
+					box-shadow: 1px 1px 9px rgb(0 0 0 / 25%);
+					border:0;
+					padding: 8px 12px;
+					background-color: #fff">
+
+				<a ng-href="/list_procedures/procedure/0/location/{{provider.provider_City}},{{provider.provider_State}}/category/0/country/all" style="font-size: x-large; font-weight: 900;">{{"ListDetailProvider.SearchMoreDentists"|translate}}</a>
+			</div>
+		</section>
 		<div ng-if="providerInfo.provider_Status==1" class="container">
 			<div class="row">
 				<div class="com-padd">
@@ -130,7 +148,7 @@
 											<h3>{{servicesList[category][0].category_Name}}</h3>
 
 											<div ng-repeat="service in services track by $index" >
-												<a href="" ng-click="goToService(provider.provider_ID,service.procedure_ID)" >
+												<a  ng-href="{{has_url_language}}/service_details/provider/{{provider.provider_ID}}/service/{{service.procedure_ID}}" >
 													<h4>{{service.procedure_Name}} (${{service.servicePrice}})</h4>
 												</a>
 											
@@ -157,7 +175,7 @@
 									<h3>{{description_header}}</h3>
 									<span style="padding: 5px 15px 10px 10px;"><h4>{{"ListDetailProvider.LocationCrumbs"|translate}}:</h4> <a>{{description_header2}}</a></span>
 									<br/>
-									<span style="padding: 5px 15px 10px 10px;"><h4>{{"ListDetailProvider.SpecialtiesCrumbs"|translate}}:</h4> <a ng-bind-html="description_header3"></a></span>
+									<span ng-if="description_header3" style="padding: 5px 15px 10px 10px;"><h4>{{"ListDetailProvider.SpecialtiesCrumbs"|translate}}:</h4> <a ng-bind-html="description_header3"></a></span>
 								</div>
 								<br/>
 								<p style="font-size: large; text-align: justify;">{{provider.provider_Description}} </p>
@@ -197,25 +215,6 @@
 							</div> -->
 						</div>
 				
-						<!-- <div class="pglist-p2 pglist-bg pglist-p-com" id="ld-ser">
-							<div class="pglist-p-com-ti">
-								<h3><b>{{"ListDetailProvider.OtherServices"|translate}} {{"ListDetailProvider.OfferedByThisHospital"|translate}}</b></h3> 
-							</div>
-							<div class="list-pg-inn-sp">
-								<div class="row pg-list-ser" ng-show="servicesImageList.length">
-									<ul>
-										<li ng-repeat="service in servicesImageList track by $index" class="col-md-4">
-											<div class="pg-list-ser-p1">
-												<img ng-click="seeService(service.procedure_ID)" materialboxed ng-src="https://mymedquest.s3.us-east-2.amazonaws.com/providers/provider_{{provider.provider_ID}}/{{service.filename.replace('MedQIMG_','')}}" class="materialboxed responsive-img" data-caption="The best services offered by This Hospital" width="250" >
-											</div>
-											<div class="pg-list-ser-p2">
-												<h4>{{service.label}}</h4>
-											</div>
-										</li>										
-									</ul>
-								</div>
-							</div>
-						</div> -->
 
 						<div  ng-if="carruselImageList.length > 0"class="pglist-p3 pglist-bg pglist-p-com" id="ld-gal">
 							<div class="pglist-p-com-ti">
@@ -230,7 +229,7 @@
 									<div class="carousel-inner"  >
 										<div class="carousel-inner">
 											<div ng-class="{'item active' : $first, 'item' : $index !== 0 }" ng-repeat="carrusel_ in carruselImageList track by $index"> 
-												<img ng-src="https://mymedquest.s3.us-east-2.amazonaws.com/providers/provider_{{hospitalId}}/{{carrusel_.replace('MedQIMG_','')}}" alt="carousel_{{$index}}"  >
+												<img ng-src="https://mymedquest.s3.us-east-2.amazonaws.com/providers/provider_{{providerId}}/{{carrusel_.replace('MedQIMG_','')}}" alt="carousel_{{$index}}"  >
 											</div>
 										</div>
 									</div>
@@ -250,11 +249,10 @@
 							<div class="list-pg-inn-sp" ng-show="staffList.length">
 								<div class="home-list-pop list-spac list-spac-1 list-room-mar-o" ng-repeat="professionalI in staffList track by $index">
 									
-									<!-- <div class="row" ng-repeat="professionalI in staffI.staff_specialityList.split('@') track by $index"> -->
-								
+
 											<div class="col-md-3">
 												<img ng-if="professionalI.attachments_type !=0" ng-src="/template/img/background/noPhotoYet.png">
-												<img ng-if="professionalI.attachments_type ==0" style="width:50%" ng-src="https://mymedquest.s3.us-east-2.amazonaws.com/staff/provider_{{provider.provider_ID}}/{{professionalI.attachments_name.replace('MedQIMG_','')}}" alt="imgStaffP_{{$index}}" >
+												<img ng-if="professionalI.attachments_type ==0" style="width:100%" ng-src="https://mymedquest.s3.us-east-2.amazonaws.com/staff/provider_{{provider.provider_ID}}/{{professionalI.attachments_name.replace('MedQIMG_','')}}" alt="imgStaffP_{{$index}}" >
 											</div>
 											<div class="col-md-9 home-list-pop-desc inn-list-pop-desc"> 
 												<a>
@@ -267,7 +265,7 @@
 														<li ng-show = "professionalI.professional_studies_professionalId"><b>{{"ListDetailProvider.ProfessionalId"|translate}}:</b> {{ professionalI.professional_studies_professionalId | uppercase}}</li>
 														<li ng-show="professionalI.professional_studies_endingYear"><b>{{"ListDetailProvider.EndingYear"|translate}}:</b> {{ professionalI.professional_studies_endingYear | uppercase}}</li>
 														<li>
-															<div class="list-rat-ch list-room-rati">
+															<div ng-show = false class="list-rat-ch list-room-rati">
 																<div class="lr-user-wr-con" style="padding: 0px 0px; background: #55bf15; font-size: 8px; color: #fff; font-weight: 600; border-radius: 4px; vertical-align: top;">
 																		 <span uib-rating ng-model="professionalI.staff_review_score" on-hover="hoveringOver(value)" ng-click="doIndividualQualification(professionalI.providers_staff_ID)"></span>
 																		 <span>{{staffI.staff_rateIndividual}} <i class="fa fa-star" aria-hidden="true"></i></span>																	
@@ -292,7 +290,7 @@
 												</span>
 												<div class="list-enqu-btn" >
 													<ul style="float: right !important;">
-														<li ng-repeat="document in professionalI.documents track by $index" ng-show="document != null"><a ng-click="showMenu($event, document, $index)" style="width: max-content;"><md-icon md-svg-icon="/template/img/baseline-picture_as_pdf-24px.svg"></md-icon> {{"ListDetailProvider.SeeDocuments"|translate}}</a> </li>
+														<li ng-repeat="document in professionalI.documents track by $index" ng-show="document && document.attachments_name && document.attachments_description == 'Staff_professionalInfo_attachment'"><a ng-click="showMenu($event, document, $index)" style="width: max-content;"><md-icon md-svg-icon="/template/img/baseline-picture_as_pdf-24px.svg"></md-icon> {{"ListDetailProvider.SeeDocuments"|translate}}</a> </li>
 													<br/>
 														<!-- <li ng-show="staffI.docsAttachments[$index].data == null"><a href="#!" style="width: max-content;"><md-icon md-svg-icon="/template/img/baseline-highlight_off-24px.svg"></md-icon> {{"ListDetailProvider.TINAttch"|translate}}</a> </li>  -->
 													</ul>
@@ -303,16 +301,27 @@
 								</div>
 							</div>
 						</div>
+
+							<div style="visibility: hidden;">
+							    <div class="md-dialog-container" id="documentViewer" style="width: 100%; height: 100%;">
+							      <md-dialog layout-padding style="min-width: 700px; height: 800px;">
+							        <h2>{{'ListDetailProvider.DocumentViewer'|translate}}</h2>
+								           <object ng-if="ContentPDF" data="{{ContentPDF}}" 
+								        		   type="application/pdf" style="width: 100%; height: 600px;">
+								           </object>
+							      </md-dialog>
+							    </div>
+							</div>
 						
 						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-rew">
 							<div class="pglist-p-com-ti">
 								<h3><b>{{"ListDetailProvider.WriteYourReviews"|translate}}</b></h3> </div>
 							<div class="list-pg-inn-sp">
 								<div class="list-pg-write-rev">
-									<form class="col">
-										<p>{{"ListDetailProvider.WriteYourReviewsDetail"|translate}}:</p>
+									<form class="col" >
+										<p>{{"ListDetailProvider.WriteYourReviewsDetail"|translate}}</p>
 										<div class="row">
-											<div class="col s12">
+											<div class="col s12" >
 												<fieldset class="rating">
 												
 													<input type="radio" id="star5" name="rating" value="5" ng-model="reviewsObj.provider_review_score"/>
@@ -334,7 +343,7 @@
 											</div>
 										</div>
 										<div class="row">
-											<div class="input-field col s6">
+											<div class="input-field col s6" style="width: 100% !important;">
 												<input id="re_name" type="text" class="validate" ng-model="reviewsObj.provider_review_userWhoWrite" required="required">
 												<label for="re_name">{{'ListDetailProvider.FullName'|translate}}</label>
 											</div>
@@ -348,14 +357,14 @@
 												<input id="re_mail" type="email" class="validate" ng-model="reviewsObj.provider_review_userEmail" required="required">
 												<label for="re_mail">{{'ListDetailProvider.Email'|translate}}</label>
 											</div> -->
-											<div class="input-field col s6">
+											<div class="input-field col s6" style="width: 100% !important;">
 												<input id="re_city" type="text" class="validate" ng-model="reviewsObj.provider_review_userCity" required="required">
 												<label for="re_city">{{'ListDetailProvider.City'|translate}}</label>
 											</div>
 										</div>
-										<div class="row">
-											<div class="input-field col s12">
-												<textarea id="re_msg" class="materialize-textarea" ng-model="reviewsObj.provider_review_description" required="required"></textarea>
+										<div class="row" >
+											<div class="input-field col s12" style="width: 100% !important;">
+												<textarea id="re_msg" ng-model="reviewsObj.provider_review_description" required="required"></textarea>
 												<label for="re_msg">{{'ListDetailProvider.WriteReview'|translate}}</label>
 											</div>
 										</div>
@@ -368,14 +377,13 @@
 								</div>
 							</div>
 						</div>
-						<!--END LISTING DETAILS: LEFT PART 6-->
-						<!--LISTING DETAILS: LEFT PART 5-->
-						<div class="pglist-p3 pglist-bg pglist-p-com" id="ld-rer">
+
+						<div ng-if="reviewsInfoData.length"  class="pglist-p3 pglist-bg pglist-p-com" id="ld-rer">
 							<div class="pglist-p-com-ti">
 								<h3><b>{{'ListDetailProvider.UserReviews'|translate}}</b></h3> </div>
 							<div class="list-pg-inn-sp">
 								<div class="lp-ur-all">
-									<div class="lp-ur-all-left">
+									<div ng-if="false" class="lp-ur-all-left">
 										<div class="lp-ur-all-left-1">
 											<div class="lp-ur-all-left-11">{{'ListDetailProvider.Excellent'|translate}}</div>
 											<div class="lp-ur-all-left-12">
@@ -462,13 +470,16 @@
 							</div>
 							<div class="list-pg-inn-sp">
 								<div class="list-pg-oth-info">
+								
 									<ul>
 										<!-- <li>{{'ListDetailProvider.TodayIsOpen'|translate}} <span ng-class="{'green-bg' : (isOpen=='OPEN'||isOpen=='ABIERTO'), 'red-bg' : (isOpen=='CLOSED'||isOpen=='CERRADO') }" class="">{{isOpen}}</span> </li> -->
-										<li ng-show="provider.provider_yearsOfExperience">{{'ListDetailProvider.Experience'|translate}} <span>{{providerInfo.provider_yearsOfExperience}} {{'ProviderInfo_.BusinessInfo.Years_'|translate}}</span> </li>
+										<li ng-if="provider.provider_yearsOfExperience">{{'ListDetailProvider.Experience'|translate}} <span>{{providerInfo.provider_yearsOfExperience}} {{'ProviderInfo_.BusinessInfo.Years_'|translate}}</span> </li>
 										<!-- <li>{{'ListDetailProvider.Parking'|translate}} <span>{{providerInfo.provider_haveParking == 1 ? 'OK':'NO'}}</span> </li> -->
 										<!-- <li>{{'ListDetailProvider.Smoking'|translate}} <span>{{providerInfo.provider_haveSmokingArea == 1 ? 'OK':'NO'}}</span> </li> -->
 										<!-- <li>{{'ListDetailProvider.AcceptsAllCards'|translate}} <span>{{providerInfo.provider_acceptsAllPayments == 1 ? 'OK':'NO'}}</span> </li> -->
-										<li ng-show = "provider.unique_languages">{{'ListDetailProvider.LanguagesSpoken'|translate}} <span>{{provider.unique_languages}}</span> </li>
+										<li ng-if = "provider.unique_languages">{{'ListDetailProvider.LanguagesSpoken'|translate}} <span>{{provider.unique_languages}}</span> </li>
+										<li ng-if="provider.provider_daysServicesprovider">{{'ListDetailProvider.OpenDays'|translate}} <span>{{parseDaysOpen(provider.provider_daysServicesprovider)}}</span> </li>
+										<li ng-if="provider.provider_closeTime && provider.provider_openTime">{{'ListDetailProvider.OpenTime'|translate}} <span>{{parseOpenTime(provider.provider_openTime,provider.provider_closeTime)}} </span> </li>
 										<!-- <li>{{'ListDetailProvider.OpenTime'|translate}} <span>{{providerInfo.provider_openTime}}</span> </li>
 										<li>{{'ListDetailProvider.CloseTime'|translate}} <span>{{providerInfo.provider_closeTime}}</span> </li>
 										 -->
@@ -479,8 +490,8 @@
 						
 						<!--LISTING DETAILS: LEFT PART 8-->
 						<div class="pglist-p3 pglist-bg pglist-p-com">
-							<div class="pglist-p-com-ti pglist-p-com-ti-right">
-								<h3> <span style="align-content: justify-content; color: white;"> {{'ListDetailProvider.Location'|translate}} </span></h3> 
+							<div class="pglist-p-com-ti pglist-p-com-ti-right w3-center">
+								<h3> <span style="color: white;"> {{provider.provider_City}} </span></h3> 
 							</div>
 							<div class="list-pg-inn-sp">
 								<div class="list-pg-map">
@@ -548,11 +559,35 @@
 	<contact-provider user="user" is-modal-open="isContactProviderModalOpen" service="service" ></contact-provider>
 
 	
+	<script>
+	
+		
+		// $(document).ready(function(){
+		//     $('.materialboxed').materialbox();
+		//   });
+		
+		//  $(function(){
+		//       $("#Content").load("Sub.html"); 
+		//     });
+	</script>    
+	
+	
 </body>
 
 </html>
 
 <style>
+
+	.facebook-logo{ 
+		background: #3b5998;  
+		width: 22px;
+		height: 22px;
+		border: 0px solid #828284;
+		padding-top: 2px;
+		text-align: center;
+		color: #fff;
+	}
+
 	.providerNoServicesHeader {
 		padding: 60px;
 		text-align: center;
@@ -568,4 +603,17 @@
 	.headerNoMarginTop{
 		margin-top: 0% !important;
 	}
+
+ .rating>input:checked~label,
+ .rating:not(:checked)>label:hover,
+ .rating:not(:checked)>label:hover~label {
+     color: #14addb;
+ }
+
+ a {
+    color: #337ab7;
+}
+
+
+
 </style>
