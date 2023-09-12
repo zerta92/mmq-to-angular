@@ -1,3 +1,3 @@
 'use strict'
 
-angular.module('dashboardModule', [])
+angular.module('core.dashboard', [])

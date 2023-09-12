@@ -5,6 +5,7 @@ angular.module('selectDatetimeModule', ['moment-picker']).component('selectDatet
     bindings: {
         message: '<',
         user: '<',
+        confirmAction: '&',
     },
     controller: [
         'ServiceManagerServices',

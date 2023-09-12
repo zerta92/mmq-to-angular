@@ -1,10 +1,10 @@
 <div class="overlay" id="overlay">
     <div
         class="center"
-        style="border-color:#253d52; border-width: 2px; border-style: solid;"
+        style="border-color:#253d52; border-width: 1px; border-style: solid; display: block !important;"
         ng-if="$ctrl.message.chooseDate || $ctrl.message.changeDate"
     >
-        <md-toolbar>
+        <md-toolbar style="display: none;">
             <div class="md-toolbar-tools" style="background-color: #15629e; text-align: center;">
                 <h2
                     ng-bind="('Dashboard.PickAppointmentDate'|translate)"
@@ -24,7 +24,17 @@
         </md-toolbar>
 
         <div>
-            <label>Select Date and Time</label>
+            <div style="display: flex; justify-content: center;">
+                <md-button style="" ng-click="$ctrl.cancelDateChange()">
+                    <label>Select Date and Time</label>
+                    <md-icon
+                        ng-show="$ctrl.message.changeDate"
+                        style="height: 40px; width: 40px;"
+                        md-svg-src="/template/img/cancel-24px.svg"
+                        aria-label="Close dialog"
+                    ></md-icon>
+                </md-button>
+            </div>
             <div style="padding: 10px 10px 10px 10px">
                 <input
                     ng-if="$ctrl.data_loaded"
@@ -52,8 +62,7 @@
         </md-input-container> -->
         </div>
         <md-button
-            ng-show="$ctrl.message.changeDate"
-            ng-click="$ctrl.rescheduleSelected($ctrl.message)"
+            ng-click="$ctrl.confirmAction($ctrl.message) || $ctrl.rescheduleSelected($ctrl.message)"
             class="md-raised md-primary "
         >
             {{ 'Confirm' | translate }}
@@ -78,7 +87,7 @@
         </md-icon>
     </div>
 </div>
-<style>
+<style scoped>
     .center {
         justify-content: center;
         align-items: center;
